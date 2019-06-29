@@ -8,8 +8,10 @@ class Page extends React.Component {
       name, 
       displayName, 
       children, 
+      location,
       ...otherProps 
     } = this.props;
+
     return (
       <>
         <Header />
@@ -17,7 +19,7 @@ class Page extends React.Component {
           <h1>{displayName}</h1>
           {children}
         </main>
-        <Footer />
+        <Footer currentRoute={location.pathname} />
       </>
     );
   }

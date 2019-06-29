@@ -1,7 +1,6 @@
 import React from 'react';
 import * as shrimpSound from '../audio/addShrimp.mp3';
 import Shrimp from '../components/Shrimp';
-import Page from '../components/Page';
 import Footer from '../components/Layout/Footer';
 import Header from '../components/Layout/Header';
 
@@ -50,6 +49,8 @@ class Home extends React.Component {
   }
 
   render() {
+    const { location } = this.props;
+
     return (
       <div className="friendshrimp-landing" onClick={(e) => this.addAShrimp(e)}>
         <Header />
@@ -62,7 +63,7 @@ class Home extends React.Component {
             this.state.shrimps.map(shrimpProps => <Shrimp {...shrimpProps} />)
           }
         </main>
-        <Footer />
+        <Footer currentRoute={location.pathname} />
       </div>
     );
   }

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route } from 'react-router-dom';
 
+import { Home } from './Pages';
+import Page from './components/Page';
+import routes from './routes';
+
 import backgroundImage from './bgShrimp.jpg';
 import './App.css';
 import './font/ShrimpFont.otf';
 import './font/shrimpfont-webfont.woff';
 import './font/shrimpfont-webfont.woff2';
-import {
-  Home,
-  Games,
-  Shows,
-} from './Pages';
 
 class App extends Component {
   render() {
@@ -23,8 +22,19 @@ class App extends Component {
           }}
         >
           <Route path="/" exact component={Home} />
-          <Route path="/games/" component={Games} />
-          <Route path="/shows/" component={Shows} />
+          {routes.map(({ name, displayName, path, PageComponent }) => 
+            <Route 
+              path={path} 
+              render={(props) => (
+                <Page 
+                  name={name} 
+                  displayName={displayName}
+                  {...props}>
+                  <PageComponent />
+                </Page>
+              )}
+            />
+          )}
         </div>
       </Router>
     );
