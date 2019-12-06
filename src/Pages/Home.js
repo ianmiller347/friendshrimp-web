@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from "react-helmet";
 import * as shrimpSound from '../audio/addShrimp.mp3';
 import Shrimp from '../components/Shrimp';
 import Footer from '../components/Layout/Footer';
@@ -39,11 +40,12 @@ class Home extends React.Component {
       key: `index__${shrimpIndex}__shrimp_${shrimpId}`,
     };
 
-    const newShrimps = [].concat(this.state.shrimps);
-    newShrimps.push(shrimpProps);
-    this.setState({
-      shrimps: newShrimps,
-    });
+    this.setState(prevState => ({
+      shrimps: [
+        ...prevState.shrimps,
+        shrimpProps,
+      ],
+    }));
   
     return false;
   }
@@ -51,12 +53,25 @@ class Home extends React.Component {
   render() {
     const { location } = this.props;
 
+    const thisSite = 'https://friendshrimp.com/';
+    const siteDescription = 'Friendshrimp is a place for friends! ONLY friends.';
+
     return (
       <div className="friendshrimp-landing" onClick={(e) => this.addAShrimp(e)}>
+        <Helmet>
+          <link rel="canonical" href={thisSite} />
+          <meta property="og:url" content={thisSite} />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content={`Friendshrimp. (for friends :)`} />
+          <meta 
+            property="og:description" 
+            content={`Click or tap anywhere for some shrimps to join your party :) ${siteDescription}`} 
+          />
+        </Helmet>
         <Header />
         <main>
           <div className="landing-title">
-            <h1 className="site-title">friendshrimp</h1>
+            <h1 className="site-title">Friendshrimp</h1>
             <p className="subtitle">for friends.</p>
           </div>
           {

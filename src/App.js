@@ -25,6 +25,7 @@ class App extends Component {
           {routes.map(({ name, displayName, path, PageComponent }) => 
             <Route 
               path={path} 
+              key={path}
               render={(props) => (
                 <Page 
                   name={name} 

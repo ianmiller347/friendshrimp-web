@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 // import { pageLinks } from '../../routes';
 
 const HeaderLink = ({ path, displayName }) => (
-  <Link to={path}>{displayName}</Link>
+  <Link to={path} className="main-nav__page-link">{displayName}</Link>
 );
 
 const pageLinks = [
@@ -23,10 +23,10 @@ const pageLinks = [
 
 const Header = () => (
   <header>
-    <nav>
-      <Link to="/">Home</Link>
+    <nav className="main-nav">
+      <Link to="/" className="main-nav__page-link">Home</Link>
       {pageLinks.map(route => 
-        <HeaderLink path={route.path} displayName={route.displayName} />
+        <HeaderLink key={route.path} path={route.path} displayName={route.displayName} />
       )}
     </nav>
   </header>

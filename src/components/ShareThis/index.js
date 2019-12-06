@@ -7,22 +7,22 @@ import './style.css';
 const shareLinkTypesList = [
   {
     name: 'facebook',
+    displayName: 'Facebook',
     url: 'https://www.facebook.com/sharer/sharer.php?u=',
   },
   {
     name: 'twitter',
+    displayName: 'Twitter',
     url: 'https://twitter.com/home?status=Friendshrimps+are+for+friends',
   },
   {
-    name: 'pinterest',
-    url: 'https://pinterest.com/pin/create/button/?media=&description=&url=',
-  },
-  {
     name: 'linkedin',
+    displayName: 'LinkedIn',
     url: 'https://www.linkedin.com/shareArticle?mini=true&title=Friendshrimp&summary=&source=&url=',
   },
   {
-    name: 'email',
+    name: 'mail',
+    displayName: 'Email',
     url: 'mailto:?subject=Lol+Friendshrimp+Site',
   },
 ];
@@ -59,6 +59,7 @@ class ShareThis extends Component {
                 socialMediaType={link.name}
                 currentRoute={currentRoute}
                 shareLinkUrl={link.url}
+                {...link}
               />
             ))}
           </ul>

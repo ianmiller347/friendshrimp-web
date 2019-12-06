@@ -1,6 +1,7 @@
 import React from 'react';
+import FeatherIcon from 'feather-icons-react';
 
-const ShareLink = ({ socialMediaType, shareLinkUrl, currentRoute }) => {
+const ShareLink = ({ socialMediaType, shareLinkUrl, currentRoute, displayName }) => {
   const thisSite = 'https://friendshrimp.com';
   const encodedUrl = encodeURIComponent(`${thisSite}${currentRoute}`);
   const shareUrl = `${shareLinkUrl}${encodedUrl}`;
@@ -8,13 +9,17 @@ const ShareLink = ({ socialMediaType, shareLinkUrl, currentRoute }) => {
   return (
     <a
       href={shareUrl}
-      title={`Share on ${socialMediaType}`}
+      title={`Share on ${displayName}`}
       target="_blank"
       rel="noopener noreferrer"
     >
-      {socialMediaType}
+      <FeatherIcon 
+        icon={socialMediaType} 
+        size={24} 
+      />
     </a>
   );
 };
+
 
 export default ShareLink;

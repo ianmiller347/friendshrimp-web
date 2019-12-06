@@ -2,7 +2,7 @@ import React from 'react';
 import FeatherIcon from 'feather-icons-react';
 import SoundCloudIcon from './SoundCloudIcon';
 
-const SocialLink = ({url, name, displayName, description, index}) => (
+const SocialLink = ({ url, name, displayName, description }) => (
   <li id={`${name}_social-link`} className="social-link">
     <a 
       href={url} 
