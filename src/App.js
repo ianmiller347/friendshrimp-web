@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import { Home } from './Pages';
 import Page from './components/Page';
@@ -26,6 +26,7 @@ class App extends Component {
             <Route 
               path={path} 
               key={path}
+              exact
               render={(props) => (
                 <Page 
                   name={name} 

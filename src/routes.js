@@ -4,6 +4,8 @@ import {
   Store,
 } from './Pages';
 
+import { gamesList } from './Pages/Games';
+
 // all routes except home because home is treated like it's own thing ok
 const routes = [
   {
@@ -24,7 +26,7 @@ const routes = [
     path: '/shows',
     PageComponent: Shows,
   },
-];
+].concat(gamesList);
 
 // why wont this work for the Header links
 export const pageLinks = routes.map(({ path, displayName }) => ({

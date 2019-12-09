@@ -48,7 +48,10 @@ class ShareThis extends Component {
 
     return (
       <div className="sharethis-container">
-        <button className="sharethis__toggle" onClick={e => this.toggleList(e)}>
+        <button 
+          title="Share this site"
+          className="sharethis__toggle" 
+          onClick={e => this.toggleList(e)}>
           <FeatherIcon icon="share" />
         </button>
         {this.state.showingList &&
