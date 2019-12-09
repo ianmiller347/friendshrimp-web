@@ -27,6 +27,10 @@
   text-transform: uppercase;
 }
 
+.page-title {
+  font-size: 3rem;
+}
+
 .landing-title .subtitle {
   font-size: 3rem;
 }

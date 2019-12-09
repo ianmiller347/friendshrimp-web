@@ -28,7 +28,7 @@ class Page extends React.Component {
         </Helmet>
         <Header />
         <main className={`page--${name}`} {...otherProps}>
-          <h1>{displayName}</h1>
+          <h1 className="page-title">{displayName}</h1>
           {children}
         </main>
         <Footer currentRoute={location.pathname} />
