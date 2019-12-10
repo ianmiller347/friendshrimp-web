@@ -6,7 +6,7 @@ class Store extends React.Component {
       <>
         <h2>Shrimp Store stuff</h2>
         <div>
-          T shirts and even more
+          <p>The shrimp store is coming soon, if you want to buy a shirt just dm on instagram</p>
         </div>
       </>
     );

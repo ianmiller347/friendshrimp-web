@@ -6,7 +6,7 @@ import Page from './components/Page';
 import routes from './routes';
 
 import backgroundImage from './bgShrimp.jpg';
-import './App.css';
+import './App.scss';
 import './font/ShrimpFont.otf';
 import './font/shrimpfont-webfont.woff';
 import './font/shrimpfont-webfont.woff2';

@@ -1,0 +1,32 @@
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 420px;
+}
+
+.social-link {
+  list-style: none;
+  padding: 0;
+
+  .social-link__link {
+    color: black;
+    transition: .5s;
+
+    svg {
+      transition: .5s;
+    }
+
+    &:hover {
+      opacity: .7;
+      text-shadow: 2px 2px #000;
+
+      svg {
+        transform: scale(1.1);
+      }
+    }
+  }
+}

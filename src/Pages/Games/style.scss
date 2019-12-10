@@ -1,0 +1,26 @@
+.content-container {
+  width: 1200px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.games-list {
+  padding: 2rem;
+  margin: 0;
+  background: rgba(240,240,240,.5);
+
+  .game {
+    margin: .5rem 0;
+    padding: 1rem;
+    list-style: none;
+    background-color: white;
+
+    &__link-title {
+      font-size: 2rem;
+    }
+
+    &__description {
+      font-style: italic;
+    }
+  }
+}

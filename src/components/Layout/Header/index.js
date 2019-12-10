@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './style.scss';
 // import { pageLinks } from '../../routes';
 
 const HeaderLink = ({ path, displayName }) => (

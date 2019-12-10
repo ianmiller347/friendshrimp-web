@@ -49,7 +49,6 @@ class ShrimpDivider extends React.Component {
     } = this.state;
 
     const currentStatusColor = getColorFromRandomInt(topNumber, 100);
-    // `linear-gradient(90deg, rgba(167,14,14,1) ${Math.ceil(topNumber)}%, rgba(34,180,0,1) 100%)`;rgb(194,212,70)
     const topGradient = `#a70e0e 100%`;
     const middleGradient = `${currentStatusColor} ${Math.ceil(topNumber)}%`;
     const linearGradient = `linear-gradient(90deg, rgb(34,180,0) 0%, ${middleGradient}, ${topGradient})`;

@@ -1,0 +1,50 @@
+.shrimp-keyboard-container {
+  border: 2px solid black;
+  background-color: #f700f7;
+  border-top-width: 25px;
+  width: 1200px;
+  max-width: calc(100% - 4px);
+  margin: 0 auto;
+}
+
+.shrimp-keyboard {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
+
+  @media all and (min-width: 1024px) {
+    border: 5px solid black;
+    padding: 2rem;
+  }
+}
+
+.shrimp-key {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 1rem 0;
+
+  svg {
+    fill: white;
+    max-width: 100%;
+    transition: transform .25s;
+  }
+
+  &--black {
+    transform: translateY(-1rem);
+
+    svg {
+      fill: black;
+    }
+  }
+
+  &:hover {
+    svg {
+      transform: scale(1.2);
+    }
+
+    &--black {
+      transform: translateY(-1rem) scale(1.2);
+    }
+  }
+}
