@@ -1,5 +1,6 @@
 import React from 'react';
-import { Helmet } from "react-helmet";
+import ReactGA from 'react-ga';
+import { Helmet } from 'react-helmet';
 import * as shrimpSound from '../audio/addShrimp.mp3';
 import Shrimp from '../components/Shrimp';
 import Footer from '../components/Layout/Footer';
@@ -16,6 +17,11 @@ class Home extends React.Component {
     };
   }
 
+  componentDidMount() {
+    ReactGA.initialize('UA-37792076-2');
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }
+
   createShrimpSound = () => {
     const newShrimpSound = new Audio(shrimpSound);
     newShrimpSound.play();
@@ -29,6 +35,12 @@ class Home extends React.Component {
     const shrimpId = Math.floor((Math.random() * SHRIMPS_ARRAY_SIZE) + 1);
     
     // ga('send', 'event', 'shrimp', 'click', 'page body');
+    ReactGA.event({
+      category: 'shrimp',
+      action: 'click',
+      value: 'page body',
+    });
+
     const shrimpIndex = this.state.shrimps.length;
 
     const shrimpProps = {

@@ -31,8 +31,8 @@ class Games extends React.Component {
           <ul className="games-list">
             {
               gamesList.map(({ name, displayName, path, description }) => (
-                <li className="game">
-                  <Link to={path} key={name} className="game__link-title">
+                <li className="game" key={name}>
+                  <Link to={path} className="game__link-title">
                     {displayName} <FeatherIcon icon="play" />
                   </Link>
                   <p className="game__description">{description}</p>

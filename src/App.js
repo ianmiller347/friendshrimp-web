@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-
 import { Home } from './Pages';
 import Page from './components/Page';
 import routes from './routes';
-
 import backgroundImage from './bgShrimp.jpg';
 import './App.scss';
 import './font/ShrimpFont.otf';

@@ -1,4 +1,17 @@
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  width: 666px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
 .main-nav__page-link {
   font-size: 1.5rem;
   padding: .5rem 1rem;
+
+  @media all and (min-width: 1200px) {
+    font-size: 2.25rem;
+  }
 }

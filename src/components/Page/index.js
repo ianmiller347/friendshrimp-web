@@ -1,9 +1,15 @@
 import React from 'react';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
+import ReactGA from 'react-ga';
 import Header from '../Layout/Header/';
 import Footer from '../Layout/Footer';
 
 class Page extends React.Component {
+  componentDidMount() {
+    ReactGA.initialize('UA-37792076-2');
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }
+
   render() {
     const { 
       name, 
