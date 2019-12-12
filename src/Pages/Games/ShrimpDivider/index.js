@@ -65,7 +65,7 @@ class ShrimpDivider extends React.Component {
       <div className="shrimp-divider">
         <div className="explanation-container">
           <h2>How many shrimps can u get?</h2>
-          <p>You get a shrimp for each click until you hit the goose egg.</p>
+          <p>Hit the juice to get more shrimps. Get as many shrimps as u can till u get the goose egg.</p>
           {this.renderJuiceHit(topNumber)}
         </div>
         <div className="results-container">

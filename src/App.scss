@@ -20,11 +20,19 @@
 .site-title {
   animation-name: shrinkALittle;
   animation-iteration-count: infinite;
-  animation-duration: 20s;
+  animation-duration: 2s;
   animation-direction: alternate;
   pointer-events: none;
-  font-size: 10rem;
+  font-size: 5rem;
   text-transform: uppercase;
+
+  @media screen and (min-width: 768px) {
+    font-size: 7rem;
+  }
+
+  @media screen and (min-width: 1024px) {
+    font-size: 10rem;
+  }
 }
 
 .page-title {
@@ -43,6 +51,19 @@
     hopefully can figure out how to put the bg img on html tag then this wont matter */
   position: relative;
   overflow: hidden;
+}
+
+@mixin cool-box-shadow {
+  box-shadow: 3px 3px 3px rgba(69,69,69, .5);
+}
+
+.cool-container {
+  @include cool-box-shadow;
+  
+  padding: 1rem;
+  width: 1200px;
+  max-width: calc(100% - 4rem);
+  margin: 0 auto;
 }
 
 

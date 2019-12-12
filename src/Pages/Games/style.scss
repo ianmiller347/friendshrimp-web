@@ -10,6 +10,7 @@
   background: rgba(240,240,240,.5);
 
   .game {
+    box-shadow: 3px 3px 3px rgba(69,69,69, .5);
     margin: .5rem 0;
     padding: 1rem;
     list-style: none;
@@ -17,6 +18,7 @@
 
     &__link-title {
       font-size: 2rem;
+      font-weight: bold;
     }
 
     &__description {
