@@ -20,7 +20,7 @@
 .site-title {
   animation-name: shrinkALittle;
   animation-iteration-count: infinite;
-  animation-duration: 2s;
+  animation-duration: 15s;
   animation-direction: alternate;
   pointer-events: none;
   font-size: 5rem;
@@ -59,7 +59,7 @@
 
 .cool-container {
   @include cool-box-shadow;
-  
+
   padding: 1rem;
   width: 1200px;
   max-width: calc(100% - 4rem);
