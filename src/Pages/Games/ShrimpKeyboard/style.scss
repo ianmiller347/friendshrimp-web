@@ -1,7 +1,7 @@
 .shrimp-keyboard-container {
   border: 2px solid black;
   background-color: #f700f7;
-  border-top-width: 25px;
+  border-top-width: 3rem;
   width: 1200px;
   max-width: calc(100% - 4px);
   margin: 0 auto;
@@ -11,6 +11,7 @@
   display: flex;
   justify-content: space-between;
   padding: 2rem 0;
+  touch-action: manipulation;
 
   @media all and (min-width: 1024px) {
     border: 5px solid black;
@@ -27,7 +28,6 @@
   svg {
     fill: white;
     max-width: 100%;
-    transition: transform .25s;
   }
 
   &--black {
