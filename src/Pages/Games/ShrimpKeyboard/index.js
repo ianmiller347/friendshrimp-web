@@ -5,6 +5,18 @@ import KeySounds from './KeySounds';
 import './style.scss';
 
 class ShrimpKeyboard extends React.Component {
+
+  constructor() {
+    super();
+
+    const keySounds = {};
+    Object.keys(KeySounds).forEach(key => {
+      keySounds[key] = new Audio(KeySounds[key]);
+    });
+
+    this.keySounds = keySounds;
+  }
+
   handleKeyDown = (e) => {
     e.stopPropagation();
     const note = ComputerKeyToNote[e.key];
@@ -19,7 +31,11 @@ class ShrimpKeyboard extends React.Component {
   }
 
   playShrimpKey(note) {
-    const shrimpKeySound = new Audio(KeySounds[note]);
+    const shrimpKeySound = this.keySounds[note];
+    shrimpKeySound.pause();
+    // this looks dumb but it's actually necessary to do the actual stop n reset retrigger
+    // eslint-disable-next-line no-self-assign
+    shrimpKeySound.src = shrimpKeySound.src;
     shrimpKeySound.play();
   }
   

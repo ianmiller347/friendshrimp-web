@@ -16,6 +16,7 @@ class Page extends React.Component {
       displayName, 
       children, 
       location,
+      staticContext,
       ...otherProps 
     } = this.props;
 
