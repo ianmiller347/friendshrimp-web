@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FeatherIcon from 'feather-icons-react';
 import ShareLink from './ShareLink';
 
-import './style.css';
+import './style.scss';
 
 const shareLinkTypesList = [
   {
@@ -55,17 +55,20 @@ class ShareThis extends Component {
           <FeatherIcon icon="share" />
         </button>
         {this.state.showingList &&
-          <ul className="sharethis__options">
-            {shareLinkTypesList.map((link, index) => (
-              <ShareLink 
-                key={`share_${index}`}
-                socialMediaType={link.name}
-                currentRoute={currentRoute}
-                shareLinkUrl={link.url}
-                {...link}
-              />
-            ))}
-          </ul>
+          <div className="sharethis__dropdown">
+            <h5>Share this site on...</h5>
+            <ul className="sharethis__options">
+              {shareLinkTypesList.map((link, index) => (
+                <ShareLink 
+                  key={`share_${index}`}
+                  socialMediaType={link.name}
+                  currentRoute={currentRoute}
+                  shareLinkUrl={link.url}
+                  {...link}
+                />
+              ))}
+            </ul>
+          </div>
         }
       </div>
     )

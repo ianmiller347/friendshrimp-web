@@ -5,6 +5,7 @@ import * as shrimpSound from '../audio/addShrimp.mp3';
 import Shrimp from '../components/Shrimp';
 import Footer from '../components/Layout/Footer';
 import Header from '../components/Layout/Header';
+import { getRandomInt } from '../util/rng';
 
 const SHRIMPS_ARRAY_SIZE = 11;
 
@@ -42,11 +43,14 @@ class Home extends React.Component {
     });
 
     const shrimpIndex = this.state.shrimps.length;
+    const rotation = shrimpIndex % 2 === 0 ? getRandomInt(0, 180) : 0;
+    console.log('rotation', rotation)
 
     const shrimpProps = {
       shrimpNumber: shrimpId,
       leftOffset: leftOffset,
       topOffset: topOffset,
+      rotation,
       index: shrimpIndex,
       key: `index__${shrimpIndex}__shrimp_${shrimpId}`,
     };

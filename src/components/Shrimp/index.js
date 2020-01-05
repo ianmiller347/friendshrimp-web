@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 import ShrimpObjects from './ShrimpObjects';
 
-const Shrimp = ({ shrimpNumber, leftOffset, topOffset, index }) => {
+const Shrimp = ({ shrimpNumber, leftOffset, topOffset, rotation, index }) => {
   const shrimpSrc = ShrimpObjects[shrimpNumber];
   return (
     <img 
@@ -11,6 +11,7 @@ const Shrimp = ({ shrimpNumber, leftOffset, topOffset, index }) => {
         position: `absolute`,
         left: `${leftOffset}px`,
         top: `${topOffset}px`,
+        transform: rotation ? `rotate(${rotation}deg)` : 'none',
       }}
     />
   );

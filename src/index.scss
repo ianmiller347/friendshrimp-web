@@ -29,10 +29,10 @@ a {
   text-decoration: none;
   transition: all .5s;
   padding: .25rem;
-}
 
-a:hover {
-  color: #FA8072;
-  text-decoration: none;
-  font-weight: bold;
+  &:hover {
+    color: #FA8072;
+    text-decoration: none;
+    font-weight: bold;
+  }
 }
