@@ -4175,10 +4175,10 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-feather-icons-react@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/feather-icons-react/-/feather-icons-react-0.3.2.tgz#fd8f25a0f1b7fc10678839fe5eb2b61be4f92d60"
-  integrity sha512-nob+VhAw9LsTtJqZMDRMCUWTaTiRlIUiwnu9fekuykx9pKLLVb5ZWjPR9wdkFtTYm0lDu3Z2oNJCMhOqKec+QA==
+feather-icons-react@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/feather-icons-react/-/feather-icons-react-0.4.1.tgz#d2333ec7e87c8a54c6879181f7df09d598a38302"
+  integrity sha512-rrnLdXpko9NKBdu2dAL3cdn4XXg6VualIqGH7WaDTZnE/Hz1bKWktQPmSsgDSO83Pj4H3uaPzY73zgecqOjDYQ==
 
 figgy-pudding@^3.5.1:
   version "3.5.1"
