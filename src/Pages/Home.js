@@ -44,7 +44,6 @@ class Home extends React.Component {
 
     const shrimpIndex = this.state.shrimps.length;
     const rotation = shrimpIndex % 2 === 0 ? getRandomInt(0, 180) : 0;
-    console.log('rotation', rotation)
 
     const shrimpProps = {
       shrimpNumber: shrimpId,
