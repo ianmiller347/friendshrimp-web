@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 import ShrimpDivider from './ShrimpDivider';
 import ShrimpKeyboard from './ShrimpKeyboard';
+import FriendshrimpPhotoMaker from './FriendshrimpPhotoMaker';
 import './style.scss';
 
 export const gamesList = [
@@ -19,6 +20,13 @@ export const gamesList = [
     path: '/games/shrimp-keyboard',
     PageComponent: ShrimpKeyboard,
     description: 'shrimps can make music too',
+  },
+  {
+    name: 'friendshrimp-photo-maker',
+    displayName: 'Friendshrimp Photo Maker',
+    path: '/games/friendshrimp-photo-maker',
+    PageComponent: FriendshrimpPhotoMaker,
+    description: 'shrimps can make photos too',
   },
 ];
 
