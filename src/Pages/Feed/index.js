@@ -1,10 +1,6 @@
 import React from 'react';
 import './style.scss';
 
-const BLOG_ID = '8742275038305474674';
-// lol
-const API_KEY = 'AIzaSyCL78ZsRhUt9R8KItZv-2HGioIeL2VNoT0';
-
 class Feed extends React.Component {
   state = {
     feedItems: [],
@@ -13,7 +9,7 @@ class Feed extends React.Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
-    fetch(`https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts?key=${API_KEY}`)
+    fetch(`https://www.friendshrimp.com/get-feed.php`)
       .then(response => response.json())
       .then(data => {
         this.setState({ isLoading: false, feedItems: data.items });
