@@ -1,0 +1,30 @@
+.friendshrimp-feed {
+  width: 100%;
+
+  .feed__list {
+    margin: 1rem;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+
+  .feed__item {
+    background-color: white;
+    box-shadow: 3px 2px 4px 5px #ccc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    list-style: none;
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .item__content {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+  }
+}

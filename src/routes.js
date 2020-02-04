@@ -1,6 +1,7 @@
 import {
   Games,
   Shows,
+  Feed,
   Store,
 } from './Pages';
 
@@ -19,6 +20,12 @@ const routes = [
     displayName: 'Store',
     path: '/store',
     PageComponent: Store,
+  },
+  {
+    name: 'feed',
+    displayName: 'Friendshrimp Feed',
+    path: '/feed',
+    PageComponent: Feed,
   },
   {
     name: 'shows',

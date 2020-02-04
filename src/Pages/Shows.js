@@ -4,7 +4,7 @@ class Shows extends React.Component {
   render() {
     return (
       <> 
-        <h2>Check out these shrimpy shows</h2>
+        <h2>No shows booked right now :(</h2>
       </>
     );
   }

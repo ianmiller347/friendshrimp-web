@@ -17,6 +17,10 @@ const pageLinks = [
     displayName: 'Store',
   },
   {
+    displayName: 'Feed',
+    path: '/feed',
+  },
+  {
     path: '/shows',
     displayName: 'Shows',
   },
