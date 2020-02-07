@@ -57,7 +57,9 @@ class Feed extends React.Component {
           {feedItems.map(item => (
             <li className="feed__item" key={item.id}>
               <h3 className="item__title">{item.title}</h3>
-              <div className="item__content" dangerouslySetInnerHTML={{ __html: item.content }} />
+              <div 
+                className="item__content text-content"
+                dangerouslySetInnerHTML={{ __html: item.content }} />
             </li>
           ))}
         </ul>

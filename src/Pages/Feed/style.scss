@@ -1,8 +1,7 @@
 .friendshrimp-feed {
-  width: 100%;
+  padding: 1rem;
 
   .feed__list {
-    margin: 1rem;
     padding: 0;
     list-style: none;
     width: 100%;
@@ -11,10 +10,10 @@
   }
 
   .feed__item {
-    background-color: white;
-    box-shadow: 3px 2px 4px 5px #ccc;
+    background-color: #fdfdfd;
+    box-shadow: 3px 2px 8px 5px #ccc;
     padding: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     list-style: none;
 
     img {
@@ -25,6 +24,21 @@
     .item__content {
       max-width: 960px;
       margin: 0 auto;
+      text-align: left;
+
+      p {
+        text-indent: 1rem;
+      }
+    }
+
+    @media all and (min-width: 767px) {
+      padding: 1rem 2rem;
+
+      .item__content {
+        p {
+          text-indent: 2rem;
+        }
+      }
     }
   }
 }

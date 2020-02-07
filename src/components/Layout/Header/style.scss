@@ -5,13 +5,17 @@
   max-width: 100%;
   margin: 0 auto;
   padding: 0;
+  box-shadow: 0 3px 2px -2px #111;
+  position: relative;
 }
 
 .main-nav__page-link {
   font-size: 1.5rem;
-  padding: .5rem 1rem;
+  padding: .5rem;
+  font-weight: 600;
 
   @media all and (min-width: 1200px) {
     font-size: 2.25rem;
+    padding: .5rem 1rem;
   }
 }

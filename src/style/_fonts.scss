@@ -1,0 +1,35 @@
+$shrimpfont: 'shrimp_fontregular';
+$aquafont: 'aqua';
+
+@font-face {
+  font-family: $shrimpfont;
+  src: url('../font/shrimpfont-webfont.woff2') format('woff2'),
+       url('../font/shrimpfont-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: $aquafont;
+  src: url('../font/aqua-webfont.woff2') format('woff2'),
+       url('../font/aqua-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: $shrimpfont, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $shrimpfont, sans-serif;
+}
+
+.text-content {
+  font-family: $aquafont;
+}
