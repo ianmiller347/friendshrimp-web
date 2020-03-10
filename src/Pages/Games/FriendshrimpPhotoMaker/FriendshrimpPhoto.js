@@ -1,7 +1,7 @@
 import React from 'react';
 import ShrimpObjects from '../../../components/Shrimp/ShrimpObjects';
 
-const Friendshrimp = (shrimpNumber) => (
+const Friendshrimp = ({ shrimpNumber }) => (
   <img
     src={ShrimpObjects[9]}
     className="friendshrimp-on-your-photo"
@@ -10,14 +10,14 @@ const Friendshrimp = (shrimpNumber) => (
 );
 
 const FriendshrimpPhoto = ({ photo, alt, shrimpNumber }) => (
-  <canvas className="friendshrimp-photo-booth">
+  <div className="friendshrimp-photo-booth">
     <img 
       src={photo} 
       className="friendshrimp-photo-booth--photo"
       alt={alt || 'no shrinimpiduh? o wa'}
     />
     <Friendshrimp shrimpNumber={shrimpNumber} />
-  </canvas>
+  </div>
 );
 
 export default FriendshrimpPhoto;
