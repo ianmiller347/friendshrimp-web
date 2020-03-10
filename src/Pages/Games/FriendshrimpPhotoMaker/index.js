@@ -25,7 +25,12 @@ class FriendshrimpPhotoMaker extends React.Component {
       shrimpUploadText: 'Friendshrimping it!',
     });
 
-    setTimeout(() => this.setState({ shrimpUploadText: 'New?' }), 1111);
+    setTimeout(() => this.setState({ shrimpUploadText: 'New?' }), 1234);
+  }
+
+  handlePhotoDownload = e => {
+    console.log('download???', e);
+    console.log('eeeee', e.target.children);
   }
 
   render() {
@@ -58,10 +63,12 @@ class FriendshrimpPhotoMaker extends React.Component {
           </label>
           {
             shrimpPhoto &&
-            <FriendshrimpPhoto 
-              photo={shrimpPhoto} 
-              alt={shrimpPhotoAlt}
-              shrimpNumber={shrimpNumber} />
+            <a href="/images/friendshrimp-pic.jpg" download="my-shrimp-pic.jpg" onClick={this.handlePhotoDownload}>
+              <FriendshrimpPhoto 
+                photo={shrimpPhoto} 
+                alt={shrimpPhotoAlt}
+                shrimpNumber={shrimpNumber} />
+            </a>
           }
         </form>
         <input 

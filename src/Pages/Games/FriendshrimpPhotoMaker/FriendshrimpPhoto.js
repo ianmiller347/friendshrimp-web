@@ -10,14 +10,14 @@ const Friendshrimp = (shrimpNumber) => (
 );
 
 const FriendshrimpPhoto = ({ photo, alt, shrimpNumber }) => (
-  <div className="friendshrimp-photo-booth">
+  <canvas className="friendshrimp-photo-booth">
     <img 
       src={photo} 
       className="friendshrimp-photo-booth--photo"
       alt={alt || 'no shrinimpiduh? o wa'}
     />
     <Friendshrimp shrimpNumber={shrimpNumber} />
-  </div>
+  </canvas>
 );
 
 export default FriendshrimpPhoto;

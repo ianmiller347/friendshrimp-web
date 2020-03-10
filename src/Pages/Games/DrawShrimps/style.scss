@@ -1,0 +1,14 @@
+.draw-shrimps-container {
+  width: 100%;
+}
+
+.shrimp-drawings {
+  display: flex;
+  flex-flow: wrap;
+  width: 100%;
+  height: auto;
+
+  .shrimp-drawing {
+    display: inline-block;
+  }
+}
