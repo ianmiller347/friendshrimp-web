@@ -1,5 +1,5 @@
 import React from 'react';
-import { getRandomInt, getColorFromRandomInt } from '../../../util/rng';
+import { getRandomInt, getStatusColorFromRandomInt } from '../../../util/rng';
 import ShrimpSvg from '../../../components/ShrimpSvg';
 import Egg from './Egg';
 import './style.scss';
@@ -48,7 +48,7 @@ class ShrimpDivider extends React.Component {
       yourRecord,
     } = this.state;
 
-    const currentStatusColor = getColorFromRandomInt(topNumber, 100);
+    const currentStatusColor = getStatusColorFromRandomInt(topNumber, 100);
     const topGradient = `#a70e0e 100%`;
     const middleGradient = `${currentStatusColor} ${Math.ceil(topNumber)}%`;
     const linearGradient = `linear-gradient(90deg, rgb(34,180,0) 0%, ${middleGradient}, ${topGradient})`;

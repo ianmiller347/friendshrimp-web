@@ -2,6 +2,23 @@
   width: 100%;
 }
 
+.draw-shrimps {
+  &__input {
+    padding: .4rem .25rem;
+  }
+
+  &__button {
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    box-shadow: 0 0 6px #666;
+    border-radius: 0 6px 6px 0;
+    padding: .4rem 1.5rem;
+    background-color: #FBC4BD;
+    
+  }
+}
+
 .shrimp-drawings {
   display: flex;
   flex-flow: wrap;
@@ -10,5 +27,10 @@
 
   .shrimp-drawing {
     display: inline-block;
+
+    &__name {
+      font-size: 2.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+    }
   }
 }

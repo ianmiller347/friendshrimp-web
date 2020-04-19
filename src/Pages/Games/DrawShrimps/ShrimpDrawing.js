@@ -1,27 +1,24 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { shrimpDrawingBodyPath, shrimpDrawingEyePath } from './shrimpDrawingParts';
 
-const ShrimpDrawing = ({ text }) => {
-  const shrimpCanvas = useRef(null);
-
-  useEffect(
-    () => {
-      const canvas = shrimpCanvas.current;
-      const ctx = canvas.getContext('2d');
-      const bodyPath = new Path2D(shrimpDrawingBodyPath);
-      const eyePath = new Path2D(shrimpDrawingEyePath);
-      ctx.stroke(bodyPath);
-      ctx.stroke(eyePath);
-      ctx.font = '48px serif';
-      ctx.strokeText(text, 50, 50);
-      ctx.scale(.6, .6);
-    },
-    [text]
-  );
-
+const ShrimpDrawing = ({ text, size }) => {
   return (
-    <canvas ref={shrimpCanvas} width={500} height={500} className="shrimp-drawing" />
+    <div className="shrimp-drawing">
+      <svg 
+        version="1.1" 
+        xmlns="http://www.w3.org/2000/svg" 
+        x="0" 
+        y="0" 
+        viewBox="0 0 500 500"
+        fill={'#666'}
+        width={size || 250}
+        height={size || 250}>
+        <text x="40" y="69" className="shrimp-drawing__name">{text}</text>
+        <path className="shrimp-drawing__body" d={shrimpDrawingBodyPath} />
+        <path className="shrimp-drawing__eye" d={shrimpDrawingEyePath} />
+      </svg>
+    </div>
   );
-};
+}
 
 export default ShrimpDrawing;
