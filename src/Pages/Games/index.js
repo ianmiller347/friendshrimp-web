@@ -5,6 +5,7 @@ import ShrimpDivider from './ShrimpDivider';
 import ShrimpKeyboard from './ShrimpKeyboard';
 import FriendshrimpPhotoMaker from './FriendshrimpPhotoMaker';
 import DrawShrimps from './DrawShrimps';
+import ShrimpCardsBattle from './ShrimpCardsBattle';
 import './style.scss';
 
 export const gamesList = [
@@ -35,6 +36,13 @@ export const gamesList = [
     path: '/games/draw-shrimps',
     PageComponent: DrawShrimps,
     description: 'draw a shrimps our something',
+  },
+  {
+    name: 'card-battle',
+    displayName: 'Shrimps card battle',
+    path: '/games/card-battle',
+    PageComponent: ShrimpCardsBattle,
+    description: 'battle the shrimp cards together',
   },
 ];
 
