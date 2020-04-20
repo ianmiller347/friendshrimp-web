@@ -7,4 +7,35 @@
     box-shadow: 0 0 6px #999;
     cursor: pointer;
   }
+
+  .card-battle {
+    padding-top: 1rem;
+    
+    &__displays {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__player-one,
+    &__player-two {
+      margin-bottom: 1rem;
+
+      .shrimp-card {
+        animation-name: fadeIn;
+        animation-duration: .5s;
+        animation-fill-mode: forwards;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

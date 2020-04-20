@@ -1,0 +1,46 @@
+.shrimp-card {
+  padding: 1rem;
+  width: 200px;
+  background-color: white;
+  border-radius: .75rem;
+  box-shadow: 0 0 6px #333;
+
+  .red {
+    color: red;
+    fill: red;
+    stroke: red;
+  }
+
+  .blue {
+    color: blue;
+    fill: blue;
+    stroke: blue;
+  }
+  
+  &__number {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+
+  .suite {
+    padding: .25rem;
+  }
+
+  &__suites {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  &--royal {
+    .shrimp-card__number {
+      font-family: 'shrimpfont', sans-serif;
+    }
+
+    .shrimp-card__suites {
+      justify-content: center;
+    }
+  }
+}

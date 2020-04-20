@@ -1,10 +1,12 @@
+import { numberArrayFromNumber } from '../../../util/arrayHelpers';
+
 const suites = [
   {
-    name: 'crabs',
+    name: 'crab',
     color: 'blue',
   },
   {
-    name: 'lobster',
+    name: 'oyster',
     color: 'blue',
   },
   {
@@ -12,7 +14,7 @@ const suites = [
     color: 'red',
   },
   {
-    name: 'prawn',
+    name: 'lobster',
     color: 'red',
   },
 ];
@@ -23,14 +25,14 @@ export const cardTypes = [
     display: 'Ace',
     count: 1,
   },
-  ...Array.from({length: 10}, (v, i) => i + 1).filter(item => item !== 1).map(item => ({
+  ...numberArrayFromNumber(10).filter(item => item !== 1).map(item => ({
     name: `${item}`,
     display: `${item}`,
     count: item,
   })),
   {
     name: 'jack',
-    display: 'jack',
+    display: 'Jack',
     count: 11,
   },
   {
