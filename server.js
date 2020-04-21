@@ -1,9 +1,11 @@
+const sslRedirect = require('heroku-ssl-redirect');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongodb = require('mongodb');
 const cors = require('cors');
 const fetch = require('node-fetch');
 const app = express();
+app.use(sslRedirect());
 app.use(bodyParser.json());
 
 const buildDir = __dirname + '/build/';
