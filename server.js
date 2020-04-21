@@ -55,3 +55,8 @@ app.get('/get-feed', (req, res) => {
     }
   })
 });
+
+// for all other routes, bring to index
+app.get('*', (req, res) => {
+  res.sendFile(`${__dirname}/build/index.html`);
+})
