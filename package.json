@@ -30,6 +30,9 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "resolutions": {
+    "minimist": "^1.2.0"
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
