@@ -1,3 +1,10 @@
+.sharethis-container {
+  width: 80%;
+  max-width: 250px;
+  position: relative;
+  margin: 0 auto;
+}
+
 .sharethis__toggle {
   border: none;
   background: rgba(255, 166, 194, 0.5);
@@ -15,4 +22,14 @@
 
 .sharethis__options {
   padding: 0;
+}
+
+.sharethis__dropdown {
+  background: rgba(250,250,250,.9);
+  box-shadow: 0 0 5px #999;
+  border-radius: .75rem .75rem 0 0;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 100%;
 }

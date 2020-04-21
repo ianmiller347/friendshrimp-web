@@ -9,7 +9,7 @@ class Feed extends React.Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
-    fetch(`https://www.friendshrimp.com/get-feed.php`)
+    fetch(`https://www.friendshrimp.com/get-feed`)
       .then(response => response.json())
       .then(data => {
         this.setState({ isLoading: false, feedItems: data.items });

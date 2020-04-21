@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import FeatherIcon from 'feather-icons-react';
 import ShareLink from './ShareLink';
 
@@ -27,52 +27,40 @@ const shareLinkTypesList = [
   },
 ];
 
-class ShareThis extends Component {
-  constructor(props) {
-    super(props);
+const stopAndSet = (e, show) => {
+  e.stopPropagation();
+  return !show;
+}
 
-    this.state = {
-      showingList: false,
-    };
-  }
+const ShareThis = ({ currentRoute }) => { 
+  const [showingList, toggleList] = useState(false);
 
-  toggleList = (e) => {
-    e.stopPropagation();
-    this.setState((prevState) => ({
-      showingList: !prevState.showingList,
-    }));
-  }
-
-  render() {
-    const { currentRoute } = this.props;
-
-    return (
-      <div className="sharethis-container">
-        <button 
-          title="Share this site"
-          className="sharethis__toggle" 
-          onClick={e => this.toggleList(e)}>
-          <FeatherIcon icon="share" />
-        </button>
-        {this.state.showingList &&
-          <div className="sharethis__dropdown">
-            <h5>Share this site on...</h5>
-            <ul className="sharethis__options">
-              {shareLinkTypesList.map((link, index) => (
-                <ShareLink 
-                  key={`share_${index}`}
-                  socialMediaType={link.name}
-                  currentRoute={currentRoute}
-                  shareLinkUrl={link.url}
-                  {...link}
-                />
-              ))}
-            </ul>
-          </div>
-        }
-      </div>
-    )
-  }
+  return (
+    <div className="sharethis-container">
+      <button 
+        title="Share this site to your friends"
+        className="sharethis__toggle" 
+        onClick={e => toggleList(stopAndSet(e, showingList))}>
+        <FeatherIcon icon="share" />
+      </button>
+      {showingList &&
+        <div className="sharethis__dropdown">
+          <h5>Share this site on...</h5>
+          <ul className="sharethis__options">
+            {shareLinkTypesList.map((link, index) => (
+              <ShareLink 
+                key={`share_${index}`}
+                socialMediaType={link.name}
+                currentRoute={currentRoute}
+                shareLinkUrl={link.url}
+                {...link}
+              />
+            ))}
+          </ul>
+        </div>
+      }
+    </div>
+  );
 }
 
 export default ShareThis;
