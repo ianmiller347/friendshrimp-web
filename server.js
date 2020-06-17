@@ -5,6 +5,8 @@ const mongodb = require('mongodb');
 const cors = require('cors');
 const fetch = require('node-fetch');
 const app = express();
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 8080 });
 app.use(sslRedirect());
 app.use(bodyParser.json());
 
@@ -16,6 +18,7 @@ app.use(cors());
 const FEED_AUTH = 'feedAuth';
 let db;
 
+// mongo DB setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/test';
 mongodb.MongoClient.connect(mongoURI, (err, client) => {
   if (err) {
@@ -32,6 +35,16 @@ mongodb.MongoClient.connect(mongoURI, (err, client) => {
   });
 });
 
+// setup websockets
+wss.on('connection', (ws) => {
+  ws.on('message', (message) => {
+    console.log(`server received: ${message}`);
+    wss.clients.forEach(client => {
+      client.send(message);
+    });
+  })
+});
+
 const fetchOptions = {
   method: 'GET',
   headers: {
@@ -40,6 +53,7 @@ const fetchOptions = {
   }
 };
 
+// to get the feed page data
 app.get('/get-feed', (req, res) => {
   db.collection(FEED_AUTH).find({}).toArray((err, docs) => {
     if (err) {
@@ -58,7 +72,10 @@ app.get('/get-feed', (req, res) => {
   })
 });
 
+// to get and set games for card battle
+
+
 // for all other routes, bring to index
 app.get('*', (req, res) => {
   res.sendFile(`${__dirname}/build/index.html`);
-})
+});

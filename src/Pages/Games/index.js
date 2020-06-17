@@ -51,16 +51,14 @@ const Games = () => (
     <h2>Games not just for shrimps but made <em>from</em> shrimps</h2>
     <div className="content-container">
       <ul className="games-list">
-        {
-          gamesList.map(({ name, displayName, path, description }) => (
-            <li className="game" key={name}>
-              <Link to={path} className="game__link-title">
-                {displayName} <FeatherIcon icon="play" />
-              </Link>
-              <p className="game__description">{description}</p>
-            </li>
-          ))
-        }
+        {gamesList.map(({ name, displayName, path, description }) => (
+          <li className="game" key={name}>
+            <Link to={path} className="game__link-title">
+              {displayName} <FeatherIcon icon="play" />
+            </Link>
+            <p className="game__description">{description}</p>
+          </li>
+        ))}
       </ul>
     </div>
   </>

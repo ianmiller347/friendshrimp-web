@@ -6,6 +6,7 @@ import {
 } from './Pages';
 
 import { gamesList } from './Pages/Games';
+import CardBattleFriends from './Pages/Games/ShrimpCardsBattle/CardBattleFriends';
 
 // all routes except home because home is treated like it's own thing ok
 const routes = [
@@ -32,6 +33,12 @@ const routes = [
     displayName: 'Shows',
     path: '/shows',
     PageComponent: Shows,
+  },
+  {
+    name: 'cards-with-friends',
+    displayName: 'Card Battle with Friends',
+    path: '/games/card-battle/friend',
+    PageComponent: CardBattleFriends,
   },
 ].concat(gamesList);
 
