@@ -29,10 +29,10 @@ const FEED_AUTH = 'feedAuth';
 //   db = client.db();
 //   console.log('Database connection ready');
 
-//   const server = app.listen(process.env.PORT || 8080, () => {
-//     const port = server.address().port;
-//     console.log('App now running on port', port);
-//   });
+  const server = app.listen(process.env.PORT || 8080, () => {
+    const port = server.address().port;
+    console.log('App now running on port', port);
+  });
 // });
 
 // setup websockets
