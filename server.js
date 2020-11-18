@@ -15,25 +15,10 @@ app.use(express.static(buildDir));
 
 app.use(cors());
 
-const FEED_AUTH = 'feedAuth';
-// let db;
-
-// mongo DB setup
-// const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/test';
-// mongodb.MongoClient.connect(mongoURI, (err, client) => {
-//   if (err) {
-//     console.log(err);
-//     process.exit(1);
-//   }
-
-//   db = client.db();
-//   console.log('Database connection ready');
-
-  const server = app.listen(process.env.PORT || 8080, () => {
-    const port = server.address().port;
-    console.log('App now running on port', port);
-  });
-// });
+const server = app.listen(process.env.PORT || 8080, () => {
+  const port = server.address().port;
+  console.log('App now running on port', port);
+});
 
 // setup websockets
 wss.on('connection', (ws) => {
@@ -55,22 +40,18 @@ const fetchOptions = {
 
 // to get the feed page data
 app.get('/get-feed', (req, res) => {
-  res.status(500).json({ error: 'Not available' });
-  // db.collection(FEED_AUTH).find({}).toArray((err, docs) => {
-  //   if (err) {
-  //     console.log(`ERROR: ${err.message}`);
-  //     res.status(500).json({ error: err.message });
-  //   } else {
-  //     const blogId = docs[0].blogId;
-  //     const apiKey = docs[0].apiKey;
-  //     const bloggerUrl = 'https://www.googleapis.com/blogger/v3/blogs/';
-  //     const feedUrl = `${bloggerUrl}${blogId}/posts?key=${apiKey}`;
-  //     fetch(feedUrl, fetchOptions)
-  //       .then(response => response.json())
-  //       .then(jsonData => res.status(200).json(jsonData))
-  //       .catch(fetchError => res.status(500).json({ error: fetchError.message }));
-  //   }
-  // })
+  const blogId = process.env.BLOGGERBLOGID;
+  const apiKey = process.env.BLOGGERAPIKEY;
+  if (blogId && apiKey) {
+    const bloggerUrl = 'https://www.googleapis.com/blogger/v3/blogs/';
+    const feedUrl = `${bloggerUrl}${blogId}/posts?key=${apiKey}`;
+    fetch(feedUrl, fetchOptions)
+      .then(response => response.json())
+      .then(jsonData => res.status(200).json(jsonData))
+      .catch(fetchError => res.status(500).json({ error: fetchError.message }));
+  } else {
+    res.status(500).json({ error: 'Not available' });
+  }
 });
 
 // to get and set games for card battle
