@@ -3,7 +3,7 @@ import ShrimpObjects from '../../../components/Shrimp/ShrimpObjects';
 
 const Friendshrimp = ({ shrimpNumber }) => (
   <img
-    src={ShrimpObjects[9]}
+    src={ShrimpObjects[9].default}
     className="friendshrimp-on-your-photo"
     alt="Friendshrimp on your pic!! He is a little shrimp :)"
   />

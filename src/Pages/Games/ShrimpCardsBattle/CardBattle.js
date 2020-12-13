@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactGA from 'react-ga';
 import { getRandomInt } from '../../../util/rng';
 import ShrimpCard from '../../../components/ShrimpCard';
 
@@ -52,6 +53,11 @@ const player2Draw = (
   const player2NewCards = getNewCards(!player1Wins, player2Cards, cardDrawn2, cardDrawn1);
   setPlayer1Cards(player1NewCards);
   setPlayer2Cards(player2NewCards);
+  ReactGA.event({
+    category: 'shrimp-cards-battle',
+    action: 'player-2-draw',
+    value: 1,
+  });
 }
 
 const INIT_GAME_TEXT = 'Draw a card to begin';

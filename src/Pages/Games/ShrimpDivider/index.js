@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 import { getRandomInt, getStatusColorFromRandomInt } from '../../../util/rng';
 import ShrimpSvg from '../../../components/ShrimpSvg';
 import Egg from './Egg';
@@ -26,18 +27,30 @@ class ShrimpDivider extends React.Component {
       ];
       const yourRecord = prevState.shrimps.length + 1 > prevState.yourRecord ? 
         prevState.shrimps.length + 1 : prevState.yourRecord;
+
+      ReactGA.event({
+        category: 'shrimp-divider',
+        action: 'score-record',
+        value: yourRecord,
+      });
       return {
         topNumber: getRandomInt(prevState.bottomNumber, prevState.topNumber),
         shrimps,
         yourRecord,
       };
     });
+
   }
 
   resetGame = (e) => {
     this.setState({
       topNumber: 100,
       shrimps: [],
+    });
+    ReactGA.event({
+      category: 'shrimp-divider',
+      action: 'reset-game',
+      value: 1,
     });
   }
 

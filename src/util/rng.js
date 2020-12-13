@@ -17,3 +17,11 @@ export function getStatusColorFromRandomInt(resultNumber, spanEnd) {
   const green = Math.round(256 * percentageOfResult);
   return `rgb(${red}, ${green}, 10)`;
 }
+
+export const getRandomItemFromArray = (itemsArray) => {
+  const max = itemsArray.length;
+  if (!max) {
+    return null;
+  }
+  return itemsArray[getRandomInt(0, max)];
+}

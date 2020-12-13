@@ -2,7 +2,7 @@ import React from 'react';
 import ShrimpObjects from './ShrimpObjects';
 
 const Shrimp = ({ shrimpNumber, leftOffset, topOffset, rotation, index }) => {
-  const shrimpSrc = ShrimpObjects[shrimpNumber];
+  const shrimpSrc = ShrimpObjects[shrimpNumber].default;
   return (
     <img 
       src={shrimpSrc} 

@@ -24,7 +24,7 @@ class Home extends React.Component {
   }
 
   createShrimpSound = () => {
-    const newShrimpSound = new Audio(shrimpSound);
+    const newShrimpSound = new Audio(shrimpSound.default);
     newShrimpSound.play();
   }
 
@@ -35,11 +35,10 @@ class Home extends React.Component {
     const topOffset = e.pageY;
     const shrimpId = Math.floor((Math.random() * SHRIMPS_ARRAY_SIZE) + 1);
     
-    // ga('send', 'event', 'shrimp', 'click', 'page body');
     ReactGA.event({
       category: 'shrimp',
       action: 'click',
-      value: 'page body',
+      value: 1,
     });
 
     const shrimpIndex = this.state.shrimps.length;

@@ -11,7 +11,7 @@ class ShrimpKeyboard extends React.Component {
 
     const keySounds = {};
     Object.keys(KeySounds).forEach(key => {
-      keySounds[key] = new Audio(KeySounds[key]);
+      keySounds[key] = new Audio(KeySounds[key].default);
     });
 
     this.keySounds = keySounds;

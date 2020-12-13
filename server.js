@@ -55,7 +55,10 @@ app.get('/get-feed', (req, res) => {
 });
 
 // to get and set games for card battle
+// app.get('/game-server/card-battle', (req, res) => {
+//   const { gameId } = req.params;
 
+// });
 
 // for all other routes, bring to index
 app.get('*', (req, res) => {
