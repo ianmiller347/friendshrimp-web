@@ -10,11 +10,18 @@ import './style.scss';
 
 export const gamesList = [
   {
+    name: 'card-battle',
+    displayName: 'Shrimps card battle',
+    path: '/games/card-battle',
+    PageComponent: ShrimpCardsBattle,
+    description: 'battle the shrimp cards together',
+  },
+  {
     name: 'shrimp-divider',
     displayName: 'Shrimp Divider',
     path: '/games/shrimp-divider',
     PageComponent: ShrimpDivider,
-    description: 'Get a lot of shrimps n dont run out of juice',
+    description: 'Shrimp divider of the shrimp juice. Get a lot of shrimps n dont run out of juice',
   },
   {
     name: 'shrimp-keyboard',
@@ -37,13 +44,6 @@ export const gamesList = [
     PageComponent: DrawShrimps,
     description: 'draw a shrimps our something',
   },
-  {
-    name: 'card-battle',
-    displayName: 'Shrimps card battle',
-    path: '/games/card-battle',
-    PageComponent: ShrimpCardsBattle,
-    description: 'battle the shrimp cards together',
-  },
 ];
 
 const Games = () => (
@@ -54,9 +54,9 @@ const Games = () => (
         {gamesList.map(({ name, displayName, path, description }) => (
           <li className="game" key={name}>
             <Link to={path} className="game__link-title">
-              {displayName} <FeatherIcon icon="play" />
+              <h5 className="title">{displayName} <FeatherIcon icon="play" /></h5>
+              <p className="game__description">{description}</p>
             </Link>
-            <p className="game__description">{description}</p>
           </li>
         ))}
       </ul>

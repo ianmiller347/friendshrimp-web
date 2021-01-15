@@ -1,52 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactGA from 'react-ga';
 import { getRandomInt, getStatusColorFromRandomInt } from '../../../util/rng';
-import ShrimpSvg from '../../../components/ShrimpSvg';
-import Egg from './Egg';
+import Shrimps from './Shrimps';
+import JuiceHit from './JuiceHit';
+
 import './style.scss';
 
-class ShrimpDivider extends React.Component {
-  constructor(props) {
-    super(props);
+/**
+ * Shrimp Divider of the Shrimp Juice Game
+ * Written by Ian Friendshrimp 🦐
+ * 
+ * You only have 100 shrimp juice
+ * You need to pull a little juice out to get the shrimps
+ * You punch the shrimp juice and take too much
+ * Get as many shrimps as you can!
+ */
+const ShrimpDivider = () => {
+  const [shrimps, setShrimps] = useState([]);
+  const bottomNumber = 0;
+  const [topNumber, setTopNumber] = useState(100);
+  const [yourRecord, setYourRecord] = useState(0);
+  const [gotALuckyShrimp, setGotLucky] = useState(false);
 
-    this.state = {
-      shrimps: [],
-      bottomNumber: 0,
-      topNumber: 100,
-      yourRecord: 0,
-    };
+  const divideShrimps = (e) => {
+    setShrimps([
+      ...shrimps,
+      {
+        name: `shrimp-${shrimps.length + 1}`
+      },
+    ]);
+
+    ReactGA.event({
+      category: 'shrimp-divider',
+      action: 'score-record',
+      value: yourRecord,
+    });
+    const chanceOfPercentageLoss = !!(getRandomInt(bottomNumber, 100) > 69);
+    const calcBottom = topNumber > 50 ? 10 : bottomNumber;
+    setGotLucky(chanceOfPercentageLoss);
+    const amountOfJuiceLeft = chanceOfPercentageLoss ? 
+      topNumber - Math.floor(topNumber / 10)
+      : getRandomInt(calcBottom, topNumber);
+    setTopNumber(amountOfJuiceLeft);
+    if (shrimps.length + 1 > yourRecord) {
+      setYourRecord(shrimps.length);
+    }
   }
 
-  divideShrimps = (e) => {
-    this.setState(prevState => {
-      const shrimps = [
-        ...prevState.shrimps,
-        {
-          name: `shrimp-${prevState.shrimps.length + 1}`
-        },
-      ];
-      const yourRecord = prevState.shrimps.length + 1 > prevState.yourRecord ? 
-        prevState.shrimps.length + 1 : prevState.yourRecord;
-
-      ReactGA.event({
-        category: 'shrimp-divider',
-        action: 'score-record',
-        value: yourRecord,
-      });
-      return {
-        topNumber: getRandomInt(prevState.bottomNumber, prevState.topNumber),
-        shrimps,
-        yourRecord,
-      };
-    });
-
-  }
-
-  resetGame = (e) => {
-    this.setState({
-      topNumber: 100,
-      shrimps: [],
-    });
+  const resetGame = (e) => {
+    setTopNumber(100);
+    setShrimps([]);
     ReactGA.event({
       category: 'shrimp-divider',
       action: 'reset-game',
@@ -54,99 +57,68 @@ class ShrimpDivider extends React.Component {
     });
   }
 
-  render() {
-    const {
-      topNumber,
-      shrimps,
-      yourRecord,
-    } = this.state;
+  const currentStatusColor = getStatusColorFromRandomInt(topNumber, 100);
+  const topGradient = `#a70e0e 100%`;
+  const middleGradient = `${currentStatusColor} ${Math.ceil(topNumber)}%`;
+  const linearGradient = `linear-gradient(90deg, rgb(34,180,0) 0%, ${middleGradient}, ${topGradient})`;
 
-    const currentStatusColor = getStatusColorFromRandomInt(topNumber, 100);
-    const topGradient = `#a70e0e 100%`;
-    const middleGradient = `${currentStatusColor} ${Math.ceil(topNumber)}%`;
-    const linearGradient = `linear-gradient(90deg, rgb(34,180,0) 0%, ${middleGradient}, ${topGradient})`;
+  const juiceBarStyle = {
+    backgroundColor: currentStatusColor,
+    color: topNumber > 50 ? 'black' : 'white',
+    background: topNumber > 0 ? linearGradient : 'black',
+  };
 
-    const juiceBarStyle = {
-      backgroundColor: currentStatusColor,
-      color: topNumber > 50 ? 'black' : 'white',
-      background: topNumber > 0 ? linearGradient : 'black',
-    };
+  const isNewRecord = topNumber === 0 && yourRecord === shrimps.length;
 
-    const isNewRecord = topNumber === 0 && yourRecord === shrimps.length;
-
-    return (
-      <div className="shrimp-divider">
-        <div className="explanation-container">
-          <h2>How many shrimps can u get?</h2>
-          <p>Hit the juice to get more shrimps. Get as many shrimps as u can till u get the goose egg.</p>
-          {this.renderJuiceHit(topNumber)}
-        </div>
-        <div className="results-container">
-          <div className="remaining-juice">
-            <div className="juice-bar" style={juiceBarStyle}>
-                Shrimp juice remaining: {topNumber}
-            </div>
-          </div>
-          <div className="shrimps-container">
-            {this.renderShrimps(shrimps, currentStatusColor)}
-          </div>
-          <div className="shrimp-count">
-            You got {shrimps.length} shrimps
-          </div>
-          <div className={`record-container ${isNewRecord ? 'new-record' : ''}`}>
-            {yourRecord > 0 && 
-              <>
-                {isNewRecord && <p>New record!</p>}
-                <span>Your record: </span>
-                <strong>{yourRecord} shrimps</strong>
-              </>
-            }
-          </div>
-        </div>
-        <div className="buttons-container">
+  return (
+    <div className="shrimp-divider">
+      <div className="explanation-container">
+        <h2>How many shrimps can u get?</h2>
+        <p className="description">Hit the juice to get more shrimps. <br/> Get as many shrimps as u can.</p>
+        <JuiceHit topNumber={topNumber} />
+      </div>
+      <div className="buttons-container">
+        {topNumber !== 0 && (
           <button 
             className="button get-juice" 
-            onClick={(e) => this.divideShrimps(e)}
+            onClick={(e) => divideShrimps(e)}
             disabled={topNumber === 0}>
             hit the juice
           </button>
-          {
-            topNumber === 0 && <button className="button reset" onClick={this.resetGame}>Restart</button>
+        )}
+        {
+          topNumber === 0 && <button className="button reset" onClick={resetGame}>Restart</button>
+        }
+      </div>
+      <div className="results-container">
+        <div className="remaining-juice">
+          <div className="juice-bar" style={juiceBarStyle}>
+            Shrimp juice remaining: {topNumber}
+          </div>
+        </div>
+        {gotALuckyShrimp && (
+          <div className="lucky-shrimp">
+            You squeezed out a lucky shrimp that time!
+          </div>
+        )}
+        <div className="shrimps-container">
+          <Shrimps shrimps={shrimps} currentStatusColor={currentStatusColor} />
+        </div>
+        <div className="shrimp-count">
+          You got {shrimps.length} shrimps
+        </div>
+        <div className={`record-container ${isNewRecord ? 'new-record' : ''}`}>
+          {yourRecord > 0 && 
+            <>
+              {isNewRecord && <p>New record!</p>}
+              <span>Your record: </span>
+              <strong>{yourRecord} shrimps</strong>
+            </>
           }
         </div>
       </div>
-    );
-  }
-
-  renderJuiceHit(topNumber) {
-    if (topNumber === 0) {
-      return (
-        <div>
-          <div><Egg size={69} /></div>
-          <p className="hit-status">You hit the goose egg! You are all out of shrimp juice :(</p>
-        </div>
-      )
-    }
-
-    if (topNumber < 100) {
-      return <p>You hit {100 - topNumber} shrimp juice :o</p>
-    }
-    return null;
-  }
-
-  renderShrimps(shrimps, currentStatusColor) {
-    return (
-      <>
-        {
-          shrimps.map(shrimp => (
-            <div className="shrimp" key={shrimp.name}>
-              <ShrimpSvg size={50} fill={currentStatusColor} />
-            </div>
-          ))
-        }
-      </>
-    )
-  }
-}
+    </div>
+  );
+};
 
 export default ShrimpDivider;

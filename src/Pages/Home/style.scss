@@ -1,0 +1,57 @@
+.friendshrimp-landing {
+  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation;
+  display: flex;
+  flex-direction: column;
+  /* these two lines prevent them from cool bug/feature of adding more shrimp to extendo the view :((
+    hopefully can figure out how to put the bg img on html tag then this wont matter */
+  position: relative;
+  overflow: hidden;
+
+  main {
+    flex-grow: 1;
+  }
+}
+
+.we-shrimpin {
+  z-index: 4206969420;
+  animation: goAllOver 7s 2 backwards, fadeToNone 19s 1 forwards;
+}
+
+@keyframes goAllOver {
+  0% {
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
+
+  25% {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+
+  50% {
+    position: absolute;
+    top: 0;
+    left: 50%;
+  }
+
+
+  100% {
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+}
+
+@keyframes fadeToNone {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

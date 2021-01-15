@@ -60,6 +60,11 @@ app.get('/get-feed', (req, res) => {
 
 // });
 
+// to get hi scores list
+// app.get('/get-hiscores', (req, res) => {
+//   const { game } = req.query;
+// })
+
 // for all other routes, bring to index
 app.get('*', (req, res) => {
   res.sendFile(`${__dirname}/build/index.html`);

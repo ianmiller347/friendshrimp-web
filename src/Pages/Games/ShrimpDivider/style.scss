@@ -7,6 +7,15 @@
   width: 1200px;
   max-width: calc(100% - 4rem);
   margin: 0 auto;
+
+  .description {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 720px) {
+    padding: .5rem;
+    max-width: calc(100% - 2rem);
+  }
 }
 
 .hit-status {
@@ -17,6 +26,7 @@
 
 .shrimps-container {
   display: flex;
+  flex-wrap: wrap;
   width: 500px;
   max-width: calc(100% - 2rem);
   margin: 0 auto;
