@@ -23,18 +23,6 @@ const ShrimpDivider = () => {
   const [gotALuckyShrimp, setGotLucky] = useState(false);
 
   const divideShrimps = (e) => {
-    setShrimps([
-      ...shrimps,
-      {
-        name: `shrimp-${shrimps.length + 1}`
-      },
-    ]);
-
-    ReactGA.event({
-      category: 'shrimp-divider',
-      action: 'score-record',
-      value: yourRecord,
-    });
     const chanceOfPercentageLoss = !!(getRandomInt(bottomNumber, 100) > 69);
     const calcBottom = topNumber > 50 ? 10 : bottomNumber;
     setGotLucky(chanceOfPercentageLoss);
@@ -42,8 +30,21 @@ const ShrimpDivider = () => {
       topNumber - Math.floor(topNumber / 10)
       : getRandomInt(calcBottom, topNumber);
     setTopNumber(amountOfJuiceLeft);
-    if (shrimps.length + 1 > yourRecord) {
-      setYourRecord(shrimps.length);
+    const newShrimps = [
+      ...shrimps,
+      {
+        name: `shrimp-${shrimps.length + 1}`,
+        isLucky: chanceOfPercentageLoss,
+      },
+    ];
+    setShrimps(newShrimps);
+    if (newShrimps.length > yourRecord) {
+      setYourRecord(newShrimps.length);
+      ReactGA.event({
+        category: 'shrimp-divider',
+        action: 'score-record',
+        value: yourRecord,
+      });
     }
   }
 
@@ -64,11 +65,13 @@ const ShrimpDivider = () => {
 
   const juiceBarStyle = {
     backgroundColor: currentStatusColor,
+    border: `1px solid ${currentStatusColor}`,
     color: topNumber > 50 ? 'black' : 'white',
     background: topNumber > 0 ? linearGradient : 'black',
   };
 
   const isNewRecord = topNumber === 0 && yourRecord === shrimps.length;
+  const luckyShrimps = shrimps.filter(s => !!s.isLucky);
 
   return (
     <div className="shrimp-divider">
@@ -105,7 +108,8 @@ const ShrimpDivider = () => {
           <Shrimps shrimps={shrimps} currentStatusColor={currentStatusColor} />
         </div>
         <div className="shrimp-count">
-          You got {shrimps.length} shrimps
+          <span>You got {shrimps.length} shrimps total</span>
+          <span> and {luckyShrimps.length} lucky shrimps</span>
         </div>
         <div className={`record-container ${isNewRecord ? 'new-record' : ''}`}>
           {yourRecord > 0 && 

@@ -60,6 +60,7 @@
     border-radius: 3px;
     position: relative;
     padding: .5rem 1rem;
+    transition: all 2s;
   }
 }
 
@@ -79,7 +80,7 @@
     }
 
     &.reset {
-      background-color: gray;
+      background-color: #e00000;
       color: white;
     }
 
