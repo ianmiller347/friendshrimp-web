@@ -9435,6 +9435,11 @@ react-sound@^1.2.0:
     prop-types "^15.5.7"
     soundmanager2 "^2.97.20170602"
 
+react-twitch-embed@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-twitch-embed/-/react-twitch-embed-2.1.0.tgz#2bba8b50822acb827f3ab6251acca2a9b22bcdba"
+  integrity sha512-CtyuZxNs7YFYw5ZOHYYbqEbuukmHF6Lx6709w3BfxUtCAR2B5Oy2CTKNf0FIJAgISSWDXWMSC7jX+8u/XHHq3w==
+
 react@^16.12.0:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
