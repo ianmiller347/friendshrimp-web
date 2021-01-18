@@ -40,7 +40,8 @@ const routes = [
     path: '/games/card-battle/friend',
     PageComponent: CardBattleFriends,
   },
-].concat(gamesList);
+  ...gamesList,
+];
 
 // why wont this work for the Header links
 export const pageLinks = routes.map(({ path, displayName }) => ({
