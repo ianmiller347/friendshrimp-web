@@ -6,9 +6,10 @@ import Footer from '../../components/Layout/Footer';
 import Header from '../../components/Layout/Header';
 import { getRandomInt } from '../../util/rng';
 import Main from './Main';
+import ShrimpObjects from '../../components/Shrimp/ShrimpObjects';
 import './style.scss';
 
-const SHRIMPS_ARRAY_SIZE = 11;
+const SHRIMPS_ARRAY_SIZE = ShrimpObjects.shrimpCount;
 
 const Home = () => {
   const [shrimps, setShrimps] = useState([]);
