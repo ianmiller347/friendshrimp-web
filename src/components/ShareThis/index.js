@@ -41,7 +41,7 @@ const ShareThis = ({ currentRoute }) => {
         title="Share this site to your friends"
         className="sharethis__toggle" 
         onClick={e => toggleList(stopAndSet(e, showingList))}>
-        <FeatherIcon size={16} icon="share" />
+        <FeatherIcon size={12} icon="share" />
       </button>
       {showingList &&
         <div className="sharethis__dropdown">

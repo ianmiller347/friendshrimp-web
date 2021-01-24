@@ -24,6 +24,13 @@ export const gamesList = [
     description: 'Shrimp divider of the shrimp juice. Get a lot of shrimps n dont run out of juice',
   },
   {
+    name: 'draw-shrimps',
+    displayName: 'Draw shrimps',
+    path: '/games/draw-shrimps',
+    PageComponent: DrawShrimps,
+    description: 'draw a shrimps our something',
+  },
+  {
     name: 'shrimp-keyboard',
     displayName: 'Shrimp Keyboard',
     path: '/games/shrimp-keyboard',
@@ -36,13 +43,6 @@ export const gamesList = [
     path: '/games/friendshrimp-photo-maker',
     PageComponent: FriendshrimpPhotoMaker,
     description: 'shrimps can make photos too',
-  },
-  {
-    name: 'draw-shrimps',
-    displayName: 'Draw shrimps',
-    path: '/games/draw-shrimps',
-    PageComponent: DrawShrimps,
-    description: 'draw a shrimps our something',
   },
 ];
 

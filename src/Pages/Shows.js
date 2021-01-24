@@ -1,5 +1,5 @@
 import React from 'react';
-import { TwitchEmbed, TwitchChat } from 'react-twitch-embed';
+import { TwitchEmbed } from 'react-twitch-embed';
 
 const Shows = () => {
   return (
@@ -11,7 +11,7 @@ const Shows = () => {
           src="https://open.spotify.com/embed/track/3fYSFITHV36HCLexVWaUJd"
           width="300"
           height="380"
-          frameborder="0"
+          frameBorder="0"
           allowtransparency="true"
           allow="encrypted-media"
         />

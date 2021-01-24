@@ -1,14 +1,27 @@
 import React from 'react';
 import { shrimpDrawingBodyPath, shrimpDrawingEyePath } from './shrimpDrawingParts';
+import { getRandomInt } from '../../../util/rng';
 
 const ShrimpDrawing = ({ text, size, color }) => {
+  const isValue69 = () => !!(getRandomInt(40,80) === 69);
+  const willSwimAround = () => getRandomInt(1,10) === 5;
+  const shrimpClass = () => {
+    if (willSwimAround()) {
+      return 'swimmer';
+    }
+    if (isValue69() && !willSwimAround()) {
+      return 'not-dancing';
+    }
+    return '';
+  }
+  
   return (
-    <div className="shrimp-drawing">
-      <svg 
-        version="1.1" 
-        xmlns="http://www.w3.org/2000/svg" 
-        x="0" 
-        y="0" 
+    <div className={`shrimp-drawing ${shrimpClass()}`}>
+      <svg
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        x="0"
+        y="0"
         viewBox="0 0 500 500"
         fill={color || '#666'}
         width={size || 250}

@@ -1,73 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import FeedList from './FeedList';
 import './style.scss';
 
-class Feed extends React.Component {
-  state = {
-    feedItems: [],
-    isLoading: false,
-  }
+const Feed = () => {
+  const [feedItems, setFeedItems] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  componentDidMount() {
-    this.setState({ isLoading: true });
+  useEffect(() => {
+    setLoading(true);
     fetch(`https://www.friendshrimp.com/get-feed`)
       .then(response => response.json())
       .then(data => {
-        this.setState({ isLoading: false, feedItems: data.items });
+        setLoading(false);
+        setFeedItems(data.items);
       })
       .catch(error => {
-        this.setState({ isLoading: false, errorMessage: 'Problem fetching friendshrimp feed :('})
+        setLoading(false);
+        setErrorMessage('Problem fetching friendshrimp feed :(');
+        console.log(error);
       });
-  }
+  }, []);
 
-  render() {
-    return (
-      <div className="friendshrimp-feed"> 
-        <h2>so what is new</h2>
-        {this.renderFeed()}
-      </div>
-    );
-  }
+  console.log('isLoading', isLoading)
+  console.log('feedItems', feedItems)
 
-  renderFeed() {
-    const {
-      isLoading,
-      errorMessage,
-      feedItems,
-    } = this.state;
-
-    if (isLoading) {
-      return (
-        <div className="loader">
-          Refreshing friendshrimp feed...
-        </div>
-      );
-    }
-
-    if (errorMessage) {
-      return (
-        <div className="error error-container">
-          {errorMessage}
-        </div>
-      );
-    }
-
-    if (feedItems) {
-      return (
-        <ul className="feed__list">
-          {feedItems.map(item => (
-            <li className="feed__item" key={item.id}>
-              <h3 className="item__title">{item.title}</h3>
-              <div 
-                className="item__content text-content"
-                dangerouslySetInnerHTML={{ __html: item.content }} />
-            </li>
-          ))}
-        </ul>
-      );
-    }
-
-    return null;
-  }
+  return (
+    <div className="friendshrimp-feed"> 
+      <h2>so what is new</h2>
+      <FeedList isLoading={isLoading} errorMessage={errorMessage} feedItems={feedItems} />
+    </div>
+  );
 }
 
 export default Feed;

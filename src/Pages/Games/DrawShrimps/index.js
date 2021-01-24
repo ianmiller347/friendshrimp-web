@@ -15,12 +15,14 @@ const colorChoices = [
   'cyan',
   '#222',
   'orange',
+  'blue',
+  'brown',
 ];
 
 const produceShrimp = (currentShrimps, nameInput) => {
   const newShrimp = {
     text: nameInput,
-    size: getRandomInt(50,400),
+    size: getRandomInt(40,250),
     color: getRandomItemFromArray(colorChoices),
   };
   ReactGA.event({

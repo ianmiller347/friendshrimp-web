@@ -16,6 +16,7 @@
   transition: .5s all;
   animation-name: riseAndSlump;
   animation-duration: 3s;
+  animation-delay: 2s;
   animation-fill-mode: backwards;
   animation-direction: alternate-reverse;
   animation-iteration-count: infinite;
@@ -42,9 +43,9 @@
 
 @keyframes riseAndSlump {
   from {
-    height: 2rem;
+    height: 1.75rem;
   }
   to {
-    height: .25rem;
+    height: .5rem;
   }
 }
