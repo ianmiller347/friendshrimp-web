@@ -19,6 +19,7 @@ const colorChoices = [
   'brown',
 ];
 
+// returns an array of shrimps
 const produceShrimp = (currentShrimps, nameInput) => {
   const newShrimp = {
     text: nameInput,
