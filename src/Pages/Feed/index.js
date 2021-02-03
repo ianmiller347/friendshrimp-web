@@ -22,9 +22,6 @@ const Feed = () => {
       });
   }, []);
 
-  console.log('isLoading', isLoading)
-  console.log('feedItems', feedItems)
-
   return (
     <div className="friendshrimp-feed"> 
       <h2>so what is new</h2>
