@@ -11,7 +11,7 @@ const Game = ({ id }) => {
   //   <CardBattle deck={deck} />
   // );
 
-  return <div></div>;
+  return <div>No card battle vs. friends just yet... But soon!!!</div>;
 }
 
 export default Game;

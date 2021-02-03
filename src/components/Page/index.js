@@ -32,6 +32,7 @@ class Page extends React.Component {
           <meta property="og:type" content="website" />
           <meta property="og:title" content={`${displayName} | Friendshrimp. (for friends :)`} />
           <meta property="og:description" content={`${displayName} on FRIENDSHRIMP. ${siteDescription}`} />
+          <meta name="description" content={`${displayName} on FRIENDSHRIMP. ${siteDescription}`} />
         </Helmet>
         <Header />
         <main className={`page--${name}`} {...otherProps}>

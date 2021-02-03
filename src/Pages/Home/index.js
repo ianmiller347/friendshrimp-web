@@ -7,6 +7,7 @@ import Header from '../../components/Layout/Header';
 import { getRandomInt } from '../../util/rng';
 import Main from './Main';
 import ShrimpObjects from '../../components/Shrimp/ShrimpObjects';
+import ShrimpCredits from './ShrimpCredits';
 import './style.scss';
 
 const SHRIMPS_ARRAY_SIZE = ShrimpObjects.shrimpCount;
@@ -84,10 +85,15 @@ const Home = () => {
           property="og:description" 
           content={`Click or tap anywhere for some shrimps to join your party :) ${siteDescription}`} 
         />
+        <meta 
+          name="description" 
+          content={`Friendshrimps! Click or tap anywhere for some shrimps to join your party :) ${siteDescription}`} 
+        />
       </Helmet>
       <Header />
       <Main shrimps={shrimps} weShrimpin={weShrimpin} />
       <Footer currentRoute={pathname} />
+      <ShrimpCredits />
     </div>
   );
 }

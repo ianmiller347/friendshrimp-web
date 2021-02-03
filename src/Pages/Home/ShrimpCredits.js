@@ -1,32 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta property="og:image" content="%PUBLIC_URL%/friendshrimp-logo.png" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no"
-    />
-    <meta name="theme-color" content="#000000" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Friendshrimp. (for friends) [just friends]</title>
-  </head>
-  <body>
-    <noscript>
-      Friendshrimp is a place for friends and also for shrimps too 
-      if you think about it...
-      but those friendshrimps are ones that also need javascript to run lol
-    </noscript>
-    <div id="shrimp-root"></div>
-    <!--
+import React from 'react';
+
+const creditHtmlComment = `
+<!--
       FRIENDSHRIMP concept by Ian Miller
       Original website (homepage) written by Jeremy Stewart
       Ported to React and modified by Ian Miller
 
       
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　＿　　　 ＿
-　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　,===x'￣＼ 　 /　 `　 ／　 ヽ
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　,===x'￣＼ 　 /　 \`　 ／　 ヽ
 　　　　　　　　　　　　　　　　　　　　　　　　　　＿,─'￣　 // ~.|　 |　/　　　／
 　　　　　　　　　　　　　　　　　　　　　＿,─'￣ 　 _ ./i.| .//　／ ／l//_　ｒ-┴─x,,,
 　　　　　　　　　　　　　　　　＿,─'￣　　　　　　/i.| |_|.| |.| _/::: //　r-'￣──,,,___＼
@@ -36,7 +18,7 @@
 　　　　　　　　　　　　　　　　　　　　　 _＿|.|__| |　／　　　　　　　　　　／／￣~x──,,＼=-
 　　　　　　　　　　　　　　　　　　　 　 /r-─t | |/　　　　　　　　　　　//＿二二''""i~~ 　 ＼
 　　　　　　　　　　　　　　　　　　　　//　　　 |.|/　 -,,　　　　　　　　:　　　　＿／￣ 　　 　　|
-　　　　　　　　　　　　　　　　 　 　／　　　　／￣＼ ~`ヽ　　　　　 ／￣￣　　　　　　　　 　 |
+　　　　　　　　　　　　　　　　 　 　／　　　　／￣＼ ~\`ヽ　　　　　 ／￣￣　　　　　　　　 　 |
 　　　　　　　　　　　　　　　　　　　　　 　 ／￣~＼ ヽヽ　ヽ　　　／　　　　　　　　　　　　　　 |
 　　　　　　　　　　　　　　　　　　　　 　／￣~＼ 　ヽ l .ヽ_　_,,,／　　　　　　　　　　　　　　　　|
 　　　　　　　　　　　　　　　　　　　　／￣~＼　 ヽ　 | .／:~'''-──e.　　　　　　　　　　　　　 |
@@ -50,6 +32,11 @@
 　　　　　　　　　　　 ヽ,,,x,,_　　　/　　ノ　ヽ
 　　　　　　　　　　　　　　　＼,,　　　　　　 |
 　　　　　　　　　　　　　　　　　~''-─-─-
-       -->
-  </body>
-</html>
+ -->
+`;
+
+const ShrimpCredits = () => (
+  <section className="credits" dangerouslySetInnerHTML={{ __html: creditHtmlComment }}/>
+);
+
+export default ShrimpCredits;
