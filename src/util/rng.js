@@ -25,3 +25,16 @@ export const getRandomItemFromArray = (itemsArray) => {
   }
   return itemsArray[getRandomInt(0, max)];
 }
+
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+export const getRandomLetter = () => {
+  const alphabetLength = alphabet.length;
+  return alphabet.charAt(Math.floor(Math.random() * alphabetLength));
+};
+
+// get a random combo of 4 letters
+export const getRandom4LetterWord = () => {
+  // so we need to get 4 letter word
+  return `${getRandomLetter()}${getRandomLetter()}${getRandomLetter()}${getRandomLetter()}`;
+};

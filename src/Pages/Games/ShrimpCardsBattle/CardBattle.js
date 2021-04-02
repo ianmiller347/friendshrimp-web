@@ -1,24 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactGA from 'react-ga';
-import { getRandomInt } from '../../../util/rng';
+import { drawCard, getCardDisplay, getNewCards } from './gameUtilities';
 import ShrimpCard from '../../../components/ShrimpCard';
-
-const drawCard = (array) => array[getRandomInt(0, array.length)];
-const getCardDisplay = (card) => `${card.name} of ${card.suite.name}`;
-const cardMatches = (card1, card2) => card1.name === card2.name 
-  && card1.suite.name === card2.suite.name;
-
-const getNewCards = (didWin, oldCards, cardDrawn, otherCardDrawn) => {
-  // if u win u get other card drawn
-  if (didWin) {
-    return [
-      ...oldCards,
-      otherCardDrawn,
-    ];
-  }
-  // if u lose u lose card drawn
-  return oldCards.filter(card => !cardMatches(cardDrawn, card));
-};
 
 const player2Draw = (
   player1Cards, 
@@ -38,6 +21,7 @@ const player2Draw = (
   // now after a timeout, display a card that player 1 just drew
   const cardDrawn1 = drawCard(player1Cards);
   setTimeout(() => setDisplay1(cardDrawn1), 600);
+
   // now calculate the outcome
   const isBattle = cardDrawn1.count === cardDrawn2.count;
   if (isBattle) {
