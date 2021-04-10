@@ -16,7 +16,7 @@ const SOCIAL_LINKS = [
     description: 'Friendshrimp of Instagram',
   },
   {
-    url: 'http://twitter.com/friendshrimpa',
+    url: 'http://twitter.com/friendshrimps',
     name: 'twitter',
     displayName: 'Twitter',
     description: 'Twitter. Follow us and make a shrimpy boys more popular lol i promise i have friends',
