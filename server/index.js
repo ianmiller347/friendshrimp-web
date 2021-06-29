@@ -14,7 +14,7 @@ const app = express();
 app.use(sslRedirect());
 app.use(express.json());
 
-const buildDir = path.join(__dirname,'build');
+const buildDir = path.join(__dirname, '../build');
 app.use(express.static(buildDir));
 
 app.use(cors());
