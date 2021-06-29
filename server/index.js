@@ -4,7 +4,7 @@ import cors from 'cors';
 import fetch from 'node-fetch';
 import * as socketIO from 'socket.io';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import path, { dirname } from 'path';
 import { handleGame } from './game';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -14,7 +14,7 @@ const app = express();
 app.use(sslRedirect());
 app.use(express.json());
 
-const buildDir = __dirname + '../build/';
+const buildDir = path.join(__dirname,'build');
 app.use(express.static(buildDir));
 
 app.use(cors());
@@ -94,5 +94,5 @@ app.get('/get-feed', (req, res) => {
 
 // for all other routes, bring to index
 app.get('*', (req, res) => {
-  res.sendFile(`${buildDir}/index.html`);
+  res.sendFile(path.resolve(`build/index.html`));
 });
