@@ -6,10 +6,30 @@
   margin-bottom: 1rem;
 }
 
+.margin-s {
+  margin: 1rem;
+}
+
 .text-center {
   text-align: center;
 }
 
 .margin-center {
   margin: 0 auto;
+}
+
+.list-style-none {
+  list-style: none;
+}
+
+.flex-direction-column {
+  flex-direction: column;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.flex-wrap {
+  flex-flow: wrap;
 }

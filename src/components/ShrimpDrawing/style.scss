@@ -1,0 +1,76 @@
+.shrimp-drawing {
+  display: inline-block;
+  animation-name: growAndShrink;
+  animation-duration: 1.5s;
+  animation-delay: .2s;
+  animation-direction: alternate-reverse;
+  animation-iteration-count: infinite;
+
+  &__name {
+    font-size: 2.5rem;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  &:nth-child(2n) {
+    animation-delay: .5s;
+  }
+
+  &:nth-child(3n) {
+    animation-duration: .75s;
+  }
+
+  &:nth-child(4n) {
+    animation-delay: 0;
+    animation-name: spin;
+    animation-duration: 2.5s;
+    animation-direction: normal;
+    animation-timing-function: linear;
+  }
+
+  &.not-dancing {
+    animation: none;
+  }
+
+  &.swimmer {
+    animation-name: swimAround;
+    animation-direction: normal;
+  }
+}
+
+@keyframes growAndShrink {
+  from {
+    transform: scale(1) rotate(-25deg);
+  }
+
+  to {
+    transform: scale(1.2) rotate(25deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes swimAround {
+  0% {
+    transform: translate(0, 0) rotateY(0);
+  }
+  25% {
+    transform: translate(50%, 0) rotateY(0);
+  }
+  50% {
+    transform: translate(100%, 0) rotateY(180deg);
+  }
+  75% {
+    transform: translate(50%, 0) rotateY(180deg);
+  }
+  100% {
+    transform: translate(0, 0) rotateY(180deg);
+  }
+}

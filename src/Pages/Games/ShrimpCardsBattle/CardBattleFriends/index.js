@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import socketIOClient from 'socket.io-client';
+import {
+  initiateSocket,
+  subscribeToGameState,
+  subscribeToNewGameCreation,
+  subscribeToJoinGame,
+  newPlayerJoin,
+  createNewGame,
+  joinExistingGameById,
+  disconnectSocket,
+} from '../../utilities/socketio';
 import { getShuffledDeck } from '../deckOfCards';
 import { getRandom4LetterWord } from '../../../../util/rng';
 import Game from './Game';
 
 const INIT_GAME_TEXT = 'Draw a card to begin';
-
-let socket;
-const ENDPOINT = window.location.hostname !== 'localhost' 
-  ? 'https://friendshrimp.com'
-  : 'http://localhost:8080';
-
-const initiateSocket = () => {
-  socket = socketIOClient(ENDPOINT);
-};
 
 const CardBattleFriends = () => {
   const [gameId, setGameId] = useState('');
@@ -26,21 +26,37 @@ const CardBattleFriends = () => {
   useEffect(() => {
     initiateSocket();
 
-    socket.on('gameState', data => {
-      setPlayerList(Object.keys(data.playerMap).map(key => data.playerMap[key]));
+    subscribeToGameState((data) => {
+      console.log('gameState is it', data);
+      setPlayerList(
+        Object.keys(data.playerMap).map((key) => data.playerMap[key])
+      );
       setGameState(data);
     });
 
-    return () => socket.disconnect();
+    subscribeToNewGameCreation((data) => {
+      console.log('new game created. lego.', data);
+      // todo match by id lol
+      // setGameOn(true);
+    });
+
+    subscribeToJoinGame((data) => {
+      console.log('Another player joined!', data);
+    });
+
+    return () => disconnectSocket();
   }, []);
 
-  const addPlayer = () => {
-    socket.emit('newPlayer', {
-      name: userName,
-    });
+  const addPlayer = (name) => {
+    const newPlayerData = {
+      name,
+    };
+
+    newPlayerJoin(newPlayerData);
+    // setPlayerList([...playerList, newPlayerData]);
   }
 
-  const createNewGame = () => {
+  const createGame = () => {
     // generate an ID
     const newId = getRandom4LetterWord();
     // generate a new deck o cards
@@ -48,7 +64,7 @@ const CardBattleFriends = () => {
     const deckFirstHalf = newDeck.slice(0, 26);
     const deckSecondHalf = newDeck.slice(26, newDeck.length);
     // send it to server along with userName
-    socket.emit('newGame', {
+    createNewGame({
       gameId: newId,
       playerName: userName,
       gameName: 'CardBattle',
@@ -67,12 +83,12 @@ const CardBattleFriends = () => {
     // now go to that new game
     setGameId(newId);
     setGameOn(true);
-  }
+  };
 
   const joinGame = () => {
     // send game id to server
-    if (socket && gameId) {
-      socket.emit('joinGame', {
+    if (gameId) {
+      joinExistingGameById({
         gameId,
         playerName: userName,
       });
@@ -85,52 +101,76 @@ const CardBattleFriends = () => {
   }
 
   if (gameOn) {
-    return <Game id={gameId} gameState={gameState} player1Name={userName} />
+    return (
+      <div>
+        <Game id={gameId} gameState={gameState} player1Name={userName} />
+        <dd>
+          <em>Your name is {userName}</em>
+        </dd>
+      </div>
+    );
   };
 
   return (
-    <div className="card-battle-friends">
+    <div className="card-battle-friends shrimp-cards-container">
       <div>
-        Players
+        Players in lobby
         <ul className="list-style-none display-flex">
-          {playerList.map(player => (
-            <li key={player.id}>{player.displayName}</li>
+          {playerList.map((player) => (
+            <li className="margin-s pill" key={player.id}>
+              {player.displayName}
+            </li>
           ))}
         </ul>
       </div>
-      <div>
+      <div className="margin-bottom-s">
         <h5>Enter a name for yourself</h5>
-        {userName?.toLowerCase() === 'david' && <strong>No davids allowed!</strong>}
+        {userName?.toLowerCase() === 'david' && (
+          <p className="error"><strong>No davids allowed!</strong></p>
+        )}
+        {userName?.toLowerCase() === 'steven' && (
+          <p className="error"><strong>OMG Steven 😤</strong></p>
+        )}
         <input
           type="text"
           value={userName}
           maxLength={16}
-          onChange={e => setUserName(e.target.value)}
+          onChange={(e) => {
+            setUserName(e.target.value);
+            addPlayer(e.target.value);
+          }}
+          className={userName?.toLowerCase() === 'david' ? 'error' : 'main-input'}
           placeholder="Your name"
         />
       </div>
-      <button
-        className="button"
-        onClick={() => addPlayer()}
-      >
-        Add my name
-      </button>
-      <button
-        className="button"
-        onClick={() => createNewGame()}
-      >
-        Create a game
-      </button>
-      <div>
-        <input 
-          type="text"
-          value={gameId}
-          onChange={e => setGameId(e.target.value)}
-          placeholder="Enter game id"
-        />
-        <button className="button" onClick={() => joinGame()}>
-          Join a game
+      <p>Multiplayer is unavailable right now :(</p>
+      <div className="display-flex flex-direction-column align-items-center">
+        <button
+          className="button"
+          title="create a new game room"
+          onClick={() => createGame()}
+          disabled
+        >
+          Create a game
         </button>
+        <dd className="margin-s">Or</dd>
+        <div>
+          <input
+            type="text"
+            className="input-with-side-submit"
+            value={gameId}
+            onChange={(e) => setGameId(e.target.value)}
+            placeholder="Enter game id"
+          />
+          <button
+            className="button button--side-submit"
+            title="join a game by id"
+            onClick={() => joinGame()}
+            disabled
+          >
+            Join a game
+          </button>
+        </div>
       </div>
     </div>
   );

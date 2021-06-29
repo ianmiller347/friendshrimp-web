@@ -1,6 +1,7 @@
 import React from 'react';
 import { shrimpDrawingBodyPath, shrimpDrawingEyePath } from './shrimpDrawingParts';
-import { getRandomInt } from '../../../util/rng';
+import { getRandomInt } from '../../util/rng';
+import './style.scss';
 
 const ShrimpDrawing = ({ text, size, color }) => {
   const isValue69 = () => !!(getRandomInt(40,80) === 69);

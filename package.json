@@ -26,8 +26,8 @@
     "ws": "^7.2.3"
   },
   "scripts": {
-    "startDev": "react-scripts start",
-    "start": "node server.js",
+    "start-client": "react-scripts start",
+    "start": "node --experimental-specifier-resolution=node server/index.js",
     "serverCors": "NODE_ENV=development npm run start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -47,5 +47,6 @@
   ],
   "devDependencies": {
     "babel-eslint": "^10.1.0"
-  }
+  },
+  "type": "module"
 }

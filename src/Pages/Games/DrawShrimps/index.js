@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactGA from 'react-ga';
 import { getRandomInt, getRandomItemFromArray } from '../../../util/rng';
-import ShrimpDrawing from './ShrimpDrawing';
+import ShrimpDrawing from '../../../components/ShrimpDrawing';
 import './style.scss';
 
 const ENTER_KEY = 'Enter';
@@ -38,7 +38,7 @@ const produceShrimp = (currentShrimps, nameInput) => {
     ];
   }
   return [newShrimp];
-}
+};
 
 const onSubmit = (shrimps, setShrimps, nameInput, setNameInput) => {
   setShrimps(produceShrimp(shrimps, nameInput));

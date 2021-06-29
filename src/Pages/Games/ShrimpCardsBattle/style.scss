@@ -6,6 +6,29 @@
     border-radius: 4.20rem;
     box-shadow: 0 0 6px #999;
     cursor: pointer;
+
+    &--side-submit {
+      border-radius: 0 4.20rem 4.20rem 0;
+    }
+  }
+
+  .pill {
+    background: cyan;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: .5rem 2rem;
+    border-radius: 4.20rem;
+    box-shadow: 0 0 6px #333;
+  }
+
+  .main-input {
+    font-size: 2rem;
+  }
+
+  .input-with-side-submit {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    text-align: center;
   }
 
   .card-battle {

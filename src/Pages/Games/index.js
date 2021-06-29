@@ -6,9 +6,17 @@ import ShrimpKeyboard from './ShrimpKeyboard';
 import FriendshrimpPhotoMaker from './FriendshrimpPhotoMaker';
 import DrawShrimps from './DrawShrimps';
 import ShrimpCardsBattle from './ShrimpCardsBattle';
+import MultiShrimpLobby from './MultishrimpLobby';
 import './style.scss';
 
 export const gamesList = [
+  {
+    name: 'shrimp-lobby',
+    displayName: 'Multishrimp Lobby',
+    path: '/games/shrimp-lobby',
+    PageComponent: MultiShrimpLobby,
+    description: 'just some shrimps hanging out in the water',
+  },
   {
     name: 'card-battle',
     displayName: 'Shrimps card battle',
