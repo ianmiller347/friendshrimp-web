@@ -11,6 +11,10 @@
     font-family: Arial, Helvetica, sans-serif;
   }
 
+  &__vector {
+    transition: all .75s;
+  }
+
   &:nth-child(2n) {
     animation-delay: .5s;
   }
@@ -43,7 +47,7 @@
   }
 
   to {
-    transform: scale(1.2) rotate(25deg);
+    transform: scale(1.15) rotate(25deg);
   }
 }
 

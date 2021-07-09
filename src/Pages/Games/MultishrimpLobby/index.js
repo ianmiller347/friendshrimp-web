@@ -13,6 +13,7 @@ import './style.scss';
 const MultiShrimpLobby = () => {
   const [name, setName] = useState('');
   const [playerList, setPlayerList] = useState([]);
+  const [shrimpSize, setShrimpSize] = useState(69);
 
   useEffect(() => {
     initiateSocket();
@@ -43,24 +44,25 @@ const MultiShrimpLobby = () => {
       <h1>Shrimp Lobby</h1>
       <blockquote>Just some shrimps hanging out</blockquote>
       <div>
-        <input
-          name="name"
-          value={name}
-          placeholder="name?"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <button onClick={() => addPlayer(name)}>Join the shrimp lobby</button>
+          <input
+            name="name"
+            value={name}
+            placeholder="name?"
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && addPlayer(name)}
+          />
+          <button onClick={() => addPlayer(name)} type="submit">Join the shrimp lobby</button>
       </div>
       <div className="shrimps-in-water-container">
         <h3>Shrimps in the water</h3>
         <ul className="shrimp-list list-style-none display-flex flex-wrap">
           {playerList.map((player) => (
-            <li className="margin-s pill" key={player.id}>
-              <dd>{player.displayName}</dd>
-              <dt>
+            <li className="margin-s shrimp-player" key={player.id}>
+              <dd className="shrimp-player__name">{player.displayName}</dd>
+              <dt onClick={() => setShrimpSize(getRandomInt(69, 420))}>
                 <ShrimpDrawing
                   text={player.displayName}
-                  size={getRandomInt(69, 420)}
+                  size={shrimpSize}
                   color={getRandomColor()}
                 />
               </dt>
@@ -69,7 +71,10 @@ const MultiShrimpLobby = () => {
         </ul>
         {!!playerList.length && (
           <div className="underwater">
-            <div className="wave"></div>
+            <div className="waves">
+              <div className="wave"></div>
+              <div className="wave"></div>
+            </div>
           </div>
         )}
       </div>

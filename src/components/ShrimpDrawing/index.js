@@ -23,6 +23,7 @@ const ShrimpDrawing = ({ text, size, color }) => {
         xmlns="http://www.w3.org/2000/svg"
         x="0"
         y="0"
+        className="shrimp-drawing__vector"
         viewBox="0 0 500 500"
         fill={color || '#666'}
         width={size || 250}
