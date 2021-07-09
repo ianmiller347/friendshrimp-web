@@ -7,6 +7,8 @@ $water-color: #39C7E2;
 }
 
 .shrimp-player {
+  z-index: 11;
+
   &__name {
     font-weight: bold;
     font-size: 1.5rem;
@@ -23,7 +25,7 @@ $water-color: #39C7E2;
   .waves {
     height: 5%;
     width:100%;
-    position:absolute;
+    position: absolute;
     bottom:0;
     left:0;
     background: #015871;
@@ -35,12 +37,14 @@ $water-color: #39C7E2;
     top: -198px;
     width: 6400px;
     height: 198px;
-    animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+    animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+    animation-delay: .25s;
     transform: translate3d(0, 0, 0);
 
     &:nth-of-type(2) {
       top: -175px;
-      animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+      animation: swell 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+      animation-delay: .3s;
       opacity: 1;
     }
   }
@@ -52,6 +56,10 @@ $water-color: #39C7E2;
   }
   100% {
     transform: translate3d(-1600px, 0, 0);
+
+    @media screen and (max-width: 767px) {
+      transform: translate3d(-800px, 0, 0);
+    }
   }
 }
 
@@ -60,6 +68,6 @@ $water-color: #39C7E2;
     transform: translate3d(0,-25px,0);
   }
   50% {
-    transform: translate3d(0,5px,0);
+    transform: translate3d(-500px,5px,0);
   }
 }
