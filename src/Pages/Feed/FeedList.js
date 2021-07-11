@@ -1,4 +1,5 @@
 import React from 'react';
+import FeedListItem from './FeedListItem';
 
 const FeedList = ({ feedItems, isLoading, errorMessage }) => {
   if (isLoading) {
@@ -21,12 +22,7 @@ const FeedList = ({ feedItems, isLoading, errorMessage }) => {
     return (
       <ul className="feed__list">
         {feedItems.map(item => (
-          <li className="feed__item" key={item.id}>
-            <h3 className="item__title">{item.title}</h3>
-            <div 
-              className="item__content text-content"
-              dangerouslySetInnerHTML={{ __html: item.content }} />
-          </li>
+          <FeedListItem key={item.id} item={item} />
         ))}
       </ul>
     );
