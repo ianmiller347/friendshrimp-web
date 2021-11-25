@@ -11,8 +11,7 @@ const Store = () => {
         <marquee className="small">Where my shrimps?</marquee>
       </div>
       <div className="visit-store">
-        <h3>Friendshrimp Merch on Brumpo Store</h3>
-        <p>Friendshrimp shrimp shrimp items :)</p>
+        <h3 className="text-content">Friendshrimp Merch on Brumpo Store</h3>
         <div>
           <a
             href={brumpoStoreLink}
@@ -27,6 +26,6 @@ const Store = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Store;
