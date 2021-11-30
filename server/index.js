@@ -6,6 +6,7 @@ import * as socketIO from 'socket.io';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import { handleGame } from './game';
+import { listActiveUsers } from './active-shrimps';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -34,17 +35,21 @@ let io = new socketIO.Server(server, {
   },
 });
 
-let clientConnectionsCount = 0;
-
-const getApiAndEmit = (socket) => {
+// setup number of connected users
+const getApiAndEmit = async (socket) => {
   // emitting number of connections
-  socket.emit('activeUsers', clientConnectionsCount);
+  const activeUsers = await listActiveUsers();
+  // console.log('active users yea?', activeUsers);
+  if (!activeUsers?.error) {
+    socket.emit('playersList', activeUsers || []);
+  }
 };
 
 io.on('connection', (socket) => {
   // connection
   console.log('A user just connected.');
-  clientConnectionsCount++;
+  // send the client the id
+  socket.send(socket.id);
   if (interval) {
     clearInterval(interval);
   }
@@ -56,7 +61,6 @@ io.on('connection', (socket) => {
   // disconnection
   socket.on('disconnect', () => {
     console.log('A user has disconnected.');
-    clientConnectionsCount--;
     clearInterval(interval);
   });
 });

@@ -9,24 +9,34 @@ export const initiateSocket = () => {
   socket = io(ENDPOINT);
 };
 
+export const getSocketId = () => socket.id;
+
 export const disconnectSocket = () => {
-  console.log('Disconnecting socket...');
   if (socket) socket.disconnect();
 };
 
 export const subscribeToGameState = (cb) => {
-  socket.on('gameState', data => {
+  socket.on('gameState', (data) => {
     return cb(data);
   });
 };
 
 export const subscribeToPlayersList = (cb) => {
-  socket.on('playersList', data => cb(data));
+  socket.on('playersList', (data) => cb(data));
 };
 
-
 export const newPlayerJoin = (data) => {
-  socket.emit('newPlayer', data);
+  socket.emit('newPlayer', {
+    ...data,
+    id: socket.id,
+  });
+};
+
+export const handlePlayerSettingStatus = (data) => {
+  socket.emit('playerUpdateStatus', {
+    ...data,
+    id: socket.id,
+  });
 };
 
 export const createNewGame = (data) => {
@@ -34,9 +44,8 @@ export const createNewGame = (data) => {
 };
 
 export const subscribeToNewGameCreation = (cb) => {
-  socket.on('newGame', (data => cb(data)));
+  socket.on('newGame', (data) => cb(data));
 };
-
 
 export const joinExistingGameById = (data) => {
   socket.emit('joinGame', data);
@@ -73,5 +82,3 @@ export const subscribeToJuiceHiScores = (cb) => {
 export const emitSetHiScore = (data) => {
   socket.emit(SET_JUICE_HI_SCORE, data);
 };
-
-

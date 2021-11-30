@@ -1,4 +1,5 @@
 import { handleSockets as handleCardGameSockets } from './card-battle-game';
+import { addUser, updateUser, deleteUser } from '../active-shrimps';
 
 // the game state object
 const gameStateProps = {
@@ -6,7 +7,7 @@ const gameStateProps = {
   gameId: 'number',
   status: 'string',
   player1: 'player',
-  player2: 'player'
+  player2: 'player',
 };
 
 let gameState = {
@@ -40,8 +41,6 @@ export const handleGame = (socket) => {
   }
   interval = setInterval(() => {
     socket.emit('gameState', gameState);
-    const playersList = Object.keys(gameState.playerMap).map((key) => gameState.playerMap[key]);
-    socket.emit('playersList', playersList);
   }, 1420);
 
   socket.on('gameState', (newGameStateData) => {
@@ -50,6 +49,7 @@ export const handleGame = (socket) => {
 
   handleCreateGame(socket);
   handlePlayerJoining(socket);
+  handlePlayerUpdateStatus(socket);
   handleJoinGameById(socket);
   handleDisconnect(socket);
 
@@ -86,22 +86,36 @@ export const handleCreateGame = (socket) => {
       socket.broadcast.emit('Game title already exists. Try again.');
     }
   });
-}
+};
 
 const handlePlayerJoining = (socket) => {
   // handle new player joining
   socket.on('newPlayer', (newPlayerData) => {
-    console.log('new player id, name:', socket.id, newPlayerData.name);
-    gameState.playerMap[socket.id] = {
-      id: socket.id,
+    console.log('socket id', socket.id);
+    console.log('newPlayerData', newPlayerData);
+    const newUserData = {
+      id: newPlayerData.id,
       name: 'Not David',
       displayName: newPlayerData.name,
     };
-    socket.emit('gameState', gameState);
-    const playersList = Object.keys(gameState.playerMap).map((key) => gameState.playerMap[key]);
-    socket.emit('playersList', playersList);
+    console.log('new player id, name:', socket.id, newPlayerData.name);
+    addUser(newUserData);
   });
-}
+};
+
+const handlePlayerUpdateStatus = (socket) => {
+  // handle new player joining
+  socket.on('playerUpdateStatus', (newPlayerData) => {
+    console.log('socket.id', socket.id);
+    console.log('newPlayerData.id', newPlayerData.id);
+    const newUserData = {
+      id: newPlayerData.id,
+      displayName: newPlayerData.name,
+      statusDisplay: newPlayerData.statusDisplay,
+    };
+    updateUser(newUserData);
+  });
+};
 
 const handleJoinGameById = (socket) => {
   // joining a room by id
@@ -116,11 +130,15 @@ const handleJoinGameById = (socket) => {
         displayName: joinGameData.playerName,
         isCreator: false,
       });
-      const creator = gameState.gameMap[joinGameId].players.find(player => player.isCreator);
+      const creator = gameState.gameMap[joinGameId].players.find(
+        (player) => player.isCreator
+      );
       const creatorName = creator.displayName;
       const creatorId = creator.id;
       console.log('game data', gameState.gameMap[joinGameId].gameData);
-      gameState.gameMap[joinGameId].gameData.gameStatus = `It is your turn, ${creatorName}`;
+      gameState.gameMap[
+        joinGameId
+      ].gameData.gameStatus = `It is your turn, ${creatorName}`;
       gameState.gameMap[joinGameId].gameData.turn = creatorId;
       socket.emit('gameState', gameState);
     } else {
@@ -133,9 +151,15 @@ const handleJoinGameById = (socket) => {
 };
 
 const handleDisconnect = (socket) => {
-  // disconnection
   socket.on('disconnect', () => {
-    delete gameState.playerMap[socket.id];
+    const userInfo = {
+      id: socket.id,
+    };
+    deleteUser(userInfo);
+    // old game state deletes. remove all this when done db integration
+    if (gameState?.playerMap?.[socket.id]) {
+      delete gameState.playerMap[socket.id];
+    }
     // TODO: delete games not being used, add checker if they got phantom boies
     Object.keys(gameState.gameMap).forEach((key) => {
       const matchinGame = gameState.gameMap[key];
@@ -144,4 +168,4 @@ const handleDisconnect = (socket) => {
       }
     });
   });
-}
+};
