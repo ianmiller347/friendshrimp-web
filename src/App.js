@@ -1,9 +1,5 @@
-import React, { Component } from 'react';
-import { 
-  BrowserRouter as Router, 
-  Route, 
-  Switch,
-} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Home, NotFound } from './Pages';
 import Page from './components/Page';
 import routes from './routes';
@@ -13,39 +9,31 @@ import './font/ShrimpFont.otf';
 import './font/shrimpfont-webfont.woff';
 import './font/shrimpfont-webfont.woff2';
 
-class App extends Component {
-  render() {
-    return (
-      <Router>
-        <div 
-          className="App" 
-          style={{
-            background: `url(${backgroundImage})`
-          }}
-        >
-          <Switch>
-              <Route path="/" exact component={Home} />
-              {routes.map(({ name, displayName, path, PageComponent }) => 
-                <Route 
-                  path={path} 
-                  key={path}
-                  exact
-                  render={(props) => (
-                    <Page 
-                      name={name} 
-                      displayName={displayName}
-                      {...props}>
-                      <PageComponent />
-                    </Page>
-                  )}
-                />
-              )}
-              <Route path="*" component={NotFound} />
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
-}
+const App = () => (
+  <BrowserRouter>
+    <div
+      className="App"
+      style={{
+        background: `url(${backgroundImage})`,
+      }}
+    >
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {routes.map(({ name, displayName, path, PageComponent }) => (
+          <Route
+            path={path}
+            key={path}
+            element={
+              <Page name={name} displayName={displayName}>
+                <PageComponent />
+              </Page>
+            }
+          />
+        ))}
+        <Route path="*" component={NotFound} />
+      </Routes>
+    </div>
+  </BrowserRouter>
+);
 
 export default App;

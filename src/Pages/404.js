@@ -14,7 +14,8 @@ class NotFound extends React.Component {
     const { location } = this.props;
 
     const canonicalUrl = 'https://friendshrimp.com/404';
-    const siteDescription = 'Friendshrimp is a place for friends! ONLY friends.';
+    const siteDescription =
+      'Friendshrimp is a place for friends! ONLY friends.';
 
     return (
       <div className="friendshrimp-page-not-found-where-my-god-damn-shrimps-david">
@@ -22,17 +23,20 @@ class NotFound extends React.Component {
           <link rel="canonical" href={canonicalUrl} />
           <meta property="og:url" content={canonicalUrl} />
           <meta property="og:type" content="website" />
-          <meta property="og:title" content={`where my shrimps | Friendshrimp. (for friends :)`} />
-          <meta 
-            property="og:description" 
-            content={`page not found we can not find your shrimps.. ${siteDescription}`} 
+          <meta
+            property="og:title"
+            content={`where my shrimps | Friendshrimp. (for friends :)`}
+          />
+          <meta
+            property="og:description"
+            content={`page not found we can not find your shrimps.. ${siteDescription}`}
           />
         </Helmet>
         <Header />
         <main>
           <div className="page-not-found">
             <h1 className="page-title">where my shrimps</h1>
-            <p>Sorry we could not find your shrimps :(((</p>
+            <p>Sorry we could not find your shrimps 😞</p>
           </div>
         </main>
         <Footer currentRoute={location.pathname} />

@@ -9,7 +9,7 @@ import './style.scss';
 /**
  * Shrimp Divider of the Shrimp Juice Game
  * Written by Ian Friendshrimp 🦐
- * 
+ *
  * You only have 100 shrimp juice
  * You need to pull a little juice out to get the shrimps
  * You punch the shrimp juice and take too much
@@ -22,12 +22,12 @@ const ShrimpDivider = () => {
   const [yourRecord, setYourRecord] = useState(0);
   const [gotALuckyShrimp, setGotLucky] = useState(false);
 
-  const divideShrimps = (e) => {
+  const divideShrimps = () => {
     const chanceOfPercentageLoss = !!(getRandomInt(bottomNumber, 100) > 69);
     const calcBottom = topNumber > 50 ? 10 : bottomNumber;
     setGotLucky(chanceOfPercentageLoss);
-    const amountOfJuiceLeft = chanceOfPercentageLoss ? 
-      topNumber - Math.floor(topNumber / 10)
+    const amountOfJuiceLeft = chanceOfPercentageLoss
+      ? topNumber - Math.floor(topNumber / 10)
       : getRandomInt(calcBottom, topNumber);
     setTopNumber(amountOfJuiceLeft);
     const newShrimps = [
@@ -46,9 +46,9 @@ const ShrimpDivider = () => {
         value: yourRecord,
       });
     }
-  }
+  };
 
-  const resetGame = (e) => {
+  const resetGame = () => {
     setTopNumber(100);
     setShrimps([]);
     ReactGA.event({
@@ -56,7 +56,7 @@ const ShrimpDivider = () => {
       action: 'reset-game',
       value: 1,
     });
-  }
+  };
 
   const currentStatusColor = getStatusColorFromRandomInt(topNumber, 100);
   const topGradient = `#a70e0e 100%`;
@@ -71,27 +71,33 @@ const ShrimpDivider = () => {
   };
 
   const isNewRecord = topNumber === 0 && yourRecord === shrimps.length;
-  const luckyShrimps = shrimps.filter(s => !!s.isLucky);
+  const luckyShrimps = shrimps.filter((s) => !!s.isLucky);
 
   return (
     <div className="shrimp-divider">
       <div className="explanation-container">
         <h2>How many shrimps can u get?</h2>
-        <p className="description">Hit the juice to get more shrimps. <br/> Get as many shrimps as u can.</p>
+        <p className="description">
+          Hit the juice to get more shrimps. <br /> Get as many shrimps as u
+          can.
+        </p>
         <JuiceHit topNumber={topNumber} />
       </div>
       <div className="buttons-container">
         {topNumber !== 0 && (
-          <button 
-            className="button get-juice" 
+          <button
+            className="button get-juice"
             onClick={(e) => divideShrimps(e)}
-            disabled={topNumber === 0}>
+            disabled={topNumber === 0}
+          >
             hit the juice
           </button>
         )}
-        {
-          topNumber === 0 && <button className="button reset" onClick={resetGame}>Restart</button>
-        }
+        {topNumber === 0 && (
+          <button className="button reset" onClick={resetGame}>
+            Restart
+          </button>
+        )}
       </div>
       <div className="results-container">
         <div className="remaining-juice">
@@ -112,13 +118,13 @@ const ShrimpDivider = () => {
           <span> and {luckyShrimps.length} lucky shrimps</span>
         </div>
         <div className={`record-container ${isNewRecord ? 'new-record' : ''}`}>
-          {yourRecord > 0 && 
+          {yourRecord > 0 && (
             <>
               {isNewRecord && <p>New record!</p>}
               <span>Your record: </span>
               <strong>{yourRecord} shrimps</strong>
             </>
-          }
+          )}
         </div>
       </div>
     </div>

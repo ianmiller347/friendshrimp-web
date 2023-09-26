@@ -1,4 +1,4 @@
-import React from 'react';
+/* eslint no-irregular-whitespace: 0 */
 
 const creditHtmlComment = `
 <!--
@@ -36,7 +36,10 @@ const creditHtmlComment = `
 `;
 
 const ShrimpCredits = () => (
-  <section className="credits" dangerouslySetInnerHTML={{ __html: creditHtmlComment }}/>
+  <section
+    className="credits"
+    dangerouslySetInnerHTML={{ __html: creditHtmlComment }}
+  />
 );
 
 export default ShrimpCredits;

@@ -15,6 +15,7 @@ const tableName = 'friendshrimp_active-shrimps';
 const getActiveUserData = (user) => {
   // query for user.active and return null if not found
   // if getUserById(user.id).active, return user
+  console.log('user', user);
   return null;
 };
 

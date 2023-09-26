@@ -30,25 +30,26 @@ const shareLinkTypesList = [
 const stopAndSet = (e, show) => {
   e.stopPropagation();
   return !show;
-}
+};
 
-const ShareThis = ({ currentRoute }) => { 
+const ShareThis = ({ currentRoute }) => {
   const [showingList, toggleList] = useState(false);
 
   return (
     <div className="sharethis-container">
-      <button 
+      <button
         title="Share this site to your friends"
-        className="sharethis__toggle" 
-        onClick={e => toggleList(stopAndSet(e, showingList))}>
+        className="sharethis__toggle"
+        onClick={(e) => toggleList(stopAndSet(e, showingList))}
+      >
         <FeatherIcon size={12} icon="share" />
       </button>
-      {showingList &&
+      {showingList && (
         <div className="sharethis__dropdown">
           <h5>Share this site on...</h5>
           <ul className="sharethis__options">
             {shareLinkTypesList.map((link, index) => (
-              <ShareLink 
+              <ShareLink
                 key={`share_${index}`}
                 socialMediaType={link.name}
                 currentRoute={currentRoute}
@@ -58,9 +59,9 @@ const ShareThis = ({ currentRoute }) => {
             ))}
           </ul>
         </div>
-      }
+      )}
     </div>
   );
-}
+};
 
 export default ShareThis;

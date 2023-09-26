@@ -1,10 +1,4 @@
-import {
-  Games,
-  Shows,
-  Feed,
-  Store,
-} from './Pages';
-
+import { Games, Shows, Feed, Store } from './Pages';
 import { gamesList } from './Pages/Games';
 import CardBattleFriends from './Pages/Games/ShrimpCardsBattle/CardBattleFriends';
 

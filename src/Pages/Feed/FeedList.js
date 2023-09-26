@@ -3,25 +3,17 @@ import FeedListItem from './FeedListItem';
 
 const FeedList = ({ feedItems, isLoading, errorMessage }) => {
   if (isLoading) {
-    return (
-      <div className="loader">
-        Refreshing friendshrimp feed...
-      </div>
-    );
+    return <div className="loader">Refreshing friendshrimp feed...</div>;
   }
 
   if (errorMessage) {
-    return (
-      <div className="error error-container">
-        {errorMessage}
-      </div>
-    );
+    return <div className="error error-container">{errorMessage}</div>;
   }
 
   if (feedItems) {
     return (
       <ul className="feed__list">
-        {feedItems.map(item => (
+        {feedItems.map((item) => (
           <FeedListItem key={item.id} item={item} />
         ))}
       </ul>

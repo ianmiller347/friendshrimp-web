@@ -4,13 +4,13 @@ import { useLocation } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 
 const getPathFromBloggerUrl = (url) => {
-  // convert "http://friendshrimp.blogspot.com/2021/06/can-shrimp-fry-rice.html" 
+  // convert "http://friendshrimp.blogspot.com/2021/06/can-shrimp-fry-rice.html"
   // into /2021-06-can-shrimp-fry-rice
   // make it into url object and take path
   const urlObject = new URL(url);
   const { pathname } = urlObject;
-  return pathname.substring(1).replace(/[\/]/g,'-').replace('.html','');
-}
+  return pathname.substring(1).replace(/[/]/g, '-').replace('.html', '');
+};
 
 // feed item = {
 //     id: String,
@@ -31,13 +31,9 @@ const FeedListItem = ({ item }) => {
   }, []);
 
   return (
-    <li
-      className="feed__item"
-      id={itemHash}
-      ref={itemRef}
-    >
+    <li className="feed__item" id={itemHash} ref={itemRef}>
       <h3 className="item__title">{item.title}</h3>
-      <div 
+      <div
         className="item__content text-content"
         dangerouslySetInnerHTML={{ __html: item.content }}
       />

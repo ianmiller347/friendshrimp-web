@@ -10,12 +10,12 @@ const Feed = () => {
   useEffect(() => {
     setLoading(true);
     fetch(`https://www.friendshrimp.com/get-feed`)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setLoading(false);
         setFeedItems(data.items);
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false);
         setErrorMessage('Problem fetching friendshrimp feed :(');
         console.log(error);
@@ -23,11 +23,15 @@ const Feed = () => {
   }, []);
 
   return (
-    <div className="friendshrimp-feed"> 
+    <div className="friendshrimp-feed">
       <h2>so what is new</h2>
-      <FeedList isLoading={isLoading} errorMessage={errorMessage} feedItems={feedItems} />
+      <FeedList
+        isLoading={isLoading}
+        errorMessage={errorMessage}
+        feedItems={feedItems}
+      />
     </div>
   );
-}
+};
 
 export default Feed;

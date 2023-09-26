@@ -18,7 +18,7 @@ const Store = () => {
             className="button button--visit-store store-link"
             title="Go For a Visit to the Friendshrimp Store"
             target="_blank"
-            rel="nofollow"
+            rel="nofollow noreferrer"
           >
             Go to Friendshrimp Store
           </a>

@@ -109,7 +109,7 @@ const CardBattleFriends = () => {
         </dd>
       </div>
     );
-  };
+  }
 
   return (
     <div className="card-battle-friends shrimp-cards-container">
