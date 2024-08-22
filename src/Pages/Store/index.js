@@ -1,4 +1,5 @@
 import React from 'react';
+import ShrimpDonorWall from '../../components/ShrimpDonorWall';
 import './style.scss';
 
 const Store = () => {
@@ -24,6 +25,7 @@ const Store = () => {
           </a>
         </div>
       </div>
+      <ShrimpDonorWall />
     </div>
   );
 };

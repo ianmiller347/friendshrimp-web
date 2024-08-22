@@ -7,7 +7,9 @@ import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import { handleGame } from './game';
 import { listActiveUsers } from './active-shrimps';
+import { addShrimpDonor, getShrimpDonors } from './shrimp-donors';
 
+// @ts-expect-error this has been here for years without an issue
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -21,6 +23,7 @@ app.use(express.static(buildDir));
 app.use(cors());
 
 const server = app.listen(process.env.PORT || 8080, () => {
+  // @ts-expect-error frigoff ts
   const port = server.address().port;
   console.log('App now running on port', port);
 });
@@ -39,7 +42,7 @@ let io = new socketIO.Server(server, {
 const getApiAndEmit = async (socket) => {
   // emitting number of connections
   const activeUsers = await listActiveUsers();
-  // console.log('active users yea?', activeUsers);
+  // @ts-expect-error the type isnt set and it has optional error
   if (!activeUsers?.error) {
     socket.emit('playersList', activeUsers || []);
   }
@@ -95,6 +98,16 @@ app.get('/get-feed', (req, res) => {
 // app.get('/get-hiscores', (req, res) => {
 //   const { game } = req.query;
 // })
+
+// shrimp donor api
+app.get('/shrimp-donors', async (req, res) => {
+  const shrimpDonors = await getShrimpDonors();
+  res.status(200).json(shrimpDonors);
+});
+app.post('/shrimp-donors', async (req, res) => {
+  const shrimpDonor = await addShrimpDonor(req.body);
+  res.status(200).json(shrimpDonor);
+});
 
 // for all other routes, bring to index
 app.get('*', (req, res) => {

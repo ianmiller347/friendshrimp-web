@@ -1,0 +1,41 @@
+.donate-form {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+
+  &__display-name {
+    display: block;
+    margin-bottom: 0.25rem;
+
+    &__input {
+      margin-left: 0.25rem;
+    }
+  }
+
+  &__warning {
+    color: red;
+    font-size: 0.825rem;
+  }
+}
+
+.amount-picker-container {
+  margin-bottom: 0.5rem;
+}
+
+.amount-picker {
+  text-align: left;
+
+  &__label {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  &__custom-input {
+    margin-left: 0.5rem;
+  }
+}
+
+.donate-button-container {
+  padding-top: 1rem;
+}
