@@ -30,7 +30,6 @@
     "sass": "^1.68.0",
     "socket.io": "^3.1.1",
     "socket.io-client": "^3.1.1",
-    "ts-node": "^10.9.2",
     "tsx": "^4.17.0",
     "typescript": "^5.5.4"
   },
