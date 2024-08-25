@@ -39,3 +39,12 @@
 .donate-button-container {
   padding-top: 1rem;
 }
+
+.shrimp-donor-display {
+  display: inline-block;
+
+  &__name {
+    border: 1px solid #999;
+    padding: 0.5rem;
+  }
+}

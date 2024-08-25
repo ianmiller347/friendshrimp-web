@@ -14,7 +14,7 @@ const ShrimpIcon = ({ text, size = 250, color = '#666' }) => {
       return 'swimmer';
     }
     if (willWiggle()) {
-      return 'wiggler';
+      return 'wiggle';
     }
     if (isValue69()) {
       return 'not-dancing';
@@ -29,7 +29,7 @@ const ShrimpIcon = ({ text, size = 250, color = '#666' }) => {
         xmlns="http://www.w3.org/2000/svg"
         className="shrimp-icon__vector"
         viewBox="0 0 500 500"
-        fill={color}
+        stroke={color}
         width={size}
         height={size}
       >
@@ -38,9 +38,10 @@ const ShrimpIcon = ({ text, size = 250, color = '#666' }) => {
             {text}
           </text>
         )}
-        {/* <path className="shrimp-icon__body" d={shrimpDrawingBodyPath} /> */}
         <path
           className="shrimp-icon__eye"
+          fill={color}
+          stroke="none"
           d={
             'M303.5,143c12.958,0,23.5-10.542,23.5-23.5S316.458,96,303.5,96S280,106.542,280,119.5S290.542,143,303.5,143z M303.5,111 c4.687,0,8.5,3.813,8.5,8.5s-3.813,8.5-8.5,8.5s-8.5-3.813-8.5-8.5S298.813,111,303.5,111z'
           }

@@ -1,8 +1,7 @@
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { useEffect, useState } from 'react';
-import { formatToDollarAmount } from '../../util/formatting';
 import DonorForm from './DonorForm';
-import ShrimpIcon from '../ShrimpIcon';
+import ShrimpDonorDisplay from './ShrimpDonorDisplay';
 
 const CLIENT_ID = process.env.REACT_APP_PAYPAL_CLIENT_ID;
 const shrimpDonorsPath = '/shrimp-donors';
@@ -56,10 +55,7 @@ const ShrimpDonorWall = () => {
       </div>
       <div className="shrimp-donors-wall">
         {donors.map((donor) => (
-          <div className="donor-shrimp" key={donor.createdAt}>
-            <h3>{donor.displayName}</h3>
-            <ShrimpIcon text={formatToDollarAmount(donor.amountDonated)} />
-          </div>
+          <ShrimpDonorDisplay donor={donor} key={donor.id} />
         ))}
       </div>
     </div>
