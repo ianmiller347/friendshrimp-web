@@ -1,0 +1,82 @@
+.shrimp-icon {
+  position: relative;
+  display: inline-block;
+
+  &__vector {
+    display: block;
+  }
+
+  &__text {
+    font-size: 2.5rem;
+    font-family: Arial, sans-serif;
+    fill: #333;
+  }
+
+  &__eye {
+    animation-name: growAndShrinkOnly;
+    animation-duration: 1.5s;
+    animation-delay: 0.2s;
+    animation-direction: alternate-reverse;
+    animation-iteration-count: infinite;
+  }
+
+  &__body {
+    &--tracer {
+      animation-name: trace;
+      stroke-dasharray: 1500;
+      stroke-dashoffset: 1500;
+      fill: none;
+      stroke: black;
+      stroke-width: 6px;
+      stroke-linecap: butt;
+      animation-duration: 1.5s;
+      animation-delay: 0.2s;
+      animation-direction: alternate-reverse;
+      animation-iteration-count: infinite;
+    }
+  }
+
+  &.swimmer {
+    animation: swim-around 5s infinite;
+  }
+
+  &__antenna {
+    animation: antenna-wiggle 0.5s infinite;
+  }
+}
+
+@keyframes swim-around {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+}
+
+@keyframes antenna-wiggle {
+  0%,
+  100% {
+    transform: rotateX(0);
+  }
+  50% {
+    transform: rotateX(-8deg);
+  }
+}
+
+@keyframes trace {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes growAndShrinkOnly {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.15);
+  }
+}
