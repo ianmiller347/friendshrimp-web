@@ -53,6 +53,16 @@
     transform-origin: 80% 100%;
     transform-box: fill-box;
   }
+
+  &__tail {
+    animation-name: trace;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation-duration: 2.5s;
+    animation-delay: 0.1s;
+    animation-direction: alternate-reverse;
+    animation-iteration-count: infinite;
+  }
 }
 
 @keyframes swim-around {

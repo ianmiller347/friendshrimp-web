@@ -12,11 +12,11 @@ const ShrimpDonorDisplay = ({ donor }) => {
 
   return (
     <div className="shrimp-donor-display" key={donor.createdAt}>
-      <h3 className="shrimp-donor-display__name">{donor.displayName}</h3>
       <ShrimpIcon
         text={formatToDollarAmount(donor.amountDonated)}
         color={color}
       />
+      <h3 className="shrimp-donor-display__name">{donor.displayName}</h3>
     </div>
   );
 };
