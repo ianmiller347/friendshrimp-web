@@ -1,25 +1,33 @@
-import AWS from 'aws-sdk';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  DeleteCommand,
+  PutCommand,
+  ScanCommand,
+  UpdateCommand,
+} from '@aws-sdk/lib-dynamodb';
 import dotenv from 'dotenv';
 dotenv.config();
 
 // AWS setup
-AWS.config.update({
+const client = new DynamoDBClient({
   region: 'us-east-1',
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   accessSecretKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
-const documentClient = new AWS.DynamoDB.DocumentClient();
+const ddbDocClient = DynamoDBDocumentClient.from(client);
 
 const tableName = 'friendshrimp_active-shrimps';
 
 const getActiveUserData = (user) => {
   // query for user.active and return null if not found
   // if getUserById(user.id).active, return user
+  console.log('user', user);
   return null;
 };
 
 // add user to the table
-export const addUser = (user) => {
+export const addUser = async (user) => {
   // early return if user already exists
   const currentlyActiveUserData = getActiveUserData(user);
   if (currentlyActiveUserData) {
@@ -36,19 +44,19 @@ export const addUser = (user) => {
     },
   };
 
-  documentClient.put(params, (err, data) => {
-    if (err) {
-      console.log('Error', err);
-      return null;
-    } else {
-      console.log('Success', data);
-      return data;
-    }
-  });
+  const command = new PutCommand(params);
+
+  try {
+    await ddbDocClient.send(command);
+  } catch (error) {
+    const errorMessage = 'Unable to create item in DynamoDB.';
+    console.error(errorMessage);
+    throw new Error(errorMessage);
+  }
 };
 
 // update user
-export const updateUser = (user) => {
+export const updateUser = async (user) => {
   const usernameId = `_${user.id}`;
   const params = {
     TableName: tableName,
@@ -64,15 +72,13 @@ export const updateUser = (user) => {
     ReturnValues: 'UPDATED_NEW',
   };
 
-  documentClient.update(params, (err, data) => {
-    if (err) {
-      console.log('Error', err);
-      return null;
-    } else {
-      console.log('Success', data);
-      return data;
-    }
-  });
+  const input = new UpdateCommand(params);
+
+  try {
+    await ddbDocClient.send(input);
+  } catch (error) {
+    throw new Error('Unable to update user in DynamoDB.');
+  }
 };
 
 // list active users
@@ -83,7 +89,8 @@ export const listActiveUsers = async () => {
   };
 
   try {
-    const activeUsers = await documentClient.scan(params).promise();
+    const command = new ScanCommand(params);
+    const activeUsers = await ddbDocClient.send(command);
     const items = activeUsers.Items.map((item) => ({
       id: item.id,
       displayName: item.displayName,
@@ -98,7 +105,7 @@ export const listActiveUsers = async () => {
 };
 
 // yes it actually delete the items from ddb
-export const deleteUser = (user) => {
+export const deleteUser = async (user) => {
   const usernameId = `_${user.id}`;
   const params = {
     TableName: tableName,
@@ -113,13 +120,11 @@ export const deleteUser = (user) => {
 
   console.log('deleted users', user);
 
-  documentClient.delete(params, (err, data) => {
-    if (err) {
-      console.log('Error', err);
-      return null;
-    } else {
-      console.log('Successfully deleted user', data);
-      return data;
-    }
-  });
+  const command = new DeleteCommand(params);
+
+  try {
+    await ddbDocClient.send(command);
+  } catch (error) {
+    throw new Error('Unable to delete item in DynamoDB.');
+  }
 };

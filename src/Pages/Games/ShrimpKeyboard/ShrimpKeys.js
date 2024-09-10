@@ -54,7 +54,14 @@ const SHRIMP_KEY_DATA = [
 
 const ShrimpKeys = ({ onClick }) => (
   <>
-    {SHRIMP_KEY_DATA.map(shrimpKey => <ShrimpKey key={shrimpKey.note} onClick={onClick} {...shrimpKey} /> )}
+    {SHRIMP_KEY_DATA.map((shrimpKey) => (
+      <ShrimpKey
+        key={shrimpKey.note}
+        onClick={onClick}
+        note={shrimpKey.note}
+        keyType={shrimpKey.keyType}
+      />
+    ))}
   </>
 );
 

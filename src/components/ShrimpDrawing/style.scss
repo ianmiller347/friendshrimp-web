@@ -2,7 +2,7 @@
   display: inline-block;
   animation-name: growAndShrink;
   animation-duration: 1.5s;
-  animation-delay: .2s;
+  animation-delay: 0.2s;
   animation-direction: alternate-reverse;
   animation-iteration-count: infinite;
 
@@ -12,15 +12,15 @@
   }
 
   &__vector {
-    transition: all .75s;
+    transition: all 0.75s;
   }
 
   &:nth-child(2n) {
-    animation-delay: .5s;
+    animation-delay: 0.5s;
   }
 
   &:nth-child(3n) {
-    animation-duration: .75s;
+    animation-duration: 0.75s;
   }
 
   &:nth-child(4n) {

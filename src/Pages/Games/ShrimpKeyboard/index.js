@@ -5,13 +5,13 @@ import KeySounds from './KeySounds';
 import './style.scss';
 
 class ShrimpKeyboard extends React.Component {
-
   constructor() {
     super();
 
     const keySounds = {};
-    Object.keys(KeySounds).forEach(key => {
-      keySounds[key] = new Audio(KeySounds[key].default);
+    Object.keys(KeySounds).forEach((key) => {
+      // had to remove default here too
+      keySounds[key] = new Audio(KeySounds[key]);
     });
 
     this.keySounds = keySounds;
@@ -23,12 +23,12 @@ class ShrimpKeyboard extends React.Component {
     if (note) {
       this.playShrimpKey(note);
     }
-  }
+  };
 
   handleShrimpKey = (e, note) => {
     e.stopPropagation();
     this.playShrimpKey(note);
-  }
+  };
 
   playShrimpKey(note) {
     const shrimpKeySound = this.keySounds[note];
@@ -38,7 +38,7 @@ class ShrimpKeyboard extends React.Component {
     shrimpKeySound.src = shrimpKeySound.src;
     shrimpKeySound.play();
   }
-  
+
   render() {
     return (
       <div className="shrimp-keyboard-container">

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ReactGA from 'react-ga';
-import { getRandomColor, getRandomInt } from '../../../util/rng';
-import ShrimpDrawing from '../../../components/ShrimpDrawing';
 import {
   initiateSocket,
   subscribeToPlayersList,
@@ -10,13 +8,13 @@ import {
   getSocketId,
   handlePlayerSettingStatus,
 } from '../utilities/socketio';
+import ShrimpPlayer from './ShrimpPlayer';
 import './style.scss';
 
 const MultiShrimpLobby = () => {
   const [inputText, setInputText] = useState('');
   const [playerName, setPlayerName] = useState('');
   const [playerList, setPlayerList] = useState([]);
-  const [shrimpSize, setShrimpSize] = useState(69);
   const [isJoined, setIsJoined] = useState(false);
 
   useEffect(() => {
@@ -90,16 +88,7 @@ const MultiShrimpLobby = () => {
         <h3>Shrimps in the water</h3>
         <ul className="shrimp-list list-style-none display-flex flex-wrap">
           {playerList.map((player) => (
-            <li className="margin-s shrimp-player" key={player.id}>
-              <dd className="shrimp-player__name">{player.displayName}</dd>
-              <dt onClick={() => setShrimpSize(getRandomInt(69, 420))}>
-                <ShrimpDrawing
-                  text={player.statusDisplay}
-                  size={shrimpSize}
-                  color={getRandomColor()}
-                />
-              </dt>
-            </li>
+            <ShrimpPlayer key={player.id} player={player} />
           ))}
         </ul>
         {!!playerList.length && (

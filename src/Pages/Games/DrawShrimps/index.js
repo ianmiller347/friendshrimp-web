@@ -23,7 +23,7 @@ const colorChoices = [
 const produceShrimp = (currentShrimps, nameInput) => {
   const newShrimp = {
     text: nameInput,
-    size: getRandomInt(40,250),
+    size: getRandomInt(40, 250),
     color: getRandomItemFromArray(colorChoices),
   };
   ReactGA.event({
@@ -32,10 +32,7 @@ const produceShrimp = (currentShrimps, nameInput) => {
     value: 1,
   });
   if (currentShrimps.length > 0) {
-    return [
-      ...currentShrimps,
-      newShrimp,
-    ];
+    return [...currentShrimps, newShrimp];
   }
   return [newShrimp];
 };
@@ -43,7 +40,7 @@ const produceShrimp = (currentShrimps, nameInput) => {
 const onSubmit = (shrimps, setShrimps, nameInput, setNameInput) => {
   setShrimps(produceShrimp(shrimps, nameInput));
   setNameInput('');
-}
+};
 
 const handleKeyDown = (e, shrimps, setShrimps, nameInput, setNameInput) => {
   // dont do anything unless ENTER has been pressed
@@ -51,7 +48,7 @@ const handleKeyDown = (e, shrimps, setShrimps, nameInput, setNameInput) => {
     return;
   }
   onSubmit(shrimps, setShrimps, nameInput, setNameInput);
-}
+};
 
 const DrawShrimps = () => {
   const [nameInput, setNameInput] = useState('');
@@ -59,33 +56,35 @@ const DrawShrimps = () => {
 
   return (
     <div className="draw-shrimps-container">
-      <input 
+      <input
         type="text"
         value={nameInput}
         name="nameInput"
         placeholder="give your shrimp a name"
         className="draw-shrimps__input"
-        onChange={e => setNameInput(e.target.value )}
-        onKeyPress={e => handleKeyDown(e, shrimps, setShrimps, nameInput, setNameInput)}
+        onChange={(e) => setNameInput(e.target.value)}
+        onKeyPress={(e) =>
+          handleKeyDown(e, shrimps, setShrimps, nameInput, setNameInput)
+        }
       />
-      <button 
-        className="draw-shrimps__button" 
+      <button
+        className="draw-shrimps__button"
         onClick={() => onSubmit(shrimps, setShrimps, nameInput, setNameInput)}
       >
         Draw it
       </button>
       {!!shrimps.length && (
-        <button 
-          className="draw-shrimps__button draw-shrimps__button--clear" 
+        <button
+          className="draw-shrimps__button draw-shrimps__button--clear"
           onClick={() => setShrimps([])}
         >
           Clear them
         </button>
       )}
       <div className="shrimp-drawings">
-        {shrimps.map((shrimp, index) => 
+        {shrimps.map((shrimp, index) => (
           <ShrimpDrawing {...shrimp} key={`${index}_${shrimp.text}`} />
-        )}
+        ))}
       </div>
     </div>
   );

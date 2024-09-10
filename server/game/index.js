@@ -2,13 +2,13 @@ import { handleSockets as handleCardGameSockets } from './card-battle-game';
 import { addUser, updateUser, deleteUser } from '../active-shrimps';
 
 // the game state object
-const gameStateProps = {
-  gameType: 'string',
-  gameId: 'number',
-  status: 'string',
-  player1: 'player',
-  player2: 'player',
-};
+// const gameStateProps = {
+//   gameType: 'string',
+//   gameId: 'number',
+//   status: 'string',
+//   player1: 'player',
+//   player2: 'player',
+// };
 
 let gameState = {
   playerMap: {},
@@ -25,7 +25,7 @@ const initGameState = () => {
 // game state methods
 export const setGameState = (gameId, newGameState) => {
   gameState.gameMap[gameId] = {
-    ...game.gameMap[gameId],
+    ...gameState.gameMap[gameId],
     ...newGameState,
   };
   // socket.emit('gameState', gameState);
@@ -91,14 +91,11 @@ export const handleCreateGame = (socket) => {
 const handlePlayerJoining = (socket) => {
   // handle new player joining
   socket.on('newPlayer', (newPlayerData) => {
-    console.log('socket id', socket.id);
-    console.log('newPlayerData', newPlayerData);
     const newUserData = {
       id: newPlayerData.id,
       name: 'Not David',
       displayName: newPlayerData.name,
     };
-    console.log('new player id, name:', socket.id, newPlayerData.name);
     addUser(newUserData);
   });
 };
@@ -106,8 +103,6 @@ const handlePlayerJoining = (socket) => {
 const handlePlayerUpdateStatus = (socket) => {
   // handle new player joining
   socket.on('playerUpdateStatus', (newPlayerData) => {
-    console.log('socket.id', socket.id);
-    console.log('newPlayerData.id', newPlayerData.id);
     const newUserData = {
       id: newPlayerData.id,
       displayName: newPlayerData.name,
@@ -121,10 +116,7 @@ const handleJoinGameById = (socket) => {
   // joining a room by id
   socket.on('joinGame', (joinGameData) => {
     const joinGameId = joinGameData.gameId.toUpperCase();
-    console.log(`Socket ${socket.id} joining ${joinGameId}`);
-    console.log('game state', gameState);
     if (gameState?.gameMap[joinGameId]?.players.length) {
-      console.log('joined game');
       gameState.gameMap[joinGameId].players.push({
         id: socket.id,
         displayName: joinGameData.playerName,
@@ -135,7 +127,6 @@ const handleJoinGameById = (socket) => {
       );
       const creatorName = creator.displayName;
       const creatorId = creator.id;
-      console.log('game data', gameState.gameMap[joinGameId].gameData);
       gameState.gameMap[
         joinGameId
       ].gameData.gameStatus = `It is your turn, ${creatorName}`;

@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ShrimpObjects from './ShrimpObjects';
+import './Shrimp.scss';
 
 const propTypes = {
   shrimpNumber: PropTypes.number,
@@ -10,13 +12,14 @@ const propTypes = {
 };
 
 const Shrimp = ({ shrimpNumber, leftOffset, topOffset, rotation, index }) => {
-  const shrimpSrc = ShrimpObjects[shrimpNumber].default;
+  // took away .default from the next line now that type: module is removed
+  const shrimpSrc = ShrimpObjects[shrimpNumber];
   return (
     <img
       src={shrimpSrc}
       alt={`shrimp number ${index} on the page`}
+      className="shrimp__image"
       style={{
-        position: `absolute`,
         left: `${leftOffset}px`,
         top: `${topOffset}px`,
         transform: rotation ? `rotate(${rotation}deg)` : 'none',

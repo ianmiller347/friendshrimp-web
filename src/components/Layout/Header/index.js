@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './style.scss';
-// import { pageLinks } from '../../routes';
 
 const HeaderLink = ({ path, displayName }) => (
-  <Link to={path} className="main-nav__page-link">{displayName}</Link>
+  <Link to={path} className="main-nav__page-link">
+    {displayName}
+  </Link>
 );
 
 const pageLinks = [
@@ -29,10 +30,16 @@ const pageLinks = [
 const Header = () => (
   <header>
     <nav className="main-nav">
-      <Link to="/" className="main-nav__page-link">Home</Link>
-      {pageLinks.map(route => 
-        <HeaderLink key={route.path} path={route.path} displayName={route.displayName} />
-      )}
+      <Link to="/" className="main-nav__page-link">
+        Home
+      </Link>
+      {pageLinks.map((route) => (
+        <HeaderLink
+          key={route.path}
+          path={route.path}
+          displayName={route.displayName}
+        />
+      ))}
     </nav>
   </header>
 );

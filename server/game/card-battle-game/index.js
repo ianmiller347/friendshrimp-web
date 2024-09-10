@@ -3,23 +3,20 @@ import { setGameState } from '../';
 export const handleSockets = (socket, gameState) => {
   // handle draw card
   socket.on('drawCard', (drawCardData) => {
-    console.log('drawing card, game state', gameState)
     handleDrawCardLogic(drawCardData, gameState);
     socket.emit('gameState', gameState);
   });
-}
+};
 
 // get new cards based on whether or not you won
 const getNewCards = (didWin, oldCards, cardDrawn, otherCardDrawn) => {
   // if u win u get other card drawn
   if (didWin) {
-    return [
-      ...oldCards,
-      otherCardDrawn,
-    ];
+    return [...oldCards, otherCardDrawn];
   }
   // if u lose u lose card drawn
-  return oldCards.filter(card => !cardMatches(cardDrawn, card));
+  // return oldCards.filter((card) => !cardMatches(cardDrawn, card));
+  return oldCards.filter((card) => cardDrawn !== card);
 };
 
 const handleGameOutcomeLogic = (drawCardData, game, player1IsPlayer1) => {
@@ -44,10 +41,12 @@ const handleGameOutcomeLogic = (drawCardData, game, player1IsPlayer1) => {
     // TODO: put a card down then flip the next
   }
   const player1Wins = cardDrawn1.count > cardDrawn2.count;
-  const player1Name = game.players.find((player) => player.isCreator)
-    .displayName;
-  const player2Name = game.players.find((player) => !player.isCreator)
-    .displayName;
+  const player1Name = game.players.find(
+    (player) => player.isCreator
+  ).displayName;
+  const player2Name = game.players.find(
+    (player) => !player.isCreator
+  ).displayName;
   // now set their decks with the result
   const winnerText = player1Wins
     ? `${player1Name} wins.`
@@ -81,12 +80,8 @@ const handleGameOutcomeLogic = (drawCardData, game, player1IsPlayer1) => {
 
 // when a card is drawn
 const handleDrawCardLogic = (drawCardData, gameState) => {
-  console.log('hanlding card draw logic lol== draw card data: ', drawCardData);
-  console.log('gameState ', gameState);
-  console.log('player that moved', drawCardData.playerId);
-
+  const joinGameId = drawCardData.gameId;
   const thisGame = gameState.gameMap[drawCardData.gameId];
-  console.log('thisgame,', thisGame);
   if (!thisGame) {
     console.error('Cant find the game! Bye.');
     return false;
@@ -97,18 +92,20 @@ const handleDrawCardLogic = (drawCardData, gameState) => {
   );
   const creatorName = creator.displayName;
   const creatorId = creator.id;
-  gameState.gameMap[joinGameId].gameData.gameStatus = `Your turn, ${creatorName}`;
+  gameState.gameMap[
+    joinGameId
+  ].gameData.gameStatus = `Your turn, ${creatorName}`;
   gameState.gameMap[joinGameId].gameData.turn = creatorId;
 
-  // const player1IsPlayer1 = !!thisGame?.players.find(
-  //   (player) => player.id === drawCardData.playerId
-  // ).isCreator;
-  // const hasPlayer1Drawn =
-  //   (player1IsPlayer1 && thisGame.gameData.player1Drawn) ||
-  //   (!player1IsPlayer1 && thisGame.gameData.player2Drawn);
-  // const hasPlayer2Drawn =
-  //   (player1IsPlayer1 && thisGame.gameData.player2Drawn) ||
-  //   (!player1IsPlayer1 && thisGame.gameData.player1Drawn);
+  const player1IsPlayer1 = !!thisGame?.players.find(
+    (player) => player.id === drawCardData.playerId
+  ).isCreator;
+  const hasPlayer1Drawn =
+    (player1IsPlayer1 && thisGame.gameData.player1Drawn) ||
+    (!player1IsPlayer1 && thisGame.gameData.player2Drawn);
+  const hasPlayer2Drawn =
+    (player1IsPlayer1 && thisGame.gameData.player2Drawn) ||
+    (!player1IsPlayer1 && thisGame.gameData.player1Drawn);
 
   // let gameStatus = '';
   // if (hasPlayer1Drawn) {
@@ -127,8 +124,6 @@ const handleDrawCardLogic = (drawCardData, gameState) => {
   //   },
   // });
 
-  socket.emit('gameState', gameState);
-
   if (hasPlayer1Drawn && hasPlayer2Drawn) {
     setTimeout(() => {
       // both hands drawn..
@@ -143,4 +138,3 @@ const handleDrawCardLogic = (drawCardData, gameState) => {
     }, 1111);
   }
 };
-
