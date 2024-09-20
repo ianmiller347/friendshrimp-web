@@ -1,14 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './style.scss';
 
-const HeaderLink = ({ path, displayName }) => (
-  <Link to={path} className="main-nav__page-link">
-    {displayName}
-  </Link>
-);
+const HeaderLink = ({ path, displayName }) => {
+  const location = useLocation();
+
+  const classNames = [
+    'main-nav__page-link',
+    location.pathname === path ? 'active' : '',
+  ].join(' ');
+
+  return (
+    <Link to={path} className={classNames}>
+      {displayName}
+    </Link>
+  );
+};
 
 const pageLinks = [
+  {
+    path: '/',
+    displayName: 'Home',
+  },
   {
     path: '/games',
     displayName: 'Games',
@@ -26,9 +39,6 @@ const pageLinks = [
 const Header = () => (
   <header>
     <nav className="main-nav">
-      <Link to="/" className="main-nav__page-link">
-        Home
-      </Link>
       {pageLinks.map((route) => (
         <HeaderLink
           key={route.path}

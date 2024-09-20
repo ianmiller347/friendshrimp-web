@@ -30,6 +30,10 @@ a {
   transition: all 0.5s;
   padding: 0.25rem;
 
+  &.active {
+    color: #111;
+  }
+
   &:hover {
     color: #fa8072;
     text-decoration: none;
