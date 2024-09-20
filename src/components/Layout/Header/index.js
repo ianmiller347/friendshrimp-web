@@ -21,10 +21,6 @@ const pageLinks = [
     displayName: 'Feed',
     path: '/feed',
   },
-  {
-    path: '/shows',
-    displayName: 'Shows',
-  },
 ];
 
 const Header = () => (
