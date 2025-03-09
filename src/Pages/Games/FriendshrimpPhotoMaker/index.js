@@ -11,14 +11,14 @@ class FriendshrimpPhotoMaker extends React.Component {
       shrimpPhoto: '',
       shrimpPhotoAlt: null,
       shrimpNumber: 1,
-      shrimpUploadText: 'Select photo :)'
+      shrimpUploadText: 'Select photo :)',
     };
   }
 
-  handleInputPhotoOnChange = e => {
+  handleInputPhotoOnChange = (e) => {
     const shrimpUrl = URL.createObjectURL(e.target.files[0]);
     const shrimpPhoto = shrimpUrl || '';
-    // To prevent a memory leak call URL.revokeObjectURL(<previously_created_ objectUrl>) 
+    // To prevent a memory leak call URL.revokeObjectURL(<previously_created_ objectUrl>)
     // to remove the old image URL from the memoreee
     this.setState({
       shrimpPhoto,
@@ -26,51 +26,56 @@ class FriendshrimpPhotoMaker extends React.Component {
     });
 
     setTimeout(() => this.setState({ shrimpUploadText: 'New?' }), 1234);
-  }
+  };
 
   render() {
-    const {
-      shrimpPhoto,
-      shrimpPhotoAlt,
-      shrimpNumber,
-      shrimpUploadText,
-    } = this.state;
+    const { shrimpPhoto, shrimpPhotoAlt, shrimpNumber, shrimpUploadText } =
+      this.state;
 
     return (
       <div className="photo-maker">
         <form name="friendshrimp-photo-maker--form">
-          <label 
-            htmlFor="friendshrimp-photo-maker--upload" 
-            className="friendshrimp-photo-maker--upload-label">
+          <label
+            htmlFor="friendshrimp-photo-maker--upload"
+            className="friendshrimp-photo-maker--upload-label"
+          >
             <span className="friendshrimp-photo-maker--upload-label__text">
               {shrimpUploadText}
             </span>
             <FeatherIcon icon="upload-cloud" size={69} />
-            <input 
-              name="friendshrimp-photo-maker--upload" 
+            <input
+              name="friendshrimp-photo-maker--upload"
               id="friendshrimp-photo-maker--upload"
               className="friendshrimp-photo-maker--input"
               type="file"
               accept=".jpg, .jpeg, .png, .gif"
               onChange={this.handleInputPhotoOnChange}
               placeholder="Text"
-              alt="Friendshrimp Photo Maker is a shrimp for friends photo" />
+              alt="Friendshrimp Photo Maker is a shrimp for friends photo"
+            />
           </label>
-          {
-            shrimpPhoto &&
-            <FriendshrimpPhoto 
-              photo={shrimpPhoto} 
+          {shrimpPhoto && (
+            <FriendshrimpPhoto
+              photo={shrimpPhoto}
               alt={shrimpPhotoAlt}
-              shrimpNumber={shrimpNumber} />
-          }
+              shrimpNumber={shrimpNumber}
+            />
+          )}
         </form>
-        <input 
+        <input
           type="hidden"
-          name="hidey-boy-shrimp" 
-          value="heh you found me u sneaker hacker LOL :) i was hiding!" />
+          name="hidey-boy-shrimp"
+          value="heh you found me u sneaker hacker LOL :) i was hiding!"
+        />
       </div>
     );
   }
 }
+
+export const FriendshrimpPhotoMakerPreview = () => (
+  <div>
+    <FeatherIcon icon="image" />
+  </div>
+);
 
 export default FriendshrimpPhotoMaker;

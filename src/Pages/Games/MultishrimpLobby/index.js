@@ -10,6 +10,7 @@ import {
 } from '../utilities/socketio';
 import ShrimpPlayer from './ShrimpPlayer';
 import './style.scss';
+import FeatherIcon from 'feather-icons-react';
 
 const MultiShrimpLobby = () => {
   const [inputText, setInputText] = useState('');
@@ -103,5 +104,13 @@ const MultiShrimpLobby = () => {
     </div>
   );
 };
+
+const MultiShrimpLobbyPreview = () => (
+  <div className="multi-shrimp-lobby-preview">
+    <FeatherIcon icon="message-circle" />
+  </div>
+);
+
+export { MultiShrimpLobbyPreview };
 
 export default MultiShrimpLobby;

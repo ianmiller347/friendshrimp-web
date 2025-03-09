@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { getShuffledDeck } from './deckOfCards';
 import CardBattle from './CardBattle';
-import './style.scss';
 import { Link } from 'react-router-dom';
+import './style.scss';
+import ShrimpCard from '../../../components/ShrimpCard';
 
 const ShrimpCardsBattle = () => {
   const [deck, createDeck] = useState([]);
@@ -10,21 +11,33 @@ const ShrimpCardsBattle = () => {
 
   return (
     <div className="shrimp-cards-container">
-      <button 
-        className="shrimp-cards__button button" 
+      <button
+        className="shrimp-cards__button button"
         onClick={() => createDeck(getShuffledDeck)}
       >
-        New game against random number generator
+        New game vs. RNG bot
       </button>
-      <Link 
-        className="shrimp-cards__button button" 
+      <Link
+        className="shrimp-cards__button button"
         to="/games/card-battle/friend"
       >
-        New game against friend
+        New game vs. friend
       </Link>
       {showBattle && <CardBattle deck={deck} />}
     </div>
   );
 };
+
+const shrimpCard = {
+  name: 'ace',
+  display: 'Ace',
+  count: 1,
+};
+
+export const ShrimpCardsBattlePreview = () => (
+  <div className="display-flex justify-content-center">
+    <ShrimpCard shrimpCard={shrimpCard} />
+  </div>
+);
 
 export default ShrimpCardsBattle;

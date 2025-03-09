@@ -5,6 +5,19 @@
   width: 1200px;
   max-width: calc(100% - 4px);
   margin: 0 auto;
+
+  &--preview {
+    overflow: hidden;
+
+    .shrimp-keyboard {
+      width: 300%;
+      flex-wrap: nowrap;
+    }
+
+    .shrimp-key svg {
+      width: 250px;
+    }
+  }
 }
 
 .shrimp-keyboard {
@@ -21,7 +34,8 @@
 
 .shrimp-key {
   border: none;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
   cursor: pointer;
   padding: 1rem 0;
   touch-action: manipulation;

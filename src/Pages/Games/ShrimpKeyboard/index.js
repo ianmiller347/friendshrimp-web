@@ -50,4 +50,6 @@ class ShrimpKeyboard extends React.Component {
   }
 }
 
+export { default as ShrimpKeyboardPreview } from './Preview';
+
 export default ShrimpKeyboard;

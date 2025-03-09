@@ -5,6 +5,9 @@ import Crab from './Crab';
 import Lobster from './Lobster';
 
 const CardSuite = ({ suite, size }) => {
+  if (!suite) {
+    return <ShrimpSvg size={size || 25} />;
+  }
   const svgAttributes = {
     size: size || 25,
     className: suite.color,

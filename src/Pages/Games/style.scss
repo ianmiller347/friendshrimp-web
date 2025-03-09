@@ -7,17 +7,19 @@
 .games-list {
   padding: 2rem;
   margin: 0;
-  background: rgba(240,240,240,.5);
+  background: rgba(240, 240, 240, 0.5);
 
   .game {
-    box-shadow: 3px 3px 3px rgba(69,69,69, .5);
-    margin: .5rem 0;
+    box-shadow: 3px 3px 3px rgba(69, 69, 69, 0.5);
+    margin: 0 0 2.5rem 0;
+    border-radius: 10px;
     list-style: none;
-    background-color: white;
-    transition: background-color .5s;
+    background-color: rgb(237, 231, 177);
+    transition: background-color 0.5s;
 
-    &:hover, &:focus {
-      background-color: rgb(240,240,240);
+    &:hover,
+    &:focus {
+      background-color: rgb(240, 240, 240);
     }
 
     &__link-title {

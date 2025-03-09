@@ -1,3 +1,19 @@
 .shrimp__image {
   position: absolute;
+  transition: all 0.5s;
+
+  @for $i from 1 through 360 {
+    &--rotation#{$i} {
+      transform: rotate(#{$i}deg);
+    }
+  }
+
+  &:hover {
+    opacity: 0.7;
+    transform: rotate(0deg);
+  }
+
+  &--scaling-scaling {
+    transform: scale(1.1);
+  }
 }
