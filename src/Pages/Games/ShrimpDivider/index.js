@@ -5,6 +5,7 @@ import Shrimps from './Shrimps';
 import JuiceHit from './JuiceHit';
 
 import './style.scss';
+import FeatherIcon from 'feather-icons-react';
 
 /**
  * Shrimp Divider of the Shrimp Juice Game
@@ -130,5 +131,11 @@ const ShrimpDivider = () => {
     </div>
   );
 };
+
+export const ShrimpDividerPreview = () => (
+  <div className="shrimp-divider-preview">
+    <FeatherIcon icon="activity" />
+  </div>
+);
 
 export default ShrimpDivider;

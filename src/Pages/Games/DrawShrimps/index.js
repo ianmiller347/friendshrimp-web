@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ReactGA from 'react-ga';
+import FeatherIcon from 'feather-icons-react';
 import { getRandomInt, getRandomItemFromArray } from '../../../util/rng';
 import ShrimpDrawing from '../../../components/ShrimpDrawing';
 import './style.scss';
@@ -89,5 +90,11 @@ const DrawShrimps = () => {
     </div>
   );
 };
+
+export const DrawShrimpsPreview = () => (
+  <div>
+    <FeatherIcon icon="pen-tool" />
+  </div>
+);
 
 export default DrawShrimps;

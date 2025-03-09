@@ -2,22 +2,30 @@
   .button {
     background: blue;
     color: white;
-    padding: .5rem 2rem;
-    border-radius: 4.20rem;
+    padding: 0.5rem 2rem;
+    border-radius: 4.2rem;
     box-shadow: 0 0 6px #999;
     cursor: pointer;
 
     &--side-submit {
-      border-radius: 0 4.20rem 4.20rem 0;
+      border-radius: 0 4.2rem 4.2rem 0;
     }
+  }
+
+  .shrimp-cards__button {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    max-width: 90%;
+    color: white;
+    font-family: 'shrimp_fontregular';
   }
 
   .pill {
     background: cyan;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
-    padding: .5rem 2rem;
-    border-radius: 4.20rem;
+    padding: 0.5rem 2rem;
+    border-radius: 4.2rem;
     box-shadow: 0 0 6px #333;
   }
 
@@ -26,14 +34,14 @@
   }
 
   .input-with-side-submit {
-    padding-top: .5rem;
-    padding-bottom: .5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     text-align: center;
   }
 
   .card-battle {
     padding-top: 1rem;
-    
+
     &__displays {
       display: flex;
       flex-direction: column;
@@ -46,7 +54,7 @@
 
       .shrimp-card {
         animation-name: fadeIn;
-        animation-duration: .5s;
+        animation-duration: 0.5s;
         animation-fill-mode: forwards;
       }
     }
