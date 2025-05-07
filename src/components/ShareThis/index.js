@@ -36,7 +36,11 @@ const ShareThis = ({ currentRoute }) => {
   const [showingList, toggleList] = useState(false);
 
   return (
-    <div className="sharethis-container">
+    <div
+      className={`sharethis-container${
+        showingList ? ' sharethis-container--active' : ''
+      }`}
+    >
       <button
         title="Share this site to your friends"
         className="sharethis__toggle"

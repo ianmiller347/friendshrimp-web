@@ -96,6 +96,7 @@ const DonateButton = ({ currency, amount, displayName, setWarning }) => {
 
 function AmountPicker({ amount, onAmountChange, warning, setWarning }) {
   const [customAmount, setCustomAmount] = useState('');
+  const [isUsingCustom, setIsUsingCustom] = useState(false);
 
   const amounts = [
     {
@@ -117,19 +118,22 @@ function AmountPicker({ amount, onAmountChange, warning, setWarning }) {
   ];
 
   const handleAmountChange = (e) => {
+    setIsUsingCustom(false);
     onAmountChange(e.target.value);
   };
 
   const handleCustomValueChange = (e) => {
     const value = e.target.value;
     if (value) {
+      setIsUsingCustom(true);
       setWarning(false);
     }
     setCustomAmount(value);
     onAmountChange(value);
   };
 
-  const showAmountWarning = warning && (!amount || amount === 'custom');
+  const showAmountWarning =
+    warning && (!amount || amount === 'custom' || amount < 1);
 
   return (
     <div className="amount-picker-container">
@@ -143,7 +147,10 @@ function AmountPicker({ amount, onAmountChange, warning, setWarning }) {
               onChange={handleAmountChange}
               name="amount"
               className="amount-picker__radio"
-              checked={amount === amountObject.value}
+              checked={
+                amount === amountObject.value ||
+                (isUsingCustom && amountObject.value === 'custom')
+              }
             />
             {amountObject.displayName}
             {amountObject.value === 'custom' && (
@@ -157,7 +164,9 @@ function AmountPicker({ amount, onAmountChange, warning, setWarning }) {
           </label>
         ))}
         {showAmountWarning && (
-          <span className="donate-form__warning">Please enter an amount</span>
+          <span className="donate-form__warning">
+            Please enter an amount of at least 1.00
+          </span>
         )}
       </fieldset>
     </div>
