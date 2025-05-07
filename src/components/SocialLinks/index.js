@@ -2,6 +2,7 @@ import React from 'react';
 import { Facebook, Instagram, Twitter } from 'feather-icons-react';
 import SocialLink from './SocialLink';
 import SoundCloudIcon from './SoundCloudIcon';
+import SpotifyIcon from './SpotifyIcon';
 import './style.scss';
 
 const size = 38;
@@ -12,7 +13,7 @@ const SOCIAL_LINKS = [
     name: 'spotify',
     displayName: 'Spotify',
     description: 'Listen to Friendshrimp on Spotify',
-    Component: () => <SoundCloudIcon size={size} />,
+    Component: () => <SpotifyIcon size={size} />,
   },
   {
     url: 'http://instagram.com/friendshrimp',

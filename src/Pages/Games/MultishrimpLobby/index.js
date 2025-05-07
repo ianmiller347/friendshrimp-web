@@ -72,6 +72,7 @@ const MultiShrimpLobby = () => {
   return (
     <div>
       <h1>Shrimp Lobby</h1>
+      <p>Chatroom for shrimps. Join the chat room!</p>
       <blockquote>Just some shrimps hanging out</blockquote>
       <div>
         <input
@@ -86,7 +87,7 @@ const MultiShrimpLobby = () => {
         </button>
       </div>
       <div className="shrimps-in-water-container">
-        <h3>Shrimps in the water</h3>
+        <h3>{playerList.length} Shrimps in the water</h3>
         <ul className="shrimp-list list-style-none display-flex flex-wrap">
           {playerList.map((player) => (
             <ShrimpPlayer key={player.id} player={player} />
