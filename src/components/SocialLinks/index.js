@@ -1,6 +1,7 @@
 import React from 'react';
-import { Facebook, Instagram, Twitter } from 'feather-icons-react';
+import { Instagram, Youtube } from 'feather-icons-react';
 import SocialLink from './SocialLink';
+import AppleMusicIcon from './AppleMusicIcon';
 import SoundCloudIcon from './SoundCloudIcon';
 import SpotifyIcon from './SpotifyIcon';
 import './style.scss';
@@ -23,19 +24,18 @@ const SOCIAL_LINKS = [
     Component: () => <Instagram size={size} />,
   },
   {
-    url: 'http://twitter.com/friendshrimps',
-    name: 'twitter',
-    displayName: 'Twitter',
-    description:
-      'Twitter. Follow us and make a shrimpy boys more popular lol i promise i have friends',
-    Component: () => <Twitter size={size} />,
+    url: 'https://www.youtube.com/@friendshrimp',
+    name: 'youtube',
+    displayName: 'YouTube',
+    description: 'Youtube. Check out our shrimpy videos',
+    Component: () => <Youtube size={size} />,
   },
   {
-    url: 'http://facebook.com/friendshrimpmusic',
-    name: 'facebook',
-    displayName: 'Facebook',
-    description: 'We wanna be friends on Facebook',
-    Component: () => <Facebook size={size} />,
+    url: 'https://music.apple.com/us/artist/friendshrimp/1497627091',
+    name: 'applemusic',
+    displayName: 'Apple Music',
+    description: 'Listen to Friendshrimp on Apple Music',
+    Component: () => <AppleMusicIcon size={size} />,
   },
   {
     url: 'http://soundcloud.com/friendshrimp',
@@ -49,11 +49,7 @@ const SOCIAL_LINKS = [
 const SocialLinks = () => (
   <ul className="social-links">
     {SOCIAL_LINKS.map((socialLink, index) => (
-      <SocialLink
-        key={`${socialLink.name}_${index}`}
-        index={index}
-        {...socialLink}
-      />
+      <SocialLink key={socialLink.name} index={index} {...socialLink} />
     ))}
   </ul>
 );

@@ -4,8 +4,8 @@ import SocialLinks from '../SocialLinks';
 
 const Footer = ({ currentRoute }) => (
   <footer>
-    <SocialLinks />
     <ShareThis currentRoute={currentRoute} />
+    <SocialLinks />
   </footer>
 );
 
