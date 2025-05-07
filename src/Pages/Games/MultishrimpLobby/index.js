@@ -108,7 +108,7 @@ const MultiShrimpLobby = () => {
 
 const MultiShrimpLobbyPreview = () => (
   <div className="multi-shrimp-lobby-preview">
-    <FeatherIcon icon="message-circle" />
+    <FeatherIcon size={64} icon="message-circle" />
   </div>
 );
 

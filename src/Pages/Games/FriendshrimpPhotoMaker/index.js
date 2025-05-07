@@ -74,7 +74,7 @@ class FriendshrimpPhotoMaker extends React.Component {
 
 export const FriendshrimpPhotoMakerPreview = () => (
   <div>
-    <FeatherIcon icon="image" />
+    <FeatherIcon size={64} icon="image" />
   </div>
 );
 

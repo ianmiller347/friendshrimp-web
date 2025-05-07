@@ -15,20 +15,21 @@ import './style.scss';
 
 export const gamesList = [
   {
-    name: 'shrimp-lobby',
-    displayName: 'Multishrimp Lobby',
-    path: '/games/shrimp-lobby',
-    PageComponent: MultiShrimpLobby,
-    description: 'just some shrimps hanging out in the water',
-    PreviewSection: () => <MultiShrimpLobbyPreview />,
-  },
-  {
     name: 'card-battle',
     displayName: 'Shrimps card battle',
     path: '/games/card-battle',
     PageComponent: ShrimpCardsBattle,
-    description: 'battle the shrimp cards together',
+    description: 'battle the shrimp cards together.',
     PreviewSection: () => <ShrimpCardsBattlePreview />,
+  },
+  {
+    name: 'shrimp-lobby',
+    displayName: 'Multishrimp Lobby',
+    path: '/games/shrimp-lobby',
+    PageComponent: MultiShrimpLobby,
+    description:
+      'just some shrimps hanging out in the water. chat with other shrimps now.',
+    PreviewSection: () => <MultiShrimpLobbyPreview />,
   },
   {
     name: 'shrimp-divider',
@@ -40,20 +41,21 @@ export const gamesList = [
     PreviewSection: () => <ShrimpDividerPreview />,
   },
   {
-    name: 'draw-shrimps',
-    displayName: 'Draw shrimps',
-    path: '/games/draw-shrimps',
-    PageComponent: DrawShrimps,
-    description: 'draw a shrimps our something',
-    PreviewSection: () => <DrawShrimpsPreview />,
-  },
-  {
     name: 'shrimp-keyboard',
     displayName: 'Shrimp Keyboard',
     path: '/games/shrimp-keyboard',
     PageComponent: ShrimpKeyboard,
     description: 'shrimps can make music too',
     PreviewSection: () => <ShrimpKeyboardPreview />,
+  },
+  {
+    name: 'draw-shrimps',
+    displayName: 'Draw shrimps',
+    path: '/games/draw-shrimps',
+    PageComponent: DrawShrimps,
+    description:
+      'draw a shrimps our something. add as many different shrimp friends as u want.',
+    PreviewSection: () => <DrawShrimpsPreview />,
   },
   {
     name: 'friendshrimp-photo-maker',
@@ -76,7 +78,7 @@ const Games = () => (
           ({ name, displayName, path, description, PreviewSection }) => (
             <li className="game" key={name}>
               <Link to={path} className="game__link-title">
-                <h5 className="title">
+                <h5 className="game__title">
                   {displayName} <FeatherIcon icon="play" />
                 </h5>
                 <div className="game__preview">

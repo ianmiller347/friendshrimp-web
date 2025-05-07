@@ -6,7 +6,7 @@ const Preview = () => {
   return (
     <div className="shrimp-keyboard-container shrimp-keyboard-container--preview">
       <div className="shrimp-keyboard">
-        <ShrimpKeys />
+        <ShrimpKeys onClick={() => {}} />
       </div>
     </div>
   );

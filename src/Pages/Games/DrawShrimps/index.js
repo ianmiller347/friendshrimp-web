@@ -93,7 +93,7 @@ const DrawShrimps = () => {
 
 export const DrawShrimpsPreview = () => (
   <div>
-    <FeatherIcon icon="pen-tool" />
+    <FeatherIcon size={64} icon="pen-tool" />
   </div>
 );
 

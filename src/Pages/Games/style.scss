@@ -15,11 +15,22 @@
     border-radius: 10px;
     list-style: none;
     background-color: rgb(237, 231, 177);
-    transition: background-color 0.5s;
+    opacity: 1;
+    transition: background-color 0.25s, box-shadow 0.25s, opacity 0.3s;
 
     &:hover,
     &:focus {
       background-color: rgb(240, 240, 240);
+      box-shadow: -3px -3px 3px rgba(69, 69, 69, 0.5);
+      opacity: 0.8;
+    }
+
+    &__title {
+      margin: 0 0 1rem 0;
+    }
+
+    &__preview {
+      margin-bottom: 1rem;
     }
 
     &__link-title {
@@ -31,6 +42,7 @@
 
     &__description {
       font-style: italic;
+      margin: 0;
     }
   }
 }

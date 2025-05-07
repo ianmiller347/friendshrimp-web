@@ -134,7 +134,7 @@ const ShrimpDivider = () => {
 
 export const ShrimpDividerPreview = () => (
   <div className="shrimp-divider-preview">
-    <FeatherIcon icon="activity" />
+    <FeatherIcon size={64} icon="activity" />
   </div>
 );
 
