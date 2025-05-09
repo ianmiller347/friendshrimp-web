@@ -29,3 +29,23 @@
     }
   }
 }
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.scrolling-text {
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: small;
+
+  span {
+    display: inline-block;
+    animation: scroll 15s linear infinite;
+  }
+}

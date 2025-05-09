@@ -31,7 +31,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const site = isDev ? 'http://localhost:3000' : 'https://friendshrimp.com';
 // setup socket io
 let interval;
-let io = new socketIO.Server(server, {
+const io = new socketIO.Server(server, {
   cors: {
     origin: site,
     methods: ['GET', 'POST'],
