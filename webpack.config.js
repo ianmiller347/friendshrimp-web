@@ -2,37 +2,46 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.tsx',
   mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
   output: {
-    filename: '[id].bundle.js',
-    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js', '.jsx'],
   },
   module: {
     rules: [
       {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
+      {
         test: /\.(js|jsx)$/,
-        resolve: {
-          fullySpecified: false,
-        },
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
+            presets: [
+              '@babel/preset-env',
+              '@babel/preset-react',
+              '@babel/preset-typescript',
+            ],
           },
         },
       },
       {
-        test: /\.(scss|css)$/,
+        test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(woff|woff2|otf|ttf)$/,
-        type: 'asset/inline',
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
       },
       {
-        test: /\.(jpg|png|mp3)$/,
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
       },
     ],
