@@ -13,12 +13,14 @@ import { addUser, updateUser, deleteUser } from '../active-shrimps';
 let gameState = {
   playerMap: {},
   gameMap: {},
+  socketMap: {}, // Map socket IDs to socket objects
 };
 
 const initGameState = () => {
   gameState = {
     playerMap: {},
     gameMap: {},
+    socketMap: {},
   };
 };
 
@@ -36,11 +38,19 @@ export const handleGame = (socket) => {
   // general
   initGameState();
 
+  // Store socket reference
+  gameState.socketMap[socket.id] = socket;
+
   if (interval) {
     clearInterval(interval);
   }
   interval = setInterval(() => {
-    socket.emit('gameState', gameState);
+    // Create a clean game state without socket references to avoid circular references
+    const cleanGameState = {
+      playerMap: gameState.playerMap,
+      gameMap: gameState.gameMap,
+    };
+    socket.emit('gameState', cleanGameState);
   }, 1420);
 
   socket.on('gameState', (newGameStateData) => {
@@ -79,11 +89,17 @@ export const handleCreateGame = (socket) => {
         gameData: {
           ...newGameData.gameData,
           player1Id: socket.id,
+          turn: socket.id, // Set initial turn to creator
         },
       };
-      socket.emit('gameState', gameState);
+      // Create a clean game state without socket references
+      const cleanGameState = {
+        playerMap: gameState.playerMap,
+        gameMap: gameState.gameMap,
+      };
+      socket.emit('gameState', cleanGameState);
     } else {
-      socket.broadcast.emit('Game title already exists. Try again.');
+      socket.emit('Game title already exists. Try again.');
     }
   });
 };
@@ -131,25 +147,44 @@ const handleJoinGameById = (socket) => {
         joinGameId
       ].gameData.gameStatus = `It is your turn, ${creatorName}`;
       gameState.gameMap[joinGameId].gameData.turn = creatorId;
-      socket.emit('gameState', gameState);
+
+      // Emit to all players in the game
+      const cleanGameState = {
+        playerMap: gameState.playerMap,
+        gameMap: gameState.gameMap,
+      };
+      gameState.gameMap[joinGameId].players.forEach((player) => {
+        const playerSocket = gameState.socketMap[player.id];
+        if (playerSocket) {
+          playerSocket.emit('gameState', cleanGameState);
+        }
+      });
     } else {
-      socket.broadcast.emit(
-        'joinGameError',
-        'Game ID does not exist. Try again.'
-      );
+      socket.emit('joinGameError', 'Game ID does not exist. Try again.');
     }
   });
 };
 
 const handleDisconnect = (socket) => {
-  socket.on('disconnect', () => {
+  socket.on('disconnect', async () => {
     const userInfo = {
       id: socket.id,
     };
-    deleteUser(userInfo);
+
+    // Try to delete user from DynamoDB, but don't crash if it fails
+    try {
+      await deleteUser(userInfo);
+    } catch (error) {
+      console.error('Failed to delete user from DynamoDB:', error.message);
+      // Continue execution even if DynamoDB deletion fails
+    }
+
     // old game state deletes. remove all this when done db integration
     if (gameState?.playerMap?.[socket.id]) {
       delete gameState.playerMap[socket.id];
+    }
+    if (gameState?.socketMap?.[socket.id]) {
+      delete gameState.socketMap[socket.id];
     }
     // TODO: delete games not being used, add checker if they got phantom boies
     Object.keys(gameState.gameMap).forEach((key) => {

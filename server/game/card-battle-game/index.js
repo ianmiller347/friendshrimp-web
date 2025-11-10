@@ -3,8 +3,7 @@ import { setGameState } from '../';
 export const handleSockets = (socket, gameState) => {
   // handle draw card
   socket.on('drawCard', (drawCardData) => {
-    handleDrawCardLogic(drawCardData, gameState);
-    socket.emit('gameState', gameState);
+    handleDrawCardLogic(drawCardData, gameState, socket);
   });
 };
 
@@ -19,25 +18,17 @@ const getNewCards = (didWin, oldCards, cardDrawn, otherCardDrawn) => {
   return oldCards.filter((card) => cardDrawn !== card);
 };
 
-const handleGameOutcomeLogic = (drawCardData, game, player1IsPlayer1) => {
+const handleGameOutcomeLogic = (drawCardData, game, socket, gameState) => {
   const { gameData } = game;
-  const cardDrawn1 = player1IsPlayer1
-    ? gameData.player1Drawn
-    : gameData.player2Drawn;
-  const cardDrawn2 = player1IsPlayer1
-    ? gameData.player2Drawn
-    : gameData.player1Drawn;
-  const player1Cards = player1IsPlayer1
-    ? gameData.player1Cards
-    : gameData.player2Cards;
-  const player2Cards = player1IsPlayer1
-    ? gameData.player2Cards
-    : gameData.player1Cards;
+  const cardDrawn1 = gameData.player1Drawn;
+  const cardDrawn2 = gameData.player2Drawn;
+  const player1Cards = gameData.player1Cards;
+  const player2Cards = gameData.player2Cards;
 
   // now calculate the outcome
   const isBattle = cardDrawn1.count === cardDrawn2.count;
   if (isBattle) {
-    // for now just let the tie go to the user
+    // for now just let the tie go to the creator
     // TODO: put a card down then flip the next
   }
   const player1Wins = cardDrawn1.count > cardDrawn2.count;
@@ -51,7 +42,7 @@ const handleGameOutcomeLogic = (drawCardData, game, player1IsPlayer1) => {
   const winnerText = player1Wins
     ? `${player1Name} wins.`
     : `${player2Name} wins.`;
-  // todo fix
+
   const player1NewCards = getNewCards(
     player1Wins,
     player1Cards,
@@ -65,7 +56,7 @@ const handleGameOutcomeLogic = (drawCardData, game, player1IsPlayer1) => {
     cardDrawn1
   );
 
-  setGameState(drawCardData.gameId, {
+  const updatedGame = {
     ...game,
     gameData: {
       ...game.gameData,
@@ -74,12 +65,27 @@ const handleGameOutcomeLogic = (drawCardData, game, player1IsPlayer1) => {
       player1Cards: player1NewCards,
       player2Cards: player2NewCards,
       gameStatus: winnerText,
+      turn: null, // Reset turn after battle
     },
+  };
+
+  setGameState(drawCardData.gameId, updatedGame);
+
+  // Emit to all players in the game
+  const cleanGameState = {
+    playerMap: gameState.playerMap,
+    gameMap: gameState.gameMap,
+  };
+  game.players.forEach((player) => {
+    const playerSocket = gameState.socketMap[player.id];
+    if (playerSocket) {
+      playerSocket.emit('gameState', cleanGameState);
+    }
   });
 };
 
 // when a card is drawn
-const handleDrawCardLogic = (drawCardData, gameState) => {
+const handleDrawCardLogic = (drawCardData, gameState, socket) => {
   const joinGameId = drawCardData.gameId;
   const thisGame = gameState.gameMap[drawCardData.gameId];
   if (!thisGame) {
@@ -87,42 +93,40 @@ const handleDrawCardLogic = (drawCardData, gameState) => {
     return false;
   }
 
-  const creator = gameState.gameMap[drawCardData.gameId].players.find(
-    (player) => player.isCreator
+  // Find the player who drew the card
+  const drawingPlayer = thisGame.players.find(
+    (player) => player.id === drawCardData.playerId
   );
-  const creatorName = creator.displayName;
-  const creatorId = creator.id;
+
+  if (!drawingPlayer) {
+    console.error('Player not found in game!');
+    return false;
+  }
+
+  // Determine if this is player 1 (creator) or player 2
+  const isCreator = drawingPlayer.isCreator;
+
+  // Set the drawn card for the appropriate player
+  if (isCreator) {
+    gameState.gameMap[joinGameId].gameData.player1Drawn =
+      drawCardData.cardDrawn;
+  } else {
+    gameState.gameMap[joinGameId].gameData.player2Drawn =
+      drawCardData.cardDrawn;
+  }
+
+  // Update game status
+  const otherPlayer = thisGame.players.find(
+    (player) => player.id !== drawCardData.playerId
+  );
   gameState.gameMap[
     joinGameId
-  ].gameData.gameStatus = `Your turn, ${creatorName}`;
-  gameState.gameMap[joinGameId].gameData.turn = creatorId;
+  ].gameData.gameStatus = `Waiting for ${otherPlayer.displayName} to draw...`;
+  gameState.gameMap[joinGameId].gameData.turn = otherPlayer.id;
 
-  const player1IsPlayer1 = !!thisGame?.players.find(
-    (player) => player.id === drawCardData.playerId
-  ).isCreator;
-  const hasPlayer1Drawn =
-    (player1IsPlayer1 && thisGame.gameData.player1Drawn) ||
-    (!player1IsPlayer1 && thisGame.gameData.player2Drawn);
-  const hasPlayer2Drawn =
-    (player1IsPlayer1 && thisGame.gameData.player2Drawn) ||
-    (!player1IsPlayer1 && thisGame.gameData.player1Drawn);
-
-  // let gameStatus = '';
-  // if (hasPlayer1Drawn) {
-  //   gameStatus += `${player1Name} has drawn. `;
-  // }
-  // if (hasPlayer2Drawn) {
-  //   gameStatus += `${player2Name} has drawn. `;
-  // }
-  // setGameState(drawCardData.gameId, {
-  //   ...thisGame,
-  //   gameData: {
-  //     ...thisGame.gameData,
-  //     player1Drawn: hasPlayer1Drawn,
-  //     player2Drawn: hasPlayer2Drawn,
-  //     gameStatus: gameStatus,
-  //   },
-  // });
+  // Check if both players have drawn
+  const hasPlayer1Drawn = !!thisGame.gameData.player1Drawn;
+  const hasPlayer2Drawn = !!thisGame.gameData.player2Drawn;
 
   if (hasPlayer1Drawn && hasPlayer2Drawn) {
     setTimeout(() => {
@@ -134,7 +138,19 @@ const handleDrawCardLogic = (drawCardData, gameState) => {
           gameStatus: 'Both hands drawn. And the winner is...',
         },
       };
-      handleGameOutcomeLogic(drawCardData, thisGame, player1IsPlayer1);
+      handleGameOutcomeLogic(drawCardData, thisGame, socket, gameState);
     }, 1111);
   }
+
+  // Emit updated game state to all players in the game
+  const cleanGameState = {
+    playerMap: gameState.playerMap,
+    gameMap: gameState.gameMap,
+  };
+  thisGame.players.forEach((player) => {
+    const playerSocket = gameState.socketMap[player.id];
+    if (playerSocket) {
+      playerSocket.emit('gameState', cleanGameState);
+    }
+  });
 };

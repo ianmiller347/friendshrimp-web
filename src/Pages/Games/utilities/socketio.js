@@ -55,8 +55,8 @@ export const subscribeToJoinGame = (cb) => {
   socket.on('joinGame', (data) => cb(data));
 };
 
-export const handleDrawCard = (data) => {
-  socket.emit('drawCard', data);
+export const handleDrawCard = (eventName, data) => {
+  socket.emit(eventName, data);
 };
 
 export const subscribeToCardDrawn = (cb) => {

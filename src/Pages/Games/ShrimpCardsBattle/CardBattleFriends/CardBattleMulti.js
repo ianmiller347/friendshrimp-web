@@ -11,11 +11,13 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
   // we have to match up on gameState
   // if player 1, aka current client, is the creator, he matches with player 1 on server
   // if not, then he matches with player 2 on the server.
-  const player1Cards = player1.isCreator ? 
-    gameState.gameData.player1Cards : gameState.gameData.player2Cards;
-  const player2Cards = !player1.isCreator ?
-    gameState.gameData.player2Cards : gameState.gameData.player1Cards;
-  
+  const player1Cards = player1.isCreator
+    ? gameState.gameData.player1Cards
+    : gameState.gameData.player2Cards;
+  const player2Cards = !player1.isCreator
+    ? gameState.gameData.player2Cards
+    : gameState.gameData.player1Cards;
+
   // const [gameStatus, setGameStatus] = useState(gameState.gameData.gameStatus);
   const gameStatus = gameState.gameData.gameStatus;
   console.log('gameState game data??', gameState);
@@ -40,9 +42,13 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
   //   setGameStatus(gameState.gameData.gameStatus);
   // }, [gameState.gameData.gameStatus]);
 
-  const isItYourTurn = !!gameState.turn;
+  const isItYourTurn = gameState.gameData.turn === player1.id;
 
   const drawACard = () => {
+    if (!isItYourTurn) {
+      return; // Don't allow drawing if it's not your turn
+    }
+
     setDisplay1(null);
     // first display the card that player 1 just drew
     const cardDrawn1 = drawCard(player1Cards);
@@ -57,7 +63,7 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
       handleDrawCard('drawCard', newCard);
       setDisplay1(cardDrawn1);
     }, 200);
-    
+
     ReactGA.event({
       category: 'shrimp-cards-battle',
       action: 'player-draw',
@@ -74,7 +80,7 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
   const gameHasBegun = gameStatus !== INIT_GAME_TEXT;
   const gameIsOver = !player1Cards.length || !player2Cards.length;
   if (gameIsOver) {
-    const message = !player1Cards.length 
+    const message = !player1Cards.length
       ? `${otherPlayerName} won. ${player1Name} has no more cards.`
       : `${player1Name} won. ${otherPlayerName} has no more cards.`;
     return (
@@ -88,12 +94,17 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
     <div className="card-battle">
       {gameHasBegun && (
         <div className="card-battle__scoreboard">
-          <div>{player1Name}: {player1Cards.length}</div>
-          <div>{otherPlayerName}: {player2Cards.length}</div>
+          <div>
+            {player1Name}: {player1Cards.length}
+          </div>
+          <div>
+            {otherPlayerName}: {player2Cards.length}
+          </div>
         </div>
       )}
       <h3>{gameStatus}</h3>
-      <p>{isItYourTurn && 'its yo turn lol go'}</p>
+      {isItYourTurn && <p>It's your turn! Draw a card.</p>}
+      {!isItYourTurn && <p>Waiting for {otherPlayerName} to draw...</p>}
       <div className="card-battle__displays">
         <div className="card-battle__player-two">
           {otherPlayersDisplay && (
@@ -117,11 +128,12 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
         </div>
       </div>
       <div className="card-battle__go">
-        <button 
-          className="card-battle__button button" 
+        <button
+          className="card-battle__button button"
           onClick={() => drawACard()}
+          disabled={!isItYourTurn}
         >
-          Draw
+          {isItYourTurn ? 'Draw' : 'Wait for your turn'}
         </button>
       </div>
     </div>

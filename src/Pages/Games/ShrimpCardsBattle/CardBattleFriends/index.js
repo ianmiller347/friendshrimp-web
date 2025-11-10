@@ -22,6 +22,7 @@ const CardBattleFriends = () => {
   const [gameOn, setGameOn] = useState(false);
   const [gameState, setGameState] = useState(null);
   const [playerList, setPlayerList] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     initiateSocket();
@@ -32,6 +33,40 @@ const CardBattleFriends = () => {
         Object.keys(data.playerMap).map((key) => data.playerMap[key])
       );
       setGameState(data);
+
+      // Check if we have a game with our ID
+      if (gameId && data.gameMap[gameId]) {
+        const game = data.gameMap[gameId];
+        console.log('Found game:', game);
+        console.log('Current userName:', userName);
+        console.log('Game players:', game.players);
+
+        const isCreator = game.players.some(
+          (player) => player.displayName === userName && player.isCreator
+        );
+        const isPlayer = game.players.some(
+          (player) => player.displayName === userName
+        );
+
+        console.log(
+          'isCreator:',
+          isCreator,
+          'isPlayer:',
+          isPlayer,
+          'players.length:',
+          game.players.length
+        );
+
+        if (isCreator && game.players.length === 1) {
+          // Game created successfully, start the game
+          console.log('Starting game as creator');
+          setGameOn(true);
+        } else if (isPlayer && game.players.length === 2) {
+          // Joined game successfully, start the game
+          console.log('Starting game as player');
+          setGameOn(true);
+        }
+      }
     });
 
     subscribeToNewGameCreation((data) => {
@@ -42,10 +77,13 @@ const CardBattleFriends = () => {
 
     subscribeToJoinGame((data) => {
       console.log('Another player joined!', data);
+      setGameOn(true);
     });
 
+    // Handle join game errors - this will be handled by the server response
+
     return () => disconnectSocket();
-  }, []);
+  }, [gameId, userName]);
 
   const addPlayer = (name) => {
     const newPlayerData = {
@@ -54,16 +92,30 @@ const CardBattleFriends = () => {
 
     newPlayerJoin(newPlayerData);
     // setPlayerList([...playerList, newPlayerData]);
-  }
+  };
 
   const createGame = () => {
+    if (!userName.trim()) {
+      setErrorMessage('Please enter a name first');
+      return;
+    }
+
+    console.log('Creating game with userName:', userName);
+
     // generate an ID
     const newId = getRandom4LetterWord();
+    console.log('Generated game ID:', newId);
+
     // generate a new deck o cards
     const newDeck = getShuffledDeck();
     const deckFirstHalf = newDeck.slice(0, 26);
     const deckSecondHalf = newDeck.slice(26, newDeck.length);
+
+    // set the game ID first
+    setGameId(newId);
+
     // send it to server along with userName
+    console.log('Sending createNewGame request');
     createNewGame({
       gameId: newId,
       playerName: userName,
@@ -78,11 +130,7 @@ const CardBattleFriends = () => {
       },
     });
 
-    // get confirmation
-
-    // now go to that new game
-    setGameId(newId);
-    setGameOn(true);
+    // The game will start when the server confirms creation via gameState update
   };
 
   const joinGame = () => {
@@ -98,7 +146,7 @@ const CardBattleFriends = () => {
       // now go to that game
       setGameOn(true);
     }
-  }
+  };
 
   if (gameOn) {
     return (
@@ -126,10 +174,14 @@ const CardBattleFriends = () => {
       <div className="margin-bottom-s">
         <h5>Enter a name for yourself</h5>
         {userName?.toLowerCase() === 'david' && (
-          <p className="error"><strong>No davids allowed!</strong></p>
+          <p className="error">
+            <strong>No davids allowed!</strong>
+          </p>
         )}
         {userName?.toLowerCase() === 'steven' && (
-          <p className="error"><strong>OMG Steven 😤</strong></p>
+          <p className="error">
+            <strong>OMG Steven 😤</strong>
+          </p>
         )}
         <input
           type="text"
@@ -139,17 +191,25 @@ const CardBattleFriends = () => {
             setUserName(e.target.value);
             addPlayer(e.target.value);
           }}
-          className={userName?.toLowerCase() === 'david' ? 'error' : 'main-input'}
+          className={
+            userName?.toLowerCase() === 'david' ? 'error' : 'main-input'
+          }
           placeholder="Your name"
         />
       </div>
-      <p>Multiplayer is unavailable right now :(</p>
+      {errorMessage && (
+        <div
+          className="error-message"
+          style={{ color: 'red', marginBottom: '10px' }}
+        >
+          {errorMessage}
+        </div>
+      )}
       <div className="display-flex flex-direction-column align-items-center">
         <button
           className="button"
           title="create a new game room"
           onClick={() => createGame()}
-          disabled
         >
           Create a game
         </button>
@@ -166,7 +226,6 @@ const CardBattleFriends = () => {
             className="button button--side-submit"
             title="join a game by id"
             onClick={() => joinGame()}
-            disabled
           >
             Join a game
           </button>
