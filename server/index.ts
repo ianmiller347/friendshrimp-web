@@ -58,8 +58,8 @@ io.on('connection', (socket) => {
   }
   interval = setInterval(() => getApiAndEmit(socket), 1000);
 
-  // handle game logic
-  handleGame(socket);
+  // handle game logic - pass io instance for broadcasting
+  handleGame(socket, io);
 
   // disconnection
   socket.on('disconnect', () => {

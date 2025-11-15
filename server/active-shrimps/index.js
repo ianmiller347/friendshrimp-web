@@ -106,6 +106,12 @@ export const listActiveUsers = async () => {
 
 // yes it actually delete the items from ddb
 export const deleteUser = async (user) => {
+  // Skip deletion if user ID is undefined or invalid
+  if (!user.id) {
+    console.log('Skipping deletion - user ID is undefined');
+    return;
+  }
+
   const usernameId = `_${user.id}`;
   const params = {
     TableName: tableName,
@@ -124,7 +130,9 @@ export const deleteUser = async (user) => {
 
   try {
     await ddbDocClient.send(command);
+    console.log('Successfully deleted user from DynamoDB');
   } catch (error) {
+    console.error('DynamoDB delete error:', error);
     throw new Error('Unable to delete item in DynamoDB.');
   }
 };
