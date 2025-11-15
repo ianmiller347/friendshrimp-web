@@ -1,0 +1,32 @@
+.card-battle {
+  &__button {
+    font-size: 2rem;
+    padding: 1rem 2rem;
+    border-radius: 2.2rem;
+    box-shadow: 0 0 6px #999;
+    cursor: pointer;
+    background-color: #fbc4bd;
+    border: none;
+    outline: none;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #fbc4bd;
+      color: black;
+      box-shadow: 0 0 10px #999;
+      transform: scale(1.05);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: #ccc;
+      color: #999;
+      box-shadow: 0 0 6px #999;
+      transform: scale(1);
+    }
+  }
+}

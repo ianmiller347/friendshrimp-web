@@ -2,7 +2,14 @@ import React, { useState, useEffect } from 'react';
 import ReactGA from 'react-ga';
 import { drawCard, getCardDisplay } from '../gameUtilities';
 import ShrimpCard from '../../../../components/ShrimpCard';
-import { handleDrawCard, subscribeToCardDrawn } from '../../utilities/socketio';
+import {
+  handleDrawCard,
+  subscribeToDrawCardError,
+  subscribeToDisconnect,
+  subscribeToConnect,
+  isSocketConnected,
+} from '../../utilities/socketio';
+import './CardBattleMulti.scss';
 
 const INIT_GAME_TEXT = 'Draw a card to begin';
 
@@ -18,29 +25,67 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
     ? gameState.gameData.player2Cards
     : gameState.gameData.player1Cards;
 
-  // const [gameStatus, setGameStatus] = useState(gameState.gameData.gameStatus);
   const gameStatus = gameState.gameData.gameStatus;
   console.log('gameState game data??', gameState);
-  const [displayPlayer1, setDisplay1] = useState(null);
-  const [otherPlayersDisplay, setOtherPlayersDisplay] = useState(null);
-  // const [isYourTurn, setIsYourTurn] = useState(false);
+
+  // Get drawn cards from gameState - these are updated by the server
+  // If player1 is creator, they are player1 on server, otherwise player2
+  const player1Drawn = player1.isCreator
+    ? gameState.gameData.player1Drawn
+    : gameState.gameData.player2Drawn;
+  const player2Drawn = !player1.isCreator
+    ? gameState.gameData.player1Drawn
+    : gameState.gameData.player2Drawn;
+
   const player1Name = player1.displayName;
   const otherPlayerName = player2.displayName;
 
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isDisconnected, setIsDisconnected] = useState(false);
+  const [gameExists, setGameExists] = useState(true);
+
+  // Check if game exists in gameState
   useEffect(() => {
-    console.log('game state changed', gameState);
-    subscribeToCardDrawn((drawCardData) => {
-      console.log('card was drawn', drawCardData);
-      // set the display of the other persons move!
-      if (drawCardData.playerId !== player1.id) {
-        setOtherPlayersDisplay(drawCardData.cardDrawn);
-      }
-    });
+    if (!gameState || !gameState.gameId) {
+      setGameExists(false);
+      setErrorMessage('Game not found. You may have been disconnected.');
+    } else {
+      setGameExists(true);
+      // Clear error if game is found again
+      setErrorMessage((prev) => {
+        if (prev && prev.includes('Game not found')) {
+          return null;
+        }
+        return prev;
+      });
+    }
   }, [gameState]);
 
-  // useEffect(() => {
-  //   setGameStatus(gameState.gameData.gameStatus);
-  // }, [gameState.gameData.gameStatus]);
+  // Handle disconnect/connect
+  useEffect(() => {
+    subscribeToDisconnect(() => {
+      console.log('Socket disconnected');
+      setIsDisconnected(true);
+      setErrorMessage('Connection lost. Please refresh the page.');
+    });
+
+    subscribeToConnect(() => {
+      console.log('Socket connected');
+      setIsDisconnected(false);
+      setErrorMessage((prev) => {
+        if (prev === 'Connection lost. Please refresh the page.') {
+          return null;
+        }
+        return prev;
+      });
+    });
+
+    subscribeToDrawCardError((error) => {
+      console.error('Draw card error:', error);
+      setErrorMessage(error);
+      setGameExists(false);
+    });
+  }, []);
 
   const isItYourTurn = gameState.gameData.turn === player1.id;
 
@@ -49,20 +94,39 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
       return; // Don't allow drawing if it's not your turn
     }
 
-    setDisplay1(null);
-    // first display the card that player 1 just drew
+    // Check if socket is connected
+    if (!isSocketConnected()) {
+      setErrorMessage('Not connected to server. Please refresh the page.');
+      return;
+    }
+
+    // Check if game exists
+    if (!gameExists) {
+      setErrorMessage('Game not found. The game may have ended.');
+      return;
+    }
+
+    // Clear any previous errors
+    setErrorMessage(null);
+
+    // Draw a card from the local deck
     const cardDrawn1 = drawCard(player1Cards);
-    setTimeout(() => {
-      const newCard = {
-        gameId: gameState.gameId,
-        playerId: player1.id,
-        cardDrawn: cardDrawn1,
-      };
-      console.log('new card', newCard);
-      console.log('gameState', gameState);
-      handleDrawCard('drawCard', newCard);
-      setDisplay1(cardDrawn1);
-    }, 200);
+
+    // Send to server - server will update gameState and broadcast to all players
+    const newCard = {
+      gameId: gameState.gameId,
+      playerId: player1.id,
+      cardDrawn: cardDrawn1,
+    };
+    console.log('Drawing card:', newCard);
+    const success = handleDrawCard('drawCard', newCard);
+
+    if (!success) {
+      setErrorMessage(
+        'Failed to send card draw. Please check your connection.'
+      );
+      return;
+    }
 
     ReactGA.event({
       category: 'shrimp-cards-battle',
@@ -73,6 +137,22 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
 
   if (!deck || !deck.length) {
     return null;
+  }
+
+  // Show error message if game doesn't exist or disconnected
+  if (!gameExists || isDisconnected) {
+    return (
+      <div className="card-battle">
+        <div
+          className="error-message"
+          style={{ color: 'red', padding: '20px' }}
+        >
+          <h3>Connection Error</h3>
+          <p>{errorMessage || 'Game not found or connection lost.'}</p>
+          <p>Please refresh the page to reconnect.</p>
+        </div>
+      </div>
+    );
   }
 
   console.log('game status', gameStatus);
@@ -92,6 +172,14 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
 
   return (
     <div className="card-battle">
+      {errorMessage && (
+        <div
+          className="error-message"
+          style={{ color: 'red', marginBottom: '10px' }}
+        >
+          {errorMessage}
+        </div>
+      )}
       {gameHasBegun && (
         <div className="card-battle__scoreboard">
           <div>
@@ -107,22 +195,22 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
       {!isItYourTurn && <p>Waiting for {otherPlayerName} to draw...</p>}
       <div className="card-battle__displays">
         <div className="card-battle__player-two">
-          {otherPlayersDisplay && (
+          {player2Drawn && (
             <>
               <span className="margin-bottom-s">
-                {otherPlayerName} has {getCardDisplay(otherPlayersDisplay)}
+                {otherPlayerName} has {getCardDisplay(player2Drawn)}
               </span>
-              <ShrimpCard shrimpCard={otherPlayersDisplay} />
+              <ShrimpCard shrimpCard={player2Drawn} />
             </>
           )}
         </div>
         <div className="card-battle__player-one">
-          {displayPlayer1 && (
+          {player1Drawn && (
             <>
               <span className="margin-bottom-s">
-                {player1Name} has {getCardDisplay(displayPlayer1)}
+                {player1Name} has {getCardDisplay(player1Drawn)}
               </span>
-              <ShrimpCard shrimpCard={displayPlayer1} />
+              <ShrimpCard shrimpCard={player1Drawn} />
             </>
           )}
         </div>
@@ -131,9 +219,13 @@ const CardBattleMulti = ({ deck, player1, player2, gameState }) => {
         <button
           className="card-battle__button button"
           onClick={() => drawACard()}
-          disabled={!isItYourTurn}
+          disabled={!isItYourTurn || isDisconnected || !gameExists}
         >
-          {isItYourTurn ? 'Draw' : 'Wait for your turn'}
+          {isDisconnected || !gameExists
+            ? 'Connection Lost'
+            : isItYourTurn
+            ? 'Draw'
+            : 'Wait for your turn'}
         </button>
       </div>
     </div>

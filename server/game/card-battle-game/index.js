@@ -19,7 +19,14 @@ const getNewCards = (didWin, oldCards, cardDrawn, otherCardDrawn) => {
 };
 
 const handleGameOutcomeLogic = (drawCardData, game, socket, gameState) => {
-  const { gameData } = game;
+  // Get the current game state (in case it changed during the setTimeout)
+  const currentGame = gameState.gameMap[drawCardData.gameId];
+  if (!currentGame) {
+    console.error('Game not found in handleGameOutcomeLogic');
+    return;
+  }
+
+  const { gameData } = currentGame;
   const cardDrawn1 = gameData.player1Drawn;
   const cardDrawn2 = gameData.player2Drawn;
   const player1Cards = gameData.player1Cards;
@@ -32,10 +39,10 @@ const handleGameOutcomeLogic = (drawCardData, game, socket, gameState) => {
     // TODO: put a card down then flip the next
   }
   const player1Wins = cardDrawn1.count > cardDrawn2.count;
-  const player1Name = game.players.find(
+  const player1Name = currentGame.players.find(
     (player) => player.isCreator
   ).displayName;
-  const player2Name = game.players.find(
+  const player2Name = currentGame.players.find(
     (player) => !player.isCreator
   ).displayName;
   // now set their decks with the result
@@ -56,27 +63,39 @@ const handleGameOutcomeLogic = (drawCardData, game, socket, gameState) => {
     cardDrawn1
   );
 
+  // Find the winner to set as the next turn
+  const winner = player1Wins
+    ? currentGame.players.find((player) => player.isCreator)
+    : currentGame.players.find((player) => !player.isCreator);
+
+  // Set status to show winner and prepare for next round
+  const nextRoundStatus = `${winnerText} ${winner.displayName} draws first.`;
+
   const updatedGame = {
-    ...game,
+    ...currentGame,
     gameData: {
-      ...game.gameData,
+      ...currentGame.gameData,
       player1Drawn: null,
       player2Drawn: null,
       player1Cards: player1NewCards,
       player2Cards: player2NewCards,
-      gameStatus: winnerText,
-      turn: null, // Reset turn after battle
+      gameStatus: nextRoundStatus,
+      turn: winner.id, // Set turn to winner for next round
     },
   };
 
+  // Update the game state
   setGameState(drawCardData.gameId, updatedGame);
 
-  // Emit to all players in the game
+  // Update the gameState object with the new game data
+  gameState.gameMap[drawCardData.gameId] = updatedGame;
+
+  // Emit updated game state to all players in the game
   const cleanGameState = {
     playerMap: gameState.playerMap,
     gameMap: gameState.gameMap,
   };
-  game.players.forEach((player) => {
+  currentGame.players.forEach((player) => {
     const playerSocket = gameState.socketMap[player.id];
     if (playerSocket) {
       playerSocket.emit('gameState', cleanGameState);
@@ -90,6 +109,11 @@ const handleDrawCardLogic = (drawCardData, gameState, socket) => {
   const thisGame = gameState.gameMap[drawCardData.gameId];
   if (!thisGame) {
     console.error('Cant find the game! Bye.');
+    // Notify the client that the game doesn't exist
+    socket.emit(
+      'drawCardError',
+      'Game not found. The game may have ended or you may have disconnected.'
+    );
     return false;
   }
 
@@ -100,6 +124,7 @@ const handleDrawCardLogic = (drawCardData, gameState, socket) => {
 
   if (!drawingPlayer) {
     console.error('Player not found in game!');
+    socket.emit('drawCardError', 'You are not in this game.');
     return false;
   }
 
@@ -139,7 +164,7 @@ const handleDrawCardLogic = (drawCardData, gameState, socket) => {
         },
       };
       handleGameOutcomeLogic(drawCardData, thisGame, socket, gameState);
-    }, 1111);
+    }, 4111); // 4.111 seconds total (was 1.111, added 3 more seconds)
   }
 
   // Emit updated game state to all players in the game
