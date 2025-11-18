@@ -112,7 +112,7 @@ export const handleCreateGame = (socket) => {
       };
       socket.emit('gameState', cleanGameState);
     } else {
-      socket.emit('Game title already exists. Try again.');
+      socket.emit('newGameError', 'Game title already exists. Try again.');
     }
   });
 };
@@ -146,7 +146,7 @@ const handleJoinGameById = (socket) => {
   socket.on('joinGame', (joinGameData) => {
     const joinGameId = joinGameData.gameId.toUpperCase();
     const game = gameState?.gameMap[joinGameId];
-    
+
     if (!game) {
       socket.emit('joinGameError', 'Game ID does not exist. Try again.');
       return;
@@ -159,7 +159,9 @@ const handleJoinGameById = (socket) => {
     }
 
     // Check if player is already in the game
-    const alreadyInGame = game.players.some((player) => player.id === socket.id);
+    const alreadyInGame = game.players.some(
+      (player) => player.id === socket.id
+    );
     if (alreadyInGame) {
       // Player already in game, just send current state
       const cleanGameState = {
@@ -220,28 +222,32 @@ const handleDisconnect = (socket) => {
     // Remove player from any games they're in
     Object.keys(gameState.gameMap).forEach((gameId) => {
       const game = gameState.gameMap[gameId];
-      const playerIndex = game.players.findIndex((player) => player.id === socket.id);
-      
+      const playerIndex = game.players.findIndex(
+        (player) => player.id === socket.id
+      );
+
       if (playerIndex !== -1) {
         const removedPlayer = game.players[playerIndex];
-        console.log(`Removing player ${removedPlayer.displayName} (${socket.id}) from game ${gameId}`);
-        
+        console.log(
+          `Removing player ${removedPlayer.displayName} (${socket.id}) from game ${gameId}`
+        );
+
         // Remove player from game
         game.players.splice(playerIndex, 1);
-        
+
         // Notify remaining players in the game
         const cleanGameState = {
           playerMap: gameState.playerMap,
           gameMap: gameState.gameMap,
         };
-        
+
         game.players.forEach((remainingPlayer) => {
           const playerSocket = gameState.socketMap[remainingPlayer.id];
           if (playerSocket) {
             playerSocket.emit('gameState', cleanGameState);
           }
         });
-        
+
         // Delete game if no players left
         if (game.players.length === 0) {
           console.log(`Deleting empty game ${gameId}`);

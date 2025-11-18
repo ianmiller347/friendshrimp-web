@@ -65,6 +65,10 @@ export const subscribeToJoinGameError = (cb) => {
   socket.on('joinGameError', (error) => cb(error));
 };
 
+export const subscribeToNewGameError = (cb) => {
+  socket.on('newGameError', (error) => cb(error));
+};
+
 export const handleDrawCard = (eventName, data) => {
   if (!socket || !socket.connected) {
     console.error('Socket not connected, cannot draw card');

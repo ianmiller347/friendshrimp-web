@@ -5,6 +5,7 @@ import {
   subscribeToNewGameCreation,
   subscribeToJoinGame,
   subscribeToJoinGameError,
+  subscribeToNewGameError,
   createNewGame,
   joinExistingGameById,
   disconnectSocket,
@@ -177,6 +178,12 @@ const CardBattleFriends = () => {
 
     subscribeToJoinGameError((error) => {
       console.error('Join game error:', error);
+      setErrorMessage(error);
+      setGameOn(false);
+    });
+
+    subscribeToNewGameError((error) => {
+      console.error('New game error:', error);
       setErrorMessage(error);
       setGameOn(false);
     });
