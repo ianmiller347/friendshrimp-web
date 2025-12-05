@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FeatherIcon, { FeatherIconName } from 'feather-icons-react';
+import { FeatherIconName, Share } from 'feather-icons-react';
 import ShareLink from './ShareLink';
 
 import './style.scss';
@@ -56,7 +56,7 @@ const ShareThis: React.FC<ShareThisProps> = ({ currentRoute }) => {
         className="sharethis__toggle"
         onClick={(e) => toggleList(stopAndSet(e, showingList))}
       >
-        <FeatherIcon size={12} icon="share" />
+        <Share size={12} />
       </button>
       {showingList && (
         <div className="sharethis__dropdown">

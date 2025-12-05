@@ -6,10 +6,16 @@ const ENDPOINT =
     : 'http://localhost:8080';
 
 export const initiateSocket = () => {
-  socket = io(ENDPOINT);
+  // Only create a new socket if one doesn't exist or is disconnected
+  if (!socket || !socket.connected) {
+    if (socket) {
+      socket.disconnect();
+    }
+    socket = io(ENDPOINT);
+  }
 };
 
-export const getSocketId = () => socket.id;
+export const getSocketId = () => socket?.id || null;
 
 export const disconnectSocket = () => {
   if (socket) socket.disconnect();
@@ -55,9 +61,36 @@ export const subscribeToJoinGame = (cb) => {
   socket.on('joinGame', (data) => cb(data));
 };
 
-export const handleDrawCard = (data) => {
-  socket.emit('drawCard', data);
+export const subscribeToJoinGameError = (cb) => {
+  socket.on('joinGameError', (error) => cb(error));
 };
+
+export const subscribeToNewGameError = (cb) => {
+  socket.on('newGameError', (error) => cb(error));
+};
+
+export const handleDrawCard = (eventName, data) => {
+  if (!socket || !socket.connected) {
+    console.error('Socket not connected, cannot draw card');
+    return false;
+  }
+  socket.emit(eventName, data);
+  return true;
+};
+
+export const subscribeToDrawCardError = (cb) => {
+  socket.on('drawCardError', (error) => cb(error));
+};
+
+export const subscribeToDisconnect = (cb) => {
+  socket.on('disconnect', () => cb());
+};
+
+export const subscribeToConnect = (cb) => {
+  socket.on('connect', () => cb());
+};
+
+export const isSocketConnected = () => socket?.connected || false;
 
 export const subscribeToCardDrawn = (cb) => {
   socket.on('drawCard', (data) => {
