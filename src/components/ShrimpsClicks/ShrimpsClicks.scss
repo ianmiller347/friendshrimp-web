@@ -1,0 +1,39 @@
+.we-shrimpin {
+  z-index: 4206969420;
+  animation: goAllOver 7s 2 backwards, fadeToNone 19s 1 forwards;
+}
+
+@keyframes goAllOver {
+  0% {
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
+
+  25% {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+
+  50% {
+    position: absolute;
+    top: 0;
+    left: 50%;
+  }
+
+  100% {
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+}
+
+@keyframes fadeToNone {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

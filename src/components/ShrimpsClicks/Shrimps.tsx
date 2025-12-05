@@ -1,7 +1,7 @@
 import React from 'react';
 import Shrimp from '../../components/Shrimp';
 
-interface ShrimpProps {
+export interface ShrimpProps {
   key: string;
   shrimpNumber: number;
   leftOffset: number;
@@ -10,7 +10,7 @@ interface ShrimpProps {
   index: number;
 }
 
-interface ShrimpsProps {
+export interface ShrimpsProps {
   shrimps: ShrimpProps[];
 }
 
@@ -20,9 +20,13 @@ interface ShrimpsProps {
  * @returns shrimps
  */
 const Shrimps: React.FC<ShrimpsProps> = ({ shrimps }) =>
-  shrimps.map((shrimpShrimps) => {
-    const { key, ...shrimpProps } = shrimpShrimps;
-    return <Shrimp key={key} {...shrimpProps} />;
-  });
+  shrimps.length ? (
+    shrimps.map((shrimpShrimps) => {
+      const { key, ...shrimpProps } = shrimpShrimps;
+      return <Shrimp key={key} {...shrimpProps} />;
+    })
+  ) : (
+    <>{' fff '}</>
+  );
 
 export default Shrimps;

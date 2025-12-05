@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
 import Header from '../Layout/Header/';
 import Footer from '../Layout/Footer';
+import ShrimpsCredits from '../ShrimpsCredits';
 
 interface PageProps {
   name: string;
@@ -47,6 +48,7 @@ const Page: React.FC<PageProps> = ({ name, displayName, children }) => {
         {children}
       </main>
       <Footer currentRoute={location.pathname} />
+      <ShrimpsCredits />
     </>
   );
 };
